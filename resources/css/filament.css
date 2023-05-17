@@ -1,0 +1,128 @@
+@import '../../vendor/saade/filament-fullcalendar/resources/css/filament-fullcalendar.css';
+@import '../../vendor/filament/filament/resources/css/app.css';
+
+.filament-login-page {
+    background-image: url("../../public/YGg4.gif"), url("../../public/storage/layout/desktop/backgroundNoText.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.filament-sidebar-open-button {
+    width: 4rem;
+}
+
+.filament-sidebar-open-button svg {
+    width: 3rem;
+    height: 3rem;
+}
+
+.fc-event-time {
+    visibility: hidden !important;
+}
+
+/* Hide dot for all events */
+.fc-daygrid-event-dot,
+tr .fc-list-event-dot {
+    visibility: hidden !important;
+}
+
+/* Background for main calendar events */
+a.fc-daygrid-event[href] {
+    background: red !important;
+    border: none !important;
+}
+
+/* Background for Google events */
+a.fc-daygrid-event[data-google-event] {
+    background: green !important;
+    border: none !important;
+}
+
+/* Background for non-link events */
+a.fc-daygrid-event:not([href]) {
+    background: blue !important;
+    border: none !important;
+}
+
+/* Day order - event */
+td.fc-list-event-title > a[href] {
+    color: red !important;
+}
+
+/* Day order - remainder */
+td.fc-list-event-title:not([href]) {
+    color: blue !important;
+}
+
+/* Day grid - event */
+a.fc-timegrid-event[href] {
+    background: red !important;
+}
+
+/* Day grid - Google event */
+a.fc-timegrid-event[data-google-event] {
+    background: green !important;
+}
+
+/* Day grid - remainder */
+a.fc-timegrid-event:not([href]) {
+    background: blue !important;
+}
+
+@media (max-width: 650px) {
+    /* Reorder top header to fix mobile view */
+    .filament-fullcalendar--calendar .fc-header-toolbar {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .filament-fullcalendar--calendar .fc-header-toolbar .fc-toolbar-chunk {
+        margin-bottom: 1rem;
+    }
+
+    /* Month view - hide the content */
+    .fc .fc-daygrid-event-harness-abs {
+        position: unset !important;
+    }
+
+    /* Event - mobile view */
+    a.fc-daygrid-event[href] {
+        background: none !important;
+        border: none !important;
+    }
+
+    a.fc-daygrid-event[href]:before {
+        background: red !important;
+        border: 1px solid red !important;
+        height: 1px !important;
+        width: 1px !important;
+        border-radius: 50% !important;
+        content: "\2022";
+        font-size: 4px;
+        color: red;
+        letter-spacing: 4px;
+    }
+
+    /* Remainder - mobile view */
+    a.fc-daygrid-event:not([href]) {
+        background: none !important;
+        border: none !important;
+    }
+
+    a.fc-daygrid-event:not([href]):before {
+        background: blue !important;
+        border: 1px solid blue !important;
+        height: 1px !important;
+        width: 1px !important;
+        border-radius: 50% !important;
+        content: "\2022";
+        font-size: 4px;
+        color: blue;
+        letter-spacing: 4px;
+    }
+
+    /* Calendar page fix */
+    .filament-global-search {
+        display: none;
+    }
+}

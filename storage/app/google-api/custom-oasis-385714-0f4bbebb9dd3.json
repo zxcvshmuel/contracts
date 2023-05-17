@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "custom-oasis-385714",
+  "private_key_id": "0f4bbebb9dd37338a8415f7d6e583a8a5d329257",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCc0PlyXWqiwPmt\nPVcemtEl4AXA8TMqpgz1EfESRfNj0LDwTmajNXVKR4H6pY53PuKCFM7Q1Aw1u7Fr\nOl4eq6SQSPKymehgauDLjkrMb9SbHDuUgUgQXOzL3ubPRgBAq7LGnh81gfoHn6jq\nSv3jMPHTjsj9CuMJjFrmq9ufoKVTBlfzH9gyOgatJ0Vcv0QZADNtyH9tED/03NeD\nZbnPTY/y+OTXav2Zajn315WfFNj2dnpoPTJccYi/CsBOTFm0emcrvBvERMSNu1Zb\nQEYmOfxQwNuyBTw+wss7ubVgebhnfRcdn95MX6W+O0p0Ugl1ezxFpOc4dvYbpvZO\nh6BrmVA3AgMBAAECggEASvDlXN2+4cO2Li/DzBjxfZe3ODMsoCOVyqKF4hUy0Q9B\nF75n93RLNrHAsJ9g26TeS4sVISBNK3qkuZk9tIuTi+6IqYi60CUTg8PfBB8na+8M\nnBZCcatu8Kj4BbMu2LkVKS0UvhX8/pqy9zDabzILR26Tp7YFtSDxqg4UWY9Eos2D\n+O2xKfAe90PohVswp+0Pj/AAY/rn20TnfkzzC3HRk8JQLb9pZ9F9bdxSC1+/X/WN\nJmjuDn5WO/LCExVY3hGhMVcN2BTkQD3wg83tZKa5IBJBN5wJCxJA3q/Phk4Qb7LZ\nmQHxzyRI1K13kudfe1fVX2fVUkObVAgvFjiGE4zEsQKBgQDT7FZIEqts/ygqzf2x\ngQZ6QEy/B01IZdPxEOVJuvUHn57Us6nJMWKzxW8V+e1D4Bl0GfXyJG92aaHCpJLX\nyqZYxeGlE3u7X/ofikuCTVQupvC7HN3nH5c4NijC/WrrXz0L51D9ZM0bSEPPco33\n7HdFhHQdsRpXXRx03LCD7PKGcQKBgQC9boUdWXhmp9BkYJnW7xxZBmInDXxpdJYT\nhz9ReClceO+ZetRmUWOFyyRmMcEUo13SGIbQmg7bkh8JvK0g7Xc5WPLwSpks58kH\nwOMIzhhS0QpHDtO7xqIO9CaAYr4NyHi6EVRT8CqbWz1vIJb9pYPYfCtM/M7VB5P/\nogc0IgClJwKBgHXhEiVI7T3VuBwHNMRVhqrdtVLU1vIcYgXHZiLa8YzqBsk9noWh\nCMwCWEYbHRUSRFZGUn38MlvlaesA7AVIXbsnZtoRulOBkXmVzWaPaPICPgl2hyAW\nfGDyDz5XA/Akq6pBYtVwCn7QdZegmsN7LuTmRkh1yLcrvbZrQ2w+krChAoGAdjGO\nNujLOen9GZQ4iKX6nwVfmpRMixPmS9r4Q+HglMUUYkQEYK7plOJSHL1whmsEMAGD\npIZrPM7oNNAXidMAr7RzKECzYBRjF0Zfoe/Nt2acrgdvTts55HCr0TFK+hiaUyZa\n4mCYhQShyUOhUjPClwGqlseqWbr3uemj6wBIPMMCgYA03rBldz91HUfHEfblVKfx\ngN0QcMV6/POKZ4mLL8QRJ8IHbXcRP+zBcioxB2H1bcaSb1abQzo5SiYTUsEL4AQd\nuJyi1Uh9hx7pIaDCa0UKiD17InLwDd4AgeOP43CNvYfqVmpC7CGvxWjsfT7Ef+7A\n7XQlzu1/GmVQKpws7YePYA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "mysafecardi@custom-oasis-385714.iam.gserviceaccount.com",
+  "client_id": "113526837625893034141",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mysafecardi%40custom-oasis-385714.iam.gserviceaccount.com"
+}
