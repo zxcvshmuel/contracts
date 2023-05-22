@@ -3,32 +3,35 @@
 namespace App\Filament\Resources\CustomerResource\RelationManagers;
 
 use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use App\Models\Contract;
 use App\Models\Events;
 use Awcodes\FilamentTableRepeater\Components\TableRepeater;
 use Filament\Forms;
+use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContractsRelationManager extends RelationManager {
-    protected static string $relationship = 'Contracts';
+  protected static string $relationship = 'Contracts';
 
 
-    protected static ?string $recordTitleAttribute = 'חוזים';
+  protected static ?string $recordTitleAttribute = 'חוזים והוצעות מחיר';
 
-    protected static ?string $label = 'חוזה';
+  protected static ?string $label = 'חוזה';
 
-    protected static ?string $pluralModelLabel = 'חוזים';
+  protected static ?string $pluralModelLabel = 'חוזים';
 
-    protected static ?string $breadcrumb = 'חוזה';
+  protected static ?string $breadcrumb = 'חוזה';
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('type', 2)->where('user_id', auth()->user()->id);
-    }
+  public static function getEloquentQuery(): Builder
+  {
+    return parent::getEloquentQuery()->where('type', 2)->where('user_id', auth()->user()->id);
+  }
 
     public static function form(Form $form): Form
     {

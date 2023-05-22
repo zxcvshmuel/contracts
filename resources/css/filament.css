@@ -26,6 +26,11 @@ tr .fc-list-event-dot {
     visibility: hidden !important;
 }
 
+/* Event text color*/
+.fc-event-title{
+    color: white;
+}
+
 /* Background for main calendar events */
 a.type-remainder {
     background: red !important;

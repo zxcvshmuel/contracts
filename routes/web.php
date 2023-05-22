@@ -102,7 +102,25 @@ Route::get('change-color/{color}', function ($color) {
 
 Route::get('/', function () {
     // artisan command to create storage link
-    // php artisan storage:link
+//     \Artisan::call('storage:link');
+//     \Artisan::call('cache:clear');
+//     \Artisan::call('route:cache');
+//     \Artisan::call('route:clear');
+//     \Artisan::call('config:cache');
+//     \Artisan::call('config:clear');
+//     \Artisan::call('optimize --force');
+
+  try
+  {
+//    shell_exec('composer require stephenjude/filament-debugger');
+//    shell_exec('npm run build');
+//    shell_exec('npm install -g npm@latest');
+  } catch (Exception $e)
+  {
+    dd($e->getMessage());
+  }
+
+
 
     return view('components.layouts.welcome');
 });

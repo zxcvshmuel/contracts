@@ -55,6 +55,10 @@ class ContractsResource extends Resource {
                 )->label('כותרת'),
                 Forms\Components\TextInput::make('description')->disabled(fn($record) => !is_null($record))->required(
                 )->label('תיאור'),
+                Forms\Components\Select::make('type')->disabled(fn($record) => !is_null($record))->label('סוג מסמך')->options([
+                  '1' => 'הצעת מחיר',
+                  '2' => 'חוזה',
+                ])->required(),
                 TableRepeater::make('items')->disabled(fn($record) => !is_null($record))->columns(4)->columnSpan(
                     'full'
                 )->columnWidths([
@@ -89,37 +93,37 @@ class ContractsResource extends Resource {
     public static function table(Table $table): Table
     {
         return $table->headerActions([
-                FilamentExportHeaderAction::make('export')->label('יצוא'),
-            ])->columns([
-          Tables\Columns\IconColumn::make('id')->falseIcon('heroicon-s-document')
-            ->trueIcon('heroicon-s-document')->boolean()->label('הצג מסמך')->url(
-              fn($record) => '/contract/'.$record->id.'/view',
-              true
-            ),
-          Tables\Columns\IconColumn::make('signed_url')->falseIcon('heroicon-s-document')
-            ->trueIcon('heroicon-s-document')->boolean()->label('הדפסה')->url(
-              fn($record) => '/contract/'.$record->id.'/pdf',
-              true
-            ),
-                Tables\Columns\TextColumn::make('event.customer.full_name')->label('שם לקוח')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('event.title')->label('אירוע')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('title')->label('כותרת'),
-                Tables\Columns\TextColumn::make('description')->label('תיאור')->limit(20),
-                Tables\Columns\IconColumn::make('sent')->boolean()->label('נשלח'),
-                Tables\Columns\IconColumn::make('opened')->boolean()->label('נצפה'),
-                Tables\Columns\IconColumn::make('signed')->boolean()->label('נחתם'),
+            FilamentExportHeaderAction::make('export')->label('יצוא'),
+        ])->columns([
+            Tables\Columns\IconColumn::make('id')->falseIcon('heroicon-s-document')
+                ->trueIcon('heroicon-s-document')->boolean()->label('הצג מסמך')->url(
+                    fn($record) => '/contract/'.$record->id.'/view',
+                    true
+                ),
+            Tables\Columns\IconColumn::make('signed_url')->falseIcon('heroicon-s-document')
+                ->trueIcon('heroicon-s-document')->boolean()->label('הדפסה')->url(
+                    fn($record) => '/contract/'.$record->id.'/pdf',
+                    true
+                ),
+            Tables\Columns\TextColumn::make('event.customer.full_name')->label('שם לקוח')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('event.title')->label('אירוע')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('title')->label('כותרת'),
+            Tables\Columns\TextColumn::make('description')->label('תיאור')->limit(20),
+            Tables\Columns\IconColumn::make('sent')->boolean()->label('נשלח'),
+            Tables\Columns\IconColumn::make('opened')->boolean()->label('נצפה'),
+            Tables\Columns\IconColumn::make('signed')->boolean()->label('נחתם'),
 
-                Tables\Columns\TextColumn::make('created_at')->label('תאריך יצירה'),
-            ])->filters([
-                Tables\Filters\TrashedFilter::make(),
-            ])->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\ForceDeleteBulkAction::make(),
-                Tables\Actions\RestoreBulkAction::make(),
-            ])->defaultSort('created_at', 'desc');
+            Tables\Columns\TextColumn::make('created_at')->label('תאריך יצירה'),
+        ])->filters([
+            Tables\Filters\TrashedFilter::make(),
+        ])->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])->bulkActions([
+            Tables\Actions\DeleteBulkAction::make(),
+            Tables\Actions\ForceDeleteBulkAction::make(),
+            Tables\Actions\RestoreBulkAction::make(),
+        ])->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array

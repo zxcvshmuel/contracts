@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\EventsResource\Pages;
 
 use App\Filament\Resources\EventsResource;
-use App\helpers;
+use App\Helpers;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

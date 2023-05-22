@@ -2,9 +2,10 @@
 
 namespace App\Observers;
 
-use App\helpers;
+use App\Helpers;
 use App\Mail\ContractSent;
 use App\Models\Contract;
+use App\Models\Events;
 use http\Message;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -16,6 +17,16 @@ class ContractObserver
      */
     public function created(Contract $contract): void
     {
+
+    if ($contract->customer_name == null)
+    {
+      $event = Events::find($contract->events_id);
+      $contract->update([
+        'user_id'       => auth()->user()->id,
+        'customer_name' => $event->customer->full_name,
+        'email'         => $event->customer->email,
+      ]);
+    }
 
         Mail::to($contract->email)->send(new ContractSent($contract, $contract->email));
 

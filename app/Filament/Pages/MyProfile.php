@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\helpers;
+use App\Helpers;
 use App\Models\User;
 use Closure;
 use Filament\Facades\Filament;

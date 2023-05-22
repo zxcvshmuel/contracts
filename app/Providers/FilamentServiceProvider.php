@@ -79,7 +79,7 @@ class FilamentServiceProvider extends ServiceProvider {
             ]);
 
             Filament::navigation(function (NavigationBuilder $builder): NavigationBuilder {
-                if (auth()->user()->user_type === 0)
+        if (auth()->user()->user_type == 0)
                 {
                     return $builder->items([
                         NavigationItem::make('howTo')->label('מתחילים (הסבר המערכת)')->icon(
