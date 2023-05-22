@@ -27,19 +27,19 @@ tr .fc-list-event-dot {
 }
 
 /* Background for main calendar events */
-a.fc-daygrid-event[href] {
+a.type-remainder {
     background: red !important;
     border: none !important;
 }
 
 /* Background for Google events */
-a.fc-daygrid-event[data-google-event] {
+a.type-google{
     background: green !important;
     border: none !important;
 }
 
 /* Background for non-link events */
-a.fc-daygrid-event:not([href]) {
+a.type-event {
     background: blue !important;
     border: none !important;
 }
@@ -54,18 +54,23 @@ td.fc-list-event-title:not([href]) {
     color: blue !important;
 }
 
+/* Day order - google */
+td.fc-list-event-title:not([href]) {
+    color: green !important;
+}
+
 /* Day grid - event */
-a.fc-timegrid-event[href] {
+a.type-event {
     background: red !important;
 }
 
 /* Day grid - Google event */
-a.fc-timegrid-event[data-google-event] {
+a.type-google {
     background: green !important;
 }
 
 /* Day grid - remainder */
-a.fc-timegrid-event:not([href]) {
+a.type-remainder {
     background: blue !important;
 }
 
@@ -86,16 +91,16 @@ a.fc-timegrid-event:not([href]) {
     }
 
     /* Event - mobile view */
-    a.fc-daygrid-event[href] {
+    a.type-event {
         background: none !important;
         border: none !important;
     }
 
-    a.fc-daygrid-event[href]:before {
+    a.type-event {
         background: red !important;
         border: 1px solid red !important;
-        height: 1px !important;
-        width: 1px !important;
+        height: 7px !important;
+        width: 7px !important;
         border-radius: 50% !important;
         content: "\2022";
         font-size: 4px;
@@ -104,20 +109,38 @@ a.fc-timegrid-event:not([href]) {
     }
 
     /* Remainder - mobile view */
-    a.fc-daygrid-event:not([href]) {
+    a.type-remainder {
         background: none !important;
         border: none !important;
     }
 
-    a.fc-daygrid-event:not([href]):before {
+    a.type-remainder {
         background: blue !important;
         border: 1px solid blue !important;
-        height: 1px !important;
-        width: 1px !important;
+        height: 7px !important;
+        width: 7px !important;
         border-radius: 50% !important;
         content: "\2022";
         font-size: 4px;
         color: blue;
+        letter-spacing: 4px;
+    }
+
+    /* Remainder - mobile view */
+    a.type-google {
+        background: none !important;
+        border: none !important;
+    }
+
+    a.type-google {
+        background: green !important;
+        border: 1px solid green !important;
+        height: 7px !important;
+        width: 7px !important;
+        border-radius: 50% !important;
+        content: "\2022";
+        font-size: 4px;
+        color: green;
         letter-spacing: 4px;
     }
 
