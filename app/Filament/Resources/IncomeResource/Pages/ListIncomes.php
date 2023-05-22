@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\IncomeResource\Pages;
 
 use App\Filament\Resources\IncomeResource;
-use App\Filament\Resources\IncomeResource\Widgets\expensesChartDashboard;
-use App\Filament\Resources\IncomeResource\Widgets\incomeChartDashboard;
+use App\Filament\Resources\IncomeResource\Widgets\expensesChartIncome;
+use App\Filament\Resources\IncomeResource\Widgets\incomeChartIncome;
 use Filament\Resources\Pages\ListRecords;
 
 class ListIncomes extends ListRecords
@@ -15,8 +15,8 @@ class ListIncomes extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            incomeChartDashboard::class,
-            expensesChartDashboard::class,
+            incomeChartIncome::class,
+            expensesChartIncome::class,
         ];
     }
 }

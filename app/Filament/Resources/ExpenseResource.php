@@ -38,7 +38,7 @@ class ExpenseResource extends Resource {
                         Forms\Components\TextInput::make('title')->required()->maxLength(255)->label('כותרת'),
                         MultiselectTwoSides::make('category_id')->options(
                                 \App\Models\Category::where('income', '0')
-                                    ->where('user_id', auth()->user()->id)->pluck('name', 'id')
+                                  ->where('user_id', auth()->user()->id)->pluck('name', 'id')
                             )->label('קטגוריה')->selectableLabel('קטגוריות')->selectedLabel('קטגוריה שנבחרה')->maxItems(
                                 1
                             )->required(),

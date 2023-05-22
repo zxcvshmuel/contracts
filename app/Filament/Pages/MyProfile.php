@@ -98,7 +98,7 @@ class MyProfile extends Page {
                 ->hidden(fn() => $this->user->two_factor_secret === null)
                 ->action(
                     function (Action $action): void {
-                        $this->redirect(Helpers::createUrlForGoogleToken());
+                        $this->redirect(helpers::createUrlForGoogleToken());
                     }
                 )
             ->requiresConfirmation()->modalSubheading('האירועים שלך יסונכרנו בין כתובת המייל לאירועים שנקבעו')

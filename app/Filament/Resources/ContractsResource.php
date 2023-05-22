@@ -55,6 +55,10 @@ class ContractsResource extends Resource {
                 )->label('כותרת'),
                 Forms\Components\TextInput::make('description')->disabled(fn($record) => !is_null($record))->required(
                 )->label('תיאור'),
+                Forms\Components\Select::make('type')->disabled(fn($record) => !is_null($record))->label('סוג מסמך')->options([
+                  '1' => 'הצעת מחיר',
+                  '2' => 'חוזה',
+                ])->required(),
                 TableRepeater::make('items')->disabled(fn($record) => !is_null($record))->columns(4)->columnSpan(
                     'full'
                 )->columnWidths([

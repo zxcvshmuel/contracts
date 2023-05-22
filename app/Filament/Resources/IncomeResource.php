@@ -39,12 +39,12 @@ class IncomeResource extends Resource {
                         Forms\Components\TextInput::make('title')->required()->maxLength(255),
                         MultiselectTwoSides::make('category_id')->options(
                                 \App\Models\Category::where('income', '0')
-                                    ->where('user_id', auth()->user()->id)->pluck('name', 'id')
+                                  ->where('user_id', auth()->user()->id)->pluck('name', 'id')
                             )->label('קטגוריה')->selectableLabel('קטגוריות')->selectedLabel('קטגוריה שנבחרה')->maxItems(
                                 1
                             )->required(),
-                        Forms\Components\TextInput::make('amount')->numeric()->minValue(1)->required(),
-                        Forms\Components\DatePicker::make('entry_date')->closeOnDateSelection()->required(),
+                        Forms\Components\TextInput::make('amount')->numeric()->minValue(1)->required()->label('סכום'),
+                        Forms\Components\DatePicker::make('entry_date')->closeOnDateSelection()->required()->label('תאריך'),
                     ])->columns([
                         'sm' => 1,
                     ])->columnSpan(2),

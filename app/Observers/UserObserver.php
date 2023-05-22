@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -20,36 +19,35 @@ class UserObserver
 
         // send email to admin
 
-        $to = "mysafe.events@gmail.com";
-        $subject = "משתמש חדש שלח פרטים למערכת";
-        $txt = `<p>משתמש חדש שלח פרטים למערכת</p>
+      $to = "mysafe.events@gmail.com";
+      $subject = "משתמש חדש שלח פרטים למערכת";
+      $txt = `<p>משתמש חדש שלח פרטים למערכת</p>
           <p>שם: $user->name</p>
           <p>מייל: $user->email</p>
           <p>טלפון: $user->phone</p>`;
-        $headers = "From: mysafe.events@gmail.com" . "\r\n";
+      $headers = "From: mysafe.events@gmail.com" . "\r\n";
 
-        mail($to,$subject,$txt,$headers);
+      mail($to,$subject,$txt,$headers);
 
 
 
-        // copy categories from user 1 categories to new user
-        $user1 = User::find(1); // Retrieve the user
-        $baseCategories = $user1->categories; // Retrieve the base categories
+      // copy categories from user 1 categories to new user
+      $user1 = User::find(1); // Retrieve the user
+      $baseCategories = $user1->categories; // Retrieve the base categories
 
-        foreach ($baseCategories as $category) {
-            $newCategory = [
-                'user_id' => $user->id,
-                'name' => $category->name,
-                'is_active' => $category->is_active,
-                'created_at' => $category->created_at,
-                'updated_at' => $category->updated_at,
-                'income' => $category->income,
-            ];
+      foreach ($baseCategories as $category) {
+        $newCategory = [
+          'user_id' => $user->id,
+          'name' => $category->name,
+          'is_active' => $category->is_active,
+          'created_at' => $category->created_at,
+          'updated_at' => $category->updated_at,
+          'income' => $category->income,
+        ];
 
-            $user->categories()->create($newCategory);
-        }
+        $user->categories()->create($newCategory);
+      }
     }
-
 
 
     /**

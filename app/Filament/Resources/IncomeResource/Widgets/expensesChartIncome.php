@@ -31,22 +31,22 @@ class expensesChartIncome extends ApexChartWidget
     {
 
         // get all expenses for the current month, grouped by category and sum the amount of each category
-        $expenses = Expense::whereMonth('entry_date', date('m'))
-            ->whereYear('entry_date', date('Y'))->where('user_id', auth()->user()->id)
-            ->get()->groupBy('category_id')->map(function ($item, $key) {
-            return $item->sum('amount');
+      $expenses = Expense::whereMonth('entry_date', date('m'))
+        ->whereYear('entry_date', date('Y'))->where('user_id', auth()->user()->id)
+        ->get()->groupBy('category_id')->map(function ($item, $key) {
+          return $item->sum('amount');
         });
 
         $amounts = [];
         $categories = [];
 
-        if (!$expenses->isEmpty())
-        {
-            foreach ($expenses as $key => $value) {
-                $amounts[] = $value;
-                $categories[] = \App\Models\Category::find($key)->name;
-            }
+      if (!$expenses->isEmpty())
+      {
+        foreach ($expenses as $key => $value) {
+          $amounts[] = $value;
+          $categories[] = \App\Models\Category::find($key)->name;
         }
+      }
 
 
 

@@ -14,98 +14,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\HtmlString;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
-use Illuminate\View\View;
 
 class CalendarWidget extends FullCalendarWidget {
-
-
-    /*public function render(): View
-    {
-        $events = $this->getViewData();
-        $view = parent::render();
-    }*/
-
-    public function getViewData(): array
-    {
-        $user = auth()->user();
-
-        $events = $user->events()->get();
-        $remainders = $user->reminders()->get();
-
-        if ($user->two_factor_secret !== null)
-        {
-            try
-            {
-                $googleEvents = Helpers::getCalendarData($user);
-            } catch (\Exception $e)
-            {
-                $googleEvents = [];
-            }
-        } else
-        {
-            $googleEvents = [];
-        }
-
-        $uniqueEventIds = [];
-        $results = [];
-
-        foreach ($events as $event) {
-            if (!in_array($event->id, $uniqueEventIds)) {
-                $uniqueEventIds[] = $event->id;
-
-                // Add the event to the results array
-                $results[] = [
-                    'type'  => 'event',
-                    'id'    => $event->id,
-                    'title' => $event->title,
-                    'start' => $event->date,
-                    'end'   => $event->end_at,
-                    'url'   => route('filament.resources.events.edit', $event->id),
-                ];
-            }
-        }
-
-        foreach ($remainders as $remainder) {
-            $uniqueRemainderId = $remainder->id * 100000;
-
-            if (!in_array($uniqueRemainderId, $uniqueEventIds)) {
-                $uniqueEventIds[] = $uniqueRemainderId;
-
-                // Add the remainder to the results array
-                $results[] = [
-                    'type'  => 'remainder',
-                    'id'    => $uniqueRemainderId,
-                    'title' => $remainder->title,
-                    'start' => $remainder->start_date,
-                    'end'   => $remainder->end_date,
-                    'url'   => '',
-                ];
-            }
-        }
-
-        foreach ($googleEvents as $googleEvent) {
-            if (!in_array($googleEvent['id'], $uniqueEventIds)) {
-                $uniqueEventIds[] = $googleEvent['id'];
-
-                // Add the Google event to the results array
-                $results[] = [
-                    'type'  => 'google',
-                    'id'    => $googleEvent['id'],
-                    'title' => $googleEvent['summary'],
-                    'start' => $googleEvent['start']['dateTime'] ?? $googleEvent['start']['date'],
-                    'end'   => $googleEvent['end']['dateTime'] ?? $googleEvent['end']['date'],
-                    'url'   => '',
-                    'extendedProps'       => [
-                        'googleEvent' => true, // Add the data attribute for Google events
-                    ],
-                ];
-            }
-        }
-
-        return $results;
-    }
 
     public function createEvent(array $data): void
     {
@@ -129,21 +40,21 @@ class CalendarWidget extends FullCalendarWidget {
                     'end'   => $data['end'],
                 ];
 
-                Helpers::createEvent($user, $data);
+                helpers::createEvent($user, $data);
             }
         } catch (Exception $e)
         {
             Notification::send($user, ($e->getMessage()));
         }
 
-        $this->refreshEvents();
+
     }
 
     /**
      * FullCalendar will call this function whenever it needs new event data.
      * This is triggered when the user clicks prev/next or switches views on the calendar.
      */
-    /*public function fetchEvents(array $fetchInfo): array
+    public function fetchEvents(array $fetchInfo): array
     {
 
         $user = auth()->user();
@@ -155,7 +66,7 @@ class CalendarWidget extends FullCalendarWidget {
         {
             try
             {
-                $googleEvents = Helpers::getCalendarData($user);
+                $googleEvents = helpers::getCalendarData($user);
             } catch (\Exception $e)
             {
                 $googleEvents = [];
@@ -165,64 +76,51 @@ class CalendarWidget extends FullCalendarWidget {
             $googleEvents = [];
         }
 
-        $uniqueEventIds = [];
         $results = [];
 
-        foreach ($events as $event) {
-            if (!in_array($event->id, $uniqueEventIds)) {
-                $uniqueEventIds[] = $event->id;
-
-                // Add the event to the results array
-                $results[] = [
-                    'type'  => 'event',
-                    'id'    => $event->id,
-                    'title' => new HtmlString('<span class="your-class">' . $event->title . '</span>'),
-                    'start' => $event->date,
-                    'end'   => $event->end_at,
-                    'url'   => route('filament.resources.events.edit', $event->id),
-                ];
-            }
+        foreach ($events as $event)
+        {
+            $results[] = [
+                'type'  => 'event', // 'reminder
+                'id'    => $event->id,
+                'title' => $event->title,
+                'start' => $event->date,
+                'end'   => $event->end_at,
+                'url'   => route('filament.resources.events.edit', $event->id),
+            ];
         }
 
-        foreach ($remainders as $remainder) {
-            $uniqueRemainderId = $remainder->id * 100000;
-
-            if (!in_array($uniqueRemainderId, $uniqueEventIds)) {
-                $uniqueEventIds[] = $uniqueRemainderId;
-
-                // Add the remainder to the results array
-                $results[] = [
-                    'type'  => 'reminder',
-                    'id'    => $uniqueRemainderId,
-                    'title' => new HtmlString('<span class="your-class">' . $remainder->title . '</span>'),
-                    'start' => $remainder->start_date,
-                    'end'   => $remainder->end_date,
-                    'url'   => '',
-                ];
-            }
+        foreach ($remainders as $remainder)
+        {
+            $results[] = [
+                'type'  => 'reminder', // 'reminder
+                'id'    => $remainder->id * 100000,
+                'title' => $remainder->title,
+                'start' => $remainder->start_date,
+                'end'   => $remainder->end_date,
+                'url'   => '',
+            ];
         }
 
-        foreach ($googleEvents as $googleEvent) {
-            if (!in_array($googleEvent['id'], $uniqueEventIds)) {
-                $uniqueEventIds[] = $googleEvent['id'];
+        foreach ($googleEvents as $googleEvent)
+        {
 
-                // Add the Google event to the results array
-                $results[] = [
-                    'type'  => 'google',
-                    'id'    => $googleEvent['id'],
-                    'title' => new HtmlString('<span class="your-class">' . $googleEvent['summary'] . '</span>'),
-                    'start' => $googleEvent['start']['dateTime'] ?? $googleEvent['start']['date'],
-                    'end'   => $googleEvent['end']['dateTime'] ?? $googleEvent['end']['date'],
-                    'url'   => '',
-                    'extendedProps'       => [
-                        'googleEvent' => true, // Add the data attribute for Google events
-                    ],
-                ];
-            }
+          $results[] = [
+            'type' => 'google',
+            'id' => $googleEvent['id'],
+            'title' => $googleEvent['summary'],
+            'start' => $googleEvent['start']['dateTime'] ?? $googleEvent['start']['date'],
+            'end' => $googleEvent['end']['dateTime'] ?? $googleEvent['end']['date'],
+            'url' => '',
+            'extendedProps' => [
+              'googleEvent' => true,
+            ],
+          ];
         }
+
 
         return $results;
-    }*/
+    }
 
 
     protected static function getCreateEventFormSchema(): array
@@ -233,7 +131,6 @@ class CalendarWidget extends FullCalendarWidget {
             \Filament\Forms\Components\DateTimePicker::make('end')->default(null)->closeOnDateSelection(),
         ];
     }
-
 
     protected static function getEditEventFormSchema(): array
     {
@@ -267,13 +164,13 @@ class CalendarWidget extends FullCalendarWidget {
                 $this->refreshEvents();
             } else
             {
-                if ($this->editEventFormState['extendedProps']['type'] == 'google')
-                {
-                    Notification::make()
-                        ->title('לא ניתן לערוך אירוע ביומן גוגל')
-                        ->success()
-                        ->send();
-                }
+              if ($this->editEventFormState['extendedProps']['type'] == 'google')
+              {
+                Notification::make()
+                  ->title('לא ניתן לערוך אירוע ביומן גוגל')
+                  ->success()
+                  ->send();
+              }
             }
         }
         $this->refreshEvents();
@@ -293,11 +190,11 @@ class CalendarWidget extends FullCalendarWidget {
                 return Reminder::find($data['id']);
             } else
             {
-                return new Events([
-                    'title'  => $data['title'],
-                    'date'   => $data['start'],
-                    'end_at' => $data['end'],
-                ]);
+              return new Events([
+                'title'  => $data['title'],
+                'date'   => $data['start'],
+                'end_at' => $data['end'],
+              ]);
             }
         }
     }

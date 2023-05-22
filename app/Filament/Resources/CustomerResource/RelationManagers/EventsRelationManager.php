@@ -62,7 +62,7 @@ class EventsRelationManager extends RelationManager {
                       'end'   => $data['end_at'],
                     ];
 
-                    Helpers::createEvent(auth()->user(), $event);
+                    helpers::createEvent(auth()->user(), $event);
                   }
 
                   return $data;

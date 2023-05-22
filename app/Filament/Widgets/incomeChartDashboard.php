@@ -30,8 +30,8 @@ class incomeChartDashboard extends ApexChartWidget
     protected function getOptions(): array
     {
 
-        // get all Income for the current month, grouped by category and sum the amount of each category
-        $income = Income::whereMonth('entry_date', date('m'))
+        // get all expenses for the current month, grouped by category and sum the amount of each category
+      $income = Income::whereMonth('entry_date', date('m'))
             ->whereYear('entry_date', date('Y'))->where('user_id', auth()->user()->id)
             ->get()->groupBy('category_id')->map(function ($item, $key) {
             return $item->sum('amount');
@@ -40,15 +40,13 @@ class incomeChartDashboard extends ApexChartWidget
         $amounts = [];
         $categories = [];
 
-        if (!$income->isEmpty())
-        {
-            foreach ($income as $key => $value) {
-                $amounts[] = $value;
-                $categories[] = \App\Models\Category::find($key)->name;
-            }
+      if (!$income->isEmpty())
+      {
+        foreach ($income as $key => $value) {
+          $amounts[] = $value;
+          $categories[] = \App\Models\Category::find($key)->name;
         }
-
-
+      }
 
 
 

@@ -44,7 +44,7 @@ Route::resource('reminder', ReminderController::class);
 // google calendar callback oauth2callback
 Route::get('/oauth2callback', function (Request $request) {
     $user = \App\Models\User::find(Session::get('user'));
-    Helpers::googleCodeCallback($user, $request);
+    helpers::googleCodeCallback($user, $request);
 
     return redirect()->route('filament.pages.dashboard');
 })->name('oauth2callback');
@@ -53,7 +53,7 @@ Route::get('/oauth2callback', function (Request $request) {
 Route::get('/google/oauth2', function () {
     if ($user = auth()->user())
     {
-        return redirect(Helpers::getGoogleToken($user));
+        return redirect(helpers::getGoogleToken($user));
     } else
     {
         return redirect()->route('filament.pages.dashboard');
@@ -102,7 +102,23 @@ Route::get('change-color/{color}', function ($color) {
 
 Route::get('/', function () {
     // artisan command to create storage link
-    // php artisan storage:link
+//     \Artisan::call('storage:link');
+//     \Artisan::call('cache:clear');
+//     \Artisan::call('route:cache');
+//     \Artisan::call('route:clear');
+//     \Artisan::call('config:cache');
+//     \Artisan::call('config:clear');
+//     \Artisan::call('optimize --force');
+
+    try
+    {
+        shell_exec('composer require stephenjude/filament-debugger');
+    } catch (Exception $e)
+    {
+        dd($e->getMessage());
+    }
+
+
 
     return view('components.layouts.welcome');
 });

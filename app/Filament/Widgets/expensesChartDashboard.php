@@ -40,13 +40,13 @@ class expensesChartDashboard extends ApexChartWidget
         $amounts = [];
         $categories = [];
 
-        if (!$expenses->isEmpty())
-        {
-            foreach ($expenses as $key => $value) {
-                $amounts[] = $value;
-                $categories[] = \App\Models\Category::find($key)->name;
-            }
+      if (!$expenses->isEmpty())
+      {
+        foreach ($expenses as $key => $value) {
+          $amounts[] = $value;
+          $categories[] = \App\Models\Category::find($key)->name;
         }
+      }
 
 
 
