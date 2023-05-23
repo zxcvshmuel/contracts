@@ -28,18 +28,22 @@ class ContractsRelationManager extends RelationManager {
 
   protected static ?string $breadcrumb = 'חוזה';
 
-  public static function getEloquentQuery(): Builder
-  {
-    return parent::getEloquentQuery()->where('type', 2)->where('user_id', auth()->user()->id);
-  }
+//  public static function getEloquentQuery(): Builder
+//  {
+//    return parent::getEloquentQuery()->where('type', 2)->where('user_id', auth()->user()->id);
+//  }
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\Card::make()->label('צור מסמך')->schema([
-                Forms\Components\Select::make('events_id')->disabled(fn($record) => !is_null($record))->options(
-                    auth()->user()->events->pluck('title', 'id')
+                Forms\Components\Select::make('events_id')->disabled(fn($record) => !is_null($record))->options(function (RelationManager $livewire): array {
+                    return $livewire->ownerRecord->events()->pluck('title', 'id')->toArray();}
                 )->preload()->required()->label('שם אירוע'),
+                Forms\Components\Select::make('type')->disabled(fn($record) => !is_null($record))->label('סוג מסמך')->options([
+                    '1' => 'הצעת מחיר',
+                    '2' => 'חוזה',
+                ])->required(),
                 Forms\Components\TextInput::make('title')->disabled(fn($record) => !is_null($record))->required(
                 )->label('כותרת'),
                 Forms\Components\TextInput::make('description')->disabled(fn($record) => !is_null($record))->required(

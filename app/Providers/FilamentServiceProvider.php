@@ -147,9 +147,9 @@ class FilamentServiceProvider extends ServiceProvider {
                 userMenuItem::make()->label('לקוחות')->url(CustomerResource::getUrl())->icon('heroicon-o-collection'),
                 userMenuItem::make()->label('חוזים')->url(ContractsResource::getUrl())->icon('heroicon-o-calendar'),
                 userMenuItem::make()->label('אירועים')->url(EventsResource::getUrl())->icon('heroicon-o-calendar'),
-                userMenuItem::make()->url(ExpenseResource::getUrl())->icon('heroicon-o-calendar'),
-                userMenuItem::make()->url(IncomeResource::getUrl())->icon('heroicon-o-calendar'),
-                userMenuItem::make()->url(CategoryResource::getUrl())->icon('heroicon-o-calendar'),
+                userMenuItem::make()->label('הוצאות')->url(ExpenseResource::getUrl())->icon('heroicon-o-calendar'),
+                userMenuItem::make()->label('הכנסות')->url(IncomeResource::getUrl())->icon('heroicon-o-calendar'),
+                userMenuItem::make()->label('קטגוריות')->url(CategoryResource::getUrl())->icon('heroicon-o-calendar'),
             ]);
 
         });

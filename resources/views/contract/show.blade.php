@@ -53,11 +53,17 @@
                     @if($data['contract']->type === 1)
                         <h2 class="text-2xl font-semibold leading-7 text-indigo-600">הצעת מחיר בין ספק ללקוח</h2>
                         <div class="flex flex-row justify-center">
-                            <a class="px-2" href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את החוזה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
-                                <img style="height: 50px;" src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}" alt="">
+                            <a class="px-2"
+                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את החוזה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}"
+                                     alt="">
                             </a>
-                            <a class="px-2" href="mailto:?subject=אני רוצה לשתף אתך את החוזה שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
-                                <img style="height: 50px;" src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}" alt="">
+                            <a class="px-2"
+                               href="mailto:?subject=אני רוצה לשתף אתך את החוזה שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}"
+                                     alt="">
                             </a>
                         </div>
                         <div class="flex flex-col items-end">
@@ -73,11 +79,17 @@
                     @else
                         <h2 class="text-2xl font-semibold leading-7 text-indigo-600">חוזה עבודה בין ספק ללקוח</h2>
                         <div class="flex flex-row justify-center">
-                            <a class="px-2" href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את החוזה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
-                                <img style="height: 50px;" src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}" alt="">
+                            <a class="px-2"
+                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את החוזה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}"
+                                     alt="">
                             </a>
-                            <a class="px-2" href="mailto:?subject=אני רוצה לשתף אתך את החוזה שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
-                                <img style="height: 50px;" src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}" alt="">
+                            <a class="px-2"
+                               href="mailto:?subject=אני רוצה לשתף אתך את החוזה שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}"
+                                     alt="">
                             </a>
                         </div>
                         <div class="flex flex-col items-end">
@@ -129,16 +141,7 @@
                             <a href="tel:{{$data['user']->comp_phone}}"> {{ $data['user']->comp_phone }}</a>
                         </span>
                     </div>
-                    {{--<div class="flex flex-col items-center">
-                        <span>{{ date('d/m/Y') }}</span>
-                        <span>
-                            <strong>מספר {{ $data['contract']->type === 1 ? 'הצעת מחיר' : 'חוזה' }}
-                            - {{$data['contract']->id}}</strong>
-                        </span>
-                        <img class="h-auto w-1/4"
-                             src="{{ \Illuminate\Support\Facades\Storage::url('/') .  $data['user']->logo_url}}"
-                             alt="">
-                    </div>--}}
+
                     <div class="flex flex-col items-center">
                         <strong class="underline">פרטי הלקוח</strong>
                         <strong><span>{{ $data['customer']-> fullName }}</span></strong>
@@ -224,8 +227,11 @@
                 </div>
 
             </div>
-
-
+            <div class="flex flex-col items-center justify-center digital-holder">
+                <img id="digital"
+                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/digitalsi.png' }}"
+                     alt="digital signatures">
+            </div>
             {{--Signature Start--}}
 
             @if($data['contract']->signed === 0)
@@ -338,9 +344,26 @@
 
 
         <style>
+            .digital-holder{
+                margin-top: -60px;
+            }
+
+            #digital{
+                width: 150px;
+            }
             @media (max-width: 750px) {
                 body {
 
+                }
+
+
+                .digital-holder{
+                    margin-top: -7px;
+                    margin-bottom: -12px;
+                }
+
+                #digital{
+                    width: 120px;
                 }
             }
 
@@ -394,8 +417,8 @@
             /*window.onload = function () {
 
                 @if(!$data['contract']->signed === 0)
-                html2canvas(document.querySelector("body")).then(canvas => {
-                    axios.post('{{ route('contract.uploadImage', ['contract' => $data['contract']->id]) }}', {
+            html2canvas(document.querySelector("body")).then(canvas => {
+                axios.post('{{ route('contract.uploadImage', ['contract' => $data['contract']->id]) }}', {
                         data: canvas.toDataURL()
                     }).then(function (response) {
                         console.log(response);

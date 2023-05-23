@@ -231,6 +231,14 @@
             </div>
 
 
+            <div style="text-align:center; margin-top: -60px;">
+                <div style="float:right;">
+                    <img id="digital" style="width: 150px; margin-top: -60px;"
+                         src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/digitalsi.png' }}"
+                         alt="digital signatures">
+                </div>
+            </div>
+
             {{--Signature Start--}}
 
 

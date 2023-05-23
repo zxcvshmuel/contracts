@@ -19,17 +19,6 @@ class CreateUser extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $user = User::find($this->record->id);
-        $package = \App\Models\Package::find($data['package_id']);
-
-        // create row on user_package pivot table
-        $user->packages()->attach($package->id, [
-            'started_at' => now(),
-            'expired_at' => now()->addDays($package->duration),
-        ]);
-
-        // set active until
-        $data['active_until'] = now()->addDays($package->duration);
 
         // remove package_id from data
         unset($data['package_id']);

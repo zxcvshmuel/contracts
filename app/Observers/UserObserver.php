@@ -17,6 +17,11 @@ class UserObserver
         $token = Password::getRepository()->create($user);
         $user->sendPasswordResetNotification($token);
 
+        $user->packages()->attach(1, [
+            'started_at' => now(),
+            'expired_at' => now()->addDays(7),
+        ]);
+
 
         // send email to admin
 

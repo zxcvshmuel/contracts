@@ -15,9 +15,10 @@ class CreateContracts extends CreateRecord
     {
         $data['type'] = 2;
         $data['user_id'] = auth()->user()->id;
-        if (!$data['customer_name']){
-            $data['email'] = Events::find($data['event_id'])->customer->email;
-            $data['customer_name'] = Events::find($data['event_id'])->customer->full_name;
+        if (!isset($data['customer_name'])){
+            $event = Events::find($data['events_id']);
+            $data['email'] = $event->customer->email;
+            $data['customer_name'] = $event->customer->full_name;
         }
 
         return $data;

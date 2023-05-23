@@ -29,13 +29,13 @@ class ContractsResource extends Resource {
 
 //    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $navigationLabel = 'חוזים';
+    protected static ?string $navigationLabel = 'חוזים והצעות מחיר';
 
     protected static ?string $label = 'חוזה';
 
-    protected static ?string $pluralModelLabel = 'חוזים';
+    protected static ?string $pluralModelLabel = 'חוזים ןהצעות מחיר';
 
-    protected static ?string $breadcrumb = 'חוזים';
+    protected static ?string $breadcrumb = 'חוזים ןהצעות מחיר';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
