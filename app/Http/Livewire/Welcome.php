@@ -32,6 +32,10 @@ class Welcome extends Component {
                 'active_until' => now()->addDays(7),
                 'password'     => bcrypt('123456'),
             ]);
+            $user->packages()->attach(1, [
+                'started_at' => now(),
+                'expired_at' => now()->addDays(7),
+            ]);
             $this->formSubmitted = true;
             $this->formTitle = 'תודה רבה, נחזור אליכם בהקדם';
         } catch (Exception $e)

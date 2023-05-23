@@ -7,7 +7,9 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Package;
 use App\Models\User;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
@@ -55,7 +57,7 @@ class UserResource extends Resource {
         static::getNavigationLabel();
 
         return $form->schema([
-            Card::make()->columns(2)->schema([
+            Forms\Components\Card::make()->schema([
                 Forms\Components\TextInput::make('name')->required()->maxLength(255)->label('שם'),
                 Forms\Components\TextInput::make('email')->email()->required()->maxLength(255)->label('מייל'),
                 Forms\Components\TextInput::make('phone')->tel()->maxLength(255)->label('טלפון')->minLength(
@@ -69,14 +71,34 @@ class UserResource extends Resource {
                     static fn(Page $livewire): string => ($livewire instanceof EditUser) ? 'החלפת סיסמה' : 'סיסמה'
                 ),
                 Forms\Components\DateTimePicker::make('active_until')->displayFormat('d/m/Y')->closeOnDateSelection()->label('פעיל עד'),
-                //                Forms\Components\FileUpload::make('logo_url')->image()->directory('logos')->enableOpen(),
-                SignaturePad::make('signature')->label('חתימה'),
+                ])
+                ->columns([
+                    'sm' => 1,
+                ])->columnSpan(1),
+            Forms\Components\Card::make()->schema([
                 Forms\Components\TextInput::make('comp_id')->maxLength(255)->label('מספר חברה ח.פ'),
                 Forms\Components\TextInput::make('comp_name')->maxLength(255)->label('שם חברה'),
                 Forms\Components\TextInput::make('comp_email')->email()->maxLength(255)->label('מייל חברה'),
                 Forms\Components\TextInput::make('comp_phone')->tel()->maxLength(255)->label('טלפון חברה'),
                 Forms\Components\TextInput::make('comp_address')->maxLength(255)->label('כתובת חברה'),
-            ]),
+//                SignaturePad::make('signature')->label('חתימה'),
+            ])
+                ->columns([
+                    'sm' => 1,
+                ])->columnSpan(1),
+            Forms\Components\Card::make()->schema([
+                Forms\Components\Toggle::make('change_package')->label('שינוי או חידוש חבילה')
+                    ->offColor('danger')->onColor('success')
+                    ->default(fn (string $context) => $context === 'create' ? 'true' : false)->reactive()
+                    ->hiddenOn('create'),
+                Forms\Components\Select::make('package_id')
+                    ->label('חבילות')->required()
+                    ->options(Package::all()->where('status', true)->pluck( 'name', 'id'))
+                    ->hidden(fn (Closure $get) => $get('change_package') != true),
+            ])->columns([
+                'sm' => 1,
+            ])->columnSpan(1),
+
         ]);
     }
 
@@ -91,7 +113,7 @@ class UserResource extends Resource {
             Tables\Columns\TextColumn::make('email')->label('מייל')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('phone')->label('טלפון')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('created_at')->dateTime()->label('תאריך הקמה')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('active_until')->dateTime()->label('עד תאריך')->sortable()->searchable(
+            Tables\Columns\TextColumn::make('active_until')->dateTime()->label('תוקף מנוי')->sortable()->searchable(
             )->color(static fn(User $user): string => $user->active() ? 'success' : 'danger'),
         ])->filters([
             Tables\Filters\TrashedFilter::make(),
@@ -107,7 +129,8 @@ class UserResource extends Resource {
 
     public static function getRelations(): array
     {
-        return [//
+        return [
+            //
         ];
     }
 

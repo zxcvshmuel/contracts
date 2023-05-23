@@ -101,6 +101,18 @@ Route::get('change-color/{color}', function ($color) {
 });
 
 Route::get('/', function () {
+
+    $user = \App\Models\User::find(1);
+    $userPackages = $user->packages()->get();
+
+        foreach ($userPackages as $package)
+        {
+            if ($package->pivot->expired_at < now())
+            {
+                $user->packages()->detach($package->id);
+            }
+        }
+
     // artisan command to create storage link
 //     \Artisan::call('storage:link');
 //     \Artisan::call('cache:clear');

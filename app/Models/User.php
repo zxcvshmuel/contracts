@@ -133,4 +133,10 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
         return $this->hasMany(Expense::class);
     }
 
+    public function packages(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Package::class, 'user_package')->withPivot('started_at', 'expired_at')
+            ->withTimestamps();
+    }
+
 }

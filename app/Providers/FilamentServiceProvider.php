@@ -8,6 +8,7 @@ use App\Filament\Resources\CustomerResource;
 use App\Filament\Resources\EventsResource;
 use App\Filament\Resources\ExpenseResource;
 use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\PackageResource;
 use App\Filament\Resources\PriceOffersResource;
 use App\Filament\Resources\UserResource;
 use App\Models\User;
@@ -96,6 +97,7 @@ class FilamentServiceProvider extends ServiceProvider {
                             'heroicon-s-user'
                         )->url(route('filament.pages.my-profile')),
                         ...UserResource::getNavigationItems(),
+                        ...PackageResource::getNavigationItems(),
                         ...CustomerResource::getNavigationItems(),
                         ...EventsResource::getNavigationItems(),
                         ...ContractsResource::getNavigationItems(),
