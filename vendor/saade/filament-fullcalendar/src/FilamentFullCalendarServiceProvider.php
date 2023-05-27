@@ -26,4 +26,5 @@ class FilamentFullCalendarServiceProvider extends PluginServiceProvider
             ->hasViews()
             ->hasCommand(UpgradeFilamentFullCalendarCommand::class);
     }
+
 }
