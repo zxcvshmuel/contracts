@@ -95,7 +95,7 @@ class MyProfile extends Page {
             })->form($this->getUpdateProfileLogoSchema()),
             Action::make('google-auth')->icon('heroicon-s-calendar')
                 ->label('חיבור יומן גוגל')
-                ->hidden(fn() => $this->user->two_factor_secret === null)
+                ->hidden(fn() => $this->user->two_factor_secret !== null && $this->user->two_factor_secret !== '')
                 ->action(
                     function (Action $action): void {
                         $this->redirect(Helpers::createUrlForGoogleToken());

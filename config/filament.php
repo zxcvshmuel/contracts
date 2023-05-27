@@ -109,6 +109,7 @@ return [
             //Pages\Dashboard::class,
             \App\Filament\Pages\MyProfile::class,
             \App\Filament\Pages\howTo::class,
+            \App\Filament\Pages\PackagesPage::class,
             //\App\Filament\Pages\Dashboard::class,
         ],
     ],

@@ -7472,16 +7472,16 @@
         },
         {
             "name": "stephenjude/filament-debugger",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stephenjude/filament-debugger.git",
-                "reference": "0e64c17fe859883f61b255015a76b1c220882916"
+                "reference": "524fcc0a5c50b9a7c1d77e6bba65cadcd4b7143e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stephenjude/filament-debugger/zipball/0e64c17fe859883f61b255015a76b1c220882916",
-                "reference": "0e64c17fe859883f61b255015a76b1c220882916",
+                "url": "https://api.github.com/repos/stephenjude/filament-debugger/zipball/524fcc0a5c50b9a7c1d77e6bba65cadcd4b7143e",
+                "reference": "524fcc0a5c50b9a7c1d77e6bba65cadcd4b7143e",
                 "shasum": ""
             },
             "require": {
@@ -7536,9 +7536,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stephenjude/filament-debugger/issues",
-                "source": "https://github.com/stephenjude/filament-debugger/tree/1.2.3"
+                "source": "https://github.com/stephenjude/filament-debugger/tree/1.2.4"
             },
-            "time": "2023-04-27T17:02:09+00:00"
+            "time": "2023-05-23T10:12:59+00:00"
         },
         {
             "name": "symfony/console",
