@@ -13,7 +13,7 @@
         "carlos-meneses/laravel-mpdf": "^2.1",
         "filament/filament": "^2.0",
         "filament/spatie-laravel-media-library-plugin": "^2.0",
-        "google/apiclient": "^2.13",
+        "google/apiclient": "*",
         "guzzlehttp/guzzle": "^7.2",
         "jeffgreco13/filament-breezy": "^1.5",
         "laravel/framework": "^10.0",

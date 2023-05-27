@@ -57,8 +57,8 @@
                     top: 65%;
                 }
 
-                .filament-main-content, .filament-main-content .px-4, .filament-main-content .p-2.space-y-2 {
-                    padding: 1px !important;
+                .filament-main-content, .filament-main-content .px-4, .filament-main-content .p-2.space-y-2{
+                    padding: 1px!important;
                 }
             }
         </style>
@@ -76,16 +76,18 @@
                 initialView: @js($this->config('initialView')),
                 initialDate: @js($this->config('initialDate')),
                 shouldSaveState: @js($this->config('saveState', false)),
-                handleEventClickUsing: async ({ event, jsEvent }) => {
-                    if( $data.calendar.view.type == 'dayGridMonth') {
-                        jsEvent.preventDefault();
-                        $data.calendar.changeView('timeGridDay', event.startStr);
-                        return false;
-                    } else if( event.url ) {
+                handleEventClickUsing: async ({event, jsEvent }) => {
+                    {{--if( event.url ) {
                         jsEvent.preventDefault();
                         window.open(event.url, event.extendedProps.shouldOpenInNewTab ? '_blank' : '_self');
                         return false;
-                    }
+                    }--}}
+
+                    console.log($data.calendar.getEventSources());
+                    console.log(event);
+                    console.log(jsEvent.target);
+                    console.log(calendarComponent.calendar);
+
 
                     @if ($this::isListeningClickEvent())
                         $wire.onEventClick(event)
