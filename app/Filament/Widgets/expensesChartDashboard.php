@@ -54,7 +54,7 @@ class expensesChartDashboard extends ApexChartWidget
         return [
             'chart' => [
                 'type' => 'pie',
-                'height' => 150,
+                'height' => 250,
             ],
             'series' => $amounts,
             'labels' => $categories,

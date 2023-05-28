@@ -71,16 +71,21 @@ class Helpers
         $client->setAccessToken($accessToken);
 
         $service = new Google_Service_Calendar($client);
-        $primaryCalendarId = self::getPrimaryCalendarId($user);
+        /*$primaryCalendarId = self::getPrimaryCalendarId($user);
 
         if (empty($primaryCalendarId)) {
-            return []; // Primary calendar ID not found
-        }
+            return ['primary']; // Primary calendar ID not found
+        }*/
 
         $startDate = Carbon::today()->subDays(30)->format('Y-m-d\TH:i:s.000\Z');
         $endDate = Carbon::today()->addDays(150)->format('Y-m-d\TH:i:s.000\Z');
 
-        $eventsResponse = $service->events->listEvents($primaryCalendarId, [
+        /*$eventsResponse = $service->events->listEvents($primaryCalendarId, [
+            'timeMin' => $startDate,
+            'timeMax' => $endDate,
+        ]);*/
+
+        $eventsResponse = $service->events->listEvents('primary', [
             'timeMin' => $startDate,
             'timeMax' => $endDate,
         ]);

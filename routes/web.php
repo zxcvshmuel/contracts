@@ -3,11 +3,9 @@
 use App\helpers;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ReminderController;
-use App\Mail\ContractSend;
-use App\Mail\ContractSent;
 use App\Models\User;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +18,24 @@ use Illuminate\Http\Request;
 |
 */
 
-// allow admin user to login as user
-Route::get('login-as/{user}', function ($user) {
-    // just user that id is 1 can login as other user
-    if (Auth::user()->id != 1)
-    {
-        return redirect()->route('home');
-    }
-    Auth::loginUsingId($user);
+/*Route::get('/test', function () {
+    $categories = \App\Models\Category::all()->toArray();
+    $user = User::find(1);
+    dd($user->categories);
+});*/
 
-    return redirect()->route('filament.auth.login');
+// allow admin user to login as user
+Route::get('login-as/{user_id}', function ($user_id) {
+    // just user that id is 1 can login as other user
+    if (Auth::user()->id !== 1)
+    {
+        return redirect()->route('filament.pages.dashboard');
+    }
+    $user = User::find((integer)$user_id);
+    session()->flush();
+    Auth::guard('web')->login($user);
+
+    return redirect()->route('filament.pages.dashboard');
 })->middleware('auth');
 
 Route::get('contract/{contract}/view/', [ContractController::class, 'show'])->name('contract.view');
