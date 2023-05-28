@@ -20,9 +20,7 @@ Alpine.start();
 import SignaturePad from "signature_pad";
 
 window.SignaturePad = SignaturePad;
-document.addEventListener('DOMContentLoaded', function() {
-    alert('test');
-});
+
 
 // window.SignaturePad.isDisabled(false);
 /**
