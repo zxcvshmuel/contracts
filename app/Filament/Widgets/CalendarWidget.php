@@ -18,7 +18,8 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class CalendarWidget extends FullCalendarWidget {
 
-    public function getViewData(): array
+
+    /*public function getViewData(): array
     {
         $user = auth()->user();
 
@@ -84,7 +85,7 @@ class CalendarWidget extends FullCalendarWidget {
 
         foreach ($googleEvents as $googleEvent) {
             $eventKey = $googleEvent['summary'] . '_' . ($googleEvent['start']['dateTime'] ?? $googleEvent['start']['date']) . '_' . ($googleEvent['end']['dateTime'] ?? $googleEvent['end']['date']);
-            if (array_search($eventKey, $eventKeys) !== false) {
+            if (false && array_search($eventKey, $eventKeys) !== false) {
                 // האירוע כבר קיים במערך, ניתן לבצע פעולות נוספות כאן
             } else {
                 // האירוע לא קיים במערך, ניתן להוסיף אותו לתוצאות
@@ -103,7 +104,7 @@ class CalendarWidget extends FullCalendarWidget {
         }
 
         return $results;
-    }
+    }*/
 
     public function createEvent(array $data): void
     {
@@ -116,7 +117,7 @@ class CalendarWidget extends FullCalendarWidget {
             'start_date' => $data['start'],
             'end_date'   => $data['end'],
         ]);
-
+        $this->refreshEvents();
         try
         {
             if ($user->two_factor_secret)
@@ -128,20 +129,20 @@ class CalendarWidget extends FullCalendarWidget {
                 ];
 
                 Helpers::createEvent($user, $data);
+                $this->refreshEvents();
             }
         } catch (Exception $e)
         {
+            $this->refreshEvents();
             Notification::send($user, ($e->getMessage()));
         }
-
-        $this->refreshEvents();
     }
 
     /**
      * FullCalendar will call this function whenever it needs new event data.
      * This is triggered when the user clicks prev/next or switches views on the calendar.
      */
-   /* public function fetchEvents(array $fetchInfo): array
+    public function fetchEvents(array $fetchInfo): array
     {
 
         $user = auth()->user();
@@ -200,11 +201,18 @@ class CalendarWidget extends FullCalendarWidget {
             }
         }
 
-        foreach ($googleEvents as $googleEvent) {
-            if (!in_array($googleEvent['id'], $uniqueEventIds)) {
-                $uniqueEventIds[] = $googleEvent['id'];
+        $eventKeys = [];
 
-                // Add the Google event to the results array
+        foreach ($results as $result) {
+            $eventKeys[$result['title'] . '_' . $result['start'] . '_' . $result['end']] = true;
+        }
+
+        foreach ($googleEvents as $googleEvent) {
+            $eventKey = $googleEvent['summary'] . '_' . ($googleEvent['start']['dateTime'] ?? $googleEvent['start']['date']) . '_' . ($googleEvent['end']['dateTime'] ?? $googleEvent['end']['date']);
+            if (false && array_search($eventKey, $eventKeys) !== false) {
+                // האירוע כבר קיים במערך, ניתן לבצע פעולות נוספות כאן
+            } else {
+                // האירוע לא קיים במערך, ניתן להוסיף אותו לתוצאות
                 $results[] = [
                     'type'  => 'google',
                     'id'    => $googleEvent['id'],
@@ -213,14 +221,14 @@ class CalendarWidget extends FullCalendarWidget {
                     'end'   => $googleEvent['end']['dateTime'] ?? $googleEvent['end']['date'],
                     'url'   => '',
                     'extendedProps'       => [
-                        'googleEvent' => true, // Add the data attribute for Google events
+                        'googleEvent' => true,
                     ],
                 ];
             }
         }
 
         return $results;
-    }*/
+    }
 
 
     protected static function getCreateEventFormSchema(): array
@@ -299,5 +307,6 @@ class CalendarWidget extends FullCalendarWidget {
             }
         }
     }
+
 }
 

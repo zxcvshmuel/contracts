@@ -20,6 +20,8 @@ Alpine.start();
 import SignaturePad from "signature_pad";
 
 window.SignaturePad = SignaturePad;
+
+
 // window.SignaturePad.isDisabled(false);
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -42,7 +44,4 @@ window.SignaturePad = SignaturePad;
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
-
-
-
 

@@ -96,6 +96,12 @@ class FilamentServiceProvider extends ServiceProvider {
                         NavigationItem::make('account')->label('הפרופיל שלי')->icon('heroicon-o-user')->activeIcon(
                             'heroicon-s-user'
                         )->url(route('filament.pages.my-profile')),
+                        NavigationItem::make('account')->label('telescope')->icon('heroicon-o-user')->activeIcon(
+                            'heroicon-s-user'
+                        )->url(route('telescope')),
+                        NavigationItem::make('account')->label('horizon')->icon('heroicon-o-user')->activeIcon(
+                            'heroicon-s-user'
+                        )->url(route('horizon.index')),
                         ...UserResource::getNavigationItems(),
                         ...PackageResource::getNavigationItems(),
                         ...CustomerResource::getNavigationItems(),
@@ -110,6 +116,12 @@ class FilamentServiceProvider extends ServiceProvider {
                                     ...IncomeResource::getNavigationItems(),
                                     ...CategoryResource::getNavigationItems(),
                                 ]),
+                        ])
+                        ->items([
+                            NavigationItem::make('packages')->label('החיבותל שלנו')->icon('heroicon-o-home')->activeIcon(
+                                'heroicon-s-home'
+                            )->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.packages-page'))->url(
+                                route('filament.pages.packages-page'))
                         ]);
                 } else
                 {

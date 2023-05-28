@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
@@ -27,12 +28,17 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      *
      * This gate determines who can access Horizon in non-local environments.
      */
-    protected function gate(): void
+    protected function gate()
     {
         Gate::define('viewHorizon', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            return $user->can(config('filament-debugger.permissions.horizon'));
         });
+    }
+
+    protected function authorization()
+    {
+        Auth::setDefaultDriver(config('filament.auth.guard'));
+
+        parent::authorization();
     }
 }

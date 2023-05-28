@@ -28,24 +28,24 @@ tr .fc-list-event-dot {
 
 /* Event text color*/
 .fc-event-title{
-    color: white;
+    color: black;
 }
 
 /* Background for main calendar events */
 a.type-remainder {
-    background: red !important;
+    background: rgba(255, 0, 0, 0.36) !important;
     border: none !important;
 }
 
 /* Background for Google events */
 a.type-google{
-    background: green !important;
+    background: rgba(0, 128, 0, 0.36) !important;
     border: none !important;
 }
 
 /* Background for non-link events */
 a.type-event {
-    background: blue !important;
+    background: rgba(0, 0, 255, 0.36) !important;
     border: none !important;
 }
 
@@ -66,17 +66,17 @@ td.fc-list-event-title:not([href]) {
 
 /* Day grid - event */
 a.type-event {
-    background: red !important;
+    background: rgba(255, 0, 0, 0.36) !important;
 }
 
 /* Day grid - Google event */
 a.type-google {
-    background: green !important;
+    background: rgba(0, 128, 0, 0.36) !important;
 }
 
 /* Day grid - remainder */
 a.type-remainder {
-    background: blue !important;
+    background: rgba(0, 0, 255, 0.36) !important;
 }
 
 @media (max-width: 650px) {
@@ -102,14 +102,14 @@ a.type-remainder {
     }
 
     a.type-event {
-        background: red !important;
-        border: 1px solid red !important;
+        background: rgba(255, 0, 0, 0.36) !important;
+        border: 1px solid rgba(255, 0, 0, 0.36) !important;
         height: 7px !important;
         width: 7px !important;
         border-radius: 50% !important;
         content: "\2022";
         font-size: 4px;
-        color: red;
+        color: rgba(255, 0, 0, 0.36);
         letter-spacing: 4px;
     }
 
@@ -120,14 +120,14 @@ a.type-remainder {
     }
 
     a.type-remainder {
-        background: blue !important;
-        border: 1px solid blue !important;
+        background: rgba(0, 0, 255, 0.36) !important;
+        border: 1px solid rgba(0, 0, 255, 0.36) !important;
         height: 7px !important;
         width: 7px !important;
         border-radius: 50% !important;
         content: "\2022";
         font-size: 4px;
-        color: blue;
+        color: rgba(0, 0, 255, 0.36);
         letter-spacing: 4px;
     }
 
@@ -138,14 +138,14 @@ a.type-remainder {
     }
 
     a.type-google {
-        background: green !important;
-        border: 1px solid green !important;
+        background: rgba(0, 128, 0, 0.36) !important;
+        border: 1px solid rgba(0, 128, 0, 0.36) !important;
         height: 7px !important;
         width: 7px !important;
         border-radius: 50% !important;
         content: "\2022";
         font-size: 4px;
-        color: green;
+        color: rgba(0, 128, 0, 0.36);
         letter-spacing: 4px;
     }
 
