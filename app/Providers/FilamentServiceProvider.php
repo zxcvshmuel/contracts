@@ -118,7 +118,7 @@ class FilamentServiceProvider extends ServiceProvider {
                                 ]),
                         ])
                         ->items([
-                            NavigationItem::make('packages')->label('החיבותל שלנו')->icon('heroicon-o-home')->activeIcon(
+                            NavigationItem::make('packages')->label('החבילות שלנו')->icon('heroicon-o-home')->activeIcon(
                                 'heroicon-s-home'
                             )->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.packages-page'))->url(
                                 route('filament.pages.packages-page'))
