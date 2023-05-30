@@ -80,8 +80,7 @@ class FilamentServiceProvider extends ServiceProvider {
             ]);
 
             Filament::navigation(function (NavigationBuilder $builder): NavigationBuilder {
-        if (auth()->user()->user_type == 0)
-                {
+                if( false && auth()->user()->id == 1){
                     return $builder->items([
                         NavigationItem::make('howTo')->label('מתחילים (הסבר המערכת)')->icon(
                             'heroicon-o-beaker'
@@ -111,17 +110,48 @@ class FilamentServiceProvider extends ServiceProvider {
                         ...EmailResource::getNavigationItems(),
                         ...TicketResource::getNavigationItems(),
                     ])->groups([
-                            NavigationGroup::make('הכנסות והוצאות')->icon('heroicon-o-cash')->items([
-                                    ...ExpenseResource::getNavigationItems(),
-                                    ...IncomeResource::getNavigationItems(),
-                                    ...CategoryResource::getNavigationItems(),
-                                ]),
-                        ])
+                        NavigationGroup::make('הכנסות והוצאות')->icon('heroicon-o-cash')->items([
+                            ...ExpenseResource::getNavigationItems(),
+                            ...IncomeResource::getNavigationItems(),
+                            ...CategoryResource::getNavigationItems(),
+                        ]),
+                    ])
                         ->items([
                             NavigationItem::make('packages')->label('החבילות שלנו')->icon('heroicon-o-home')->activeIcon(
                                 'heroicon-s-home'
                             )->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.packages-page'))->url(
                                 route('filament.pages.packages-page'))
+                        ]);
+                }else if (auth()->user()->user_type == 0)
+                {
+                    return $builder->items([
+                        NavigationItem::make('howTo')->label('מתחילים (הסבר המערכת)')->icon(
+                            'heroicon-o-beaker'
+                        )->activeIcon(
+                            'heroicon-s-beaker'
+                        )->url(route('filament.pages.how-to')),
+                        NavigationItem::make('Dashboard')->label('בית')->icon('heroicon-o-home')->activeIcon(
+                            'heroicon-s-home'
+                        )->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.dashboard'))->url(
+                            route('filament.pages.dashboard')
+                        ),
+                        NavigationItem::make('account')->label('הפרופיל שלי')->icon('heroicon-o-user')->activeIcon(
+                            'heroicon-s-user'
+                        )->url(route('filament.pages.my-profile')),
+                        ...UserResource::getNavigationItems(),
+                        ...PackageResource::getNavigationItems(),
+                        ...CustomerResource::getNavigationItems(),
+                        ...EventsResource::getNavigationItems(),
+                        ...ContractsResource::getNavigationItems(),
+                        ...PriceOffersResource::getNavigationItems(),
+                        ...EmailResource::getNavigationItems(),
+                        ...TicketResource::getNavigationItems(),
+                    ])->groups([
+                            NavigationGroup::make('הכנסות והוצאות')->icon('heroicon-o-cash')->items([
+                                    ...ExpenseResource::getNavigationItems(),
+                                    ...IncomeResource::getNavigationItems(),
+                                    ...CategoryResource::getNavigationItems(),
+                                ]),
                         ]);
                 } else
                 {

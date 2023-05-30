@@ -9,6 +9,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
+use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Actions\EditAction;
@@ -105,16 +108,12 @@ class TicketResource extends \Sgcomptech\FilamentTicketing\Filament\Resources\Ti
                         ->options($statuses)
                         ->required()
                         ->disabled(fn ($record) => (
-                            $record?->assigned_to_id !== $user->id
-                        ))
+                            $record?->assigned_to_id !== $user->id && auth()->user()->user_type !== 0))
                         ->hiddenOn('create'),
                     Select::make('priority')
                         ->translateLabel()
                         ->options($priorities)
-                        ->disabledOn('edit')
-                        ->disabled(fn ($record) => (
-                            $record?->assigned_to_id !== $user->id
-                        ))
+                        ->disabled(fn (Page $livewire) => $livewire instanceof EditRecord && auth()->user()->user_type !== 0)
                         ->required(),
                     Placeholder::make('assigned_to_id')
                         ->content(1)

@@ -36,15 +36,15 @@ class IncomeResource extends Resource {
     {
         return $form->schema([
                 Forms\Components\Card::make()->schema([
-                        Forms\Components\TextInput::make('title')->required()->maxLength(255),
+                        Forms\Components\TextInput::make('title')->required()->maxLength(255)->label('כותרת'),
                         MultiselectTwoSides::make('category_id')->options(
                                 \App\Models\Category::where('income', '0')
                                     ->where('user_id', auth()->user()->id)->pluck('name', 'id')
                             )->label('קטגוריה')->selectableLabel('קטגוריות')->selectedLabel('קטגוריה שנבחרה')->maxItems(
                                 1
                             )->required(),
-                        Forms\Components\TextInput::make('amount')->numeric()->minValue(1)->required(),
-                        Forms\Components\DatePicker::make('entry_date')->closeOnDateSelection()->required(),
+                        Forms\Components\TextInput::make('amount')->label('סכום')->numeric()->minValue(1)->required(),
+                        Forms\Components\DatePicker::make('entry_date')->closeOnDateSelection()->required()->label('תאריך'),
                     ])->columns([
                         'sm' => 1,
                     ])->columnSpan(2),
