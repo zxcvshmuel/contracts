@@ -44,6 +44,13 @@ class ContractsResource extends Resource {
         return parent::getEloquentQuery()->where('type', 2)->where('user_id', auth()->user()->id);
     }
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['signed_url'] = \Storage::url($data['signed_url']);
+        $data['contracts_content'] = '';
+        return $data;
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -81,13 +88,6 @@ class ContractsResource extends Resource {
                     ]),
             ]),
         ]);
-    }
-
-    protected function mutateFormDataBeforeFill(array $data): array
-    {
-        $data['signed_url'] = \Storage::url($data['signed_url']);
-
-        return $data;
     }
 
     public static function table(Table $table): Table

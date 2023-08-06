@@ -4,39 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\Contract;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Imagick;
+use Mpdf\Mpdf;
+use Spatie\PdfToImage\Pdf;
 
-class ContractController extends Controller
-{
+class ContractController extends Controller {
 
-    public function show(Contract $contract, Request $request){
+    public function show(Contract $contract, Request $request)
+    {
 
         if (!$contract->opened)
         {
             $contract->opened = true;
-            $contract-> open_at = date('Y-m-d H:i:s');
+            $contract->open_at = date('Y-m-d H:i:s');
             $contract->save();
         }
 
         $data = [
             'system_data' => User::find(1),
-            'contract' => $contract,
-            'event' => $contract->events_id !== null ? $contract->event : null,
-            'customer' => $contract->events_id !== null ? $contract->event->customer
-                :  (object) [
-                    'fullName' => $contract->customer_name,
-                    'uid' => '',
-                    'phone' => '',
-                    'address' => $contract->email,
-                    'city' => '',
-                ],
-            'user' => $contract->event->customer->user?? User::find($contract->user_id) ,
+            'contract'    => $contract,
+            'event'       => $contract->events_id !== null ? $contract->event : null,
+            'customer'    => $contract->events_id !== null ? $contract->event->customer : (object)[
+                'fullName' => $contract->customer_name,
+                'uid'      => '',
+                'phone'    => '',
+                'address'  => $contract->email,
+                'city'     => '',
+            ],
+            'user'        => $contract->event->customer->user ?? User::find($contract->user_id),
         ];
 
-        /* $pdf = Pdf::loadView('contract.show', compact('data'));
-         return $pdf->download('invoice.pdf');*/
+        if ($data['contract']->type === 3 && is_array(json_decode($data['contract']->contracts_content, true)))
+        {
+            $data['contract']->contracts_content = json_decode($data['contract']->contracts_content, true);
+            $data['customer']->uid = $data['contract']->contracts_content['customer_uid'];
+            $data['customer']->phone = $data['contract']->contracts_content['customer_phone'];
+
+            $data['contract']->contracts_content = $data['contract']->contracts_content['contractImageURL'];
+        }
+
+        $height = 0;
+
+        $pdfPath = Storage::path('/').$data['contract']->contracts_content;
+        // check if the file is pdf
+        if (pathinfo($pdfPath, PATHINFO_EXTENSION) === 'pdf')
+        {
+            $pdf = new Pdf($pdfPath);
+            $numberOfPages = $pdf->getNumberOfPages();
+            $pathToImage = time().'id'.$contract->id;
+            if (!mkdir(Storage::path('/pdf/').$pathToImage, 0777, true) && !is_dir($pathToImage))
+            {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $pathToImage));
+            }
+            $pdf->saveAllPagesAsImages(Storage::path('/pdf/').$pathToImage);
+            $data['contract']->contracts_content = 'pdf/' . $pathToImage.'/1.jpg';
+            $data['numberOfPages'] = $numberOfPages;
+            $data['pathToImage'] = 'pdf/' . $pathToImage;
+            $height = 1;
+        }
+
+
+        $data['height'] = $height * 2.28;
+
 
         return view('contract.show', compact('data'));
     }
@@ -49,7 +80,10 @@ class ContractController extends Controller
         $imageName = time().'id'.$contract->id.'.png';
         //$image = \Image::make($request->data);
         $image = explode(',', $request->data)[1];
-        if ($contract->signed_url === null || Storage::disk('local')->put('public/signatures/'. $imageName, base64_decode($image)))
+        if ($contract->signed_url === null || Storage::disk('local')->put(
+                'public/signatures/'.$imageName,
+                base64_decode($image)
+            ))
         {
             $contract->signe_data = $request;
             $contract->signed = true;
@@ -59,17 +93,18 @@ class ContractController extends Controller
 
             $status = 200;
             $response = $contract->signed_url;
-        }else{
+        } else
+        {
             $status = 200;
             $response = 'failed';
         }
 
 
-
         return response()->json([$response], $status);
     }
 
-    public function uploadImage(Contract $contract, Request $request){
+    public function uploadImage(Contract $contract, Request $request)
+    {
         /*$imageName = time().'id'.$contract->id.'.png';
         $image = explode(',', $request->data)[1];
 

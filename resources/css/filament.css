@@ -54,6 +54,10 @@ td.fc-list-event-title > a[href] {
     color: red !important;
 }
 
+a.fc-timegrid-event[href]{
+    background-color: rgba(255, 0, 0, 0.36) !important;
+}
+
 /* Day order - remainder */
 td.fc-list-event-title:not([href]) {
     color: blue !important;

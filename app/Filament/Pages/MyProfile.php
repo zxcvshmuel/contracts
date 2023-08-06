@@ -7,6 +7,7 @@ use App\Models\User;
 use Closure;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Actions\Action;
@@ -124,8 +125,19 @@ class MyProfile extends Page {
             )->unique(config('filament-breezy.user_model'), ignorable: $this->user)->label(
                 'מייל'
             ),
+            Forms\Components\TextInput::make('uid')->maxLength(10)->required()->label('תעודת זהות'),
             Forms\Components\TextInput::make('phone')->tel()->maxLength(255)->label('טלפון'),
             Forms\Components\DateTimePicker::make('active_until')->displayFormat('d/m/Y')->label('פעיל עד')->disabled(),
+            Forms\Components\RichEditor::make('custom_text')->label('טקסט קבוע בחוזה (מופיע תחת תנאים והגבלות)'),
+            Select::make('contract_color')->label('צבע רקע לחוזה')
+            ->options([
+                '#2cb4f34d' => 'כחול ברירת מחדל',
+                '#ffffff' => 'לבן',
+                '#00ff4161' => 'ירוק',
+                '#ffeb3b63' => 'צהוב',
+                '#ff3b8930' => 'ורוד',
+
+            ]),
         ];
     }
 

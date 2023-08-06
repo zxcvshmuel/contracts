@@ -13,7 +13,6 @@ class Welcome extends Component {
     public $email;
     public $phone;
     public $formSubmitted = false;
-    public $formTitle = 'השאירו פרטים ונחזור אליכם בהקדם:';
 
     public function submit()
     {

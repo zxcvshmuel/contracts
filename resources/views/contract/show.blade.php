@@ -54,13 +54,13 @@
                         <h2 class="text-2xl font-semibold leading-7 text-indigo-600">הצעת מחיר בין ספק ללקוח</h2>
                         <div class="flex flex-row justify-center">
                             <a class="px-2"
-                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את החוזה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את הצעת המחיר שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
                                 <img style="height: 50px;"
                                      src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}"
                                      alt="">
                             </a>
                             <a class="px-2"
-                               href="mailto:?subject=אני רוצה לשתף אתך את החוזה שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                               href="mailto:?subject=אני רוצה לשתף אתך את הצעת המחיר שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
                                 <img style="height: 50px;"
                                      src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}"
                                      alt="">
@@ -76,7 +76,7 @@
                         </div>
                         <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטי הצעת המחיר ואשר דיגיטאלית בתחתית
                             המסמך</p>
-                    @else
+                    @elseif($data['contract']->type === 2)
                         <h2 class="text-2xl font-semibold leading-7 text-indigo-600">חוזה עבודה בין ספק ללקוח</h2>
                         <div class="flex flex-row justify-center">
                             <a class="px-2"
@@ -103,6 +103,32 @@
 
                         <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטי החוזה וחתום דיגיטלית בתחתית
                             המסמך</p>
+                    @elseif($data['contract']->type === 3)
+                        <h2 class="text-2xl font-semibold leading-7 text-indigo-600">מסמך לחתימה</h2>
+                        <div class="flex flex-row justify-center">
+                            <a class="px-2"
+                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את המסמך שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}"
+                                     alt="">
+                            </a>
+                            <a class="px-2"
+                               href="mailto:?subject=אני רוצה לשתף אתך את המסמך שלי &amp;body= כנס ללינק המצורף כדי לראות את המסמך - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}"
+                                     alt="">
+                            </a>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span>{{ date('d/m/Y') }}</span>
+                            <strong><span>{{ 'לכבוד: ' . $data['customer']-> fullName }}</span></strong>
+                            <span>
+                                    <strong>מספר מסמך
+                                        - {{$data['contract']->id}}</strong>
+                        </span>
+                        </div>
+                        <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטים וחתום דיגיטלית בתחתית
+                            המסמך</p>
                     @endif
                     {{--                    <h2 class="text-base font-semibold leading-7 text-indigo-600">הצעת מחיר / חוזה לחתימה</h2>--}}
                     {{--<p style="direction: rtl"
@@ -115,11 +141,11 @@
 
         <div class="mx-auto md:max-w-7xl sm:px-0  lg:px-6 lg:px-8" style="direction: rtl;">
             <div class="mx-auto max-w-2xl lg:text-right p-2"
-                 style="background-color: rgba(44,180,243,0.3); border: 1px solid gray">
+                 style="background-color: {{ $data['user']->contract_color }}; border: 1px solid gray">
                 <div class="flex justify-between">
                     <div class="flex flex-col items-center">
                         <strong class="underline">
-                            פרטי הספק
+                            {{ $data['contract']->type === 3 ? 'פרטי השולח' : 'פרטי הספק' }}
                         </strong>
                         <strong>
                             {{ $data['user']->comp_name }}
@@ -143,88 +169,168 @@
                     </div>
 
                     <div class="flex flex-col items-center">
-                        <strong class="underline">פרטי הלקוח</strong>
+                        <strong class="underline">
+                            {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הלקוח' }}
+                        </strong>
                         <strong><span>{{ $data['customer']-> fullName }}</span></strong>
-                        <span>{{ $data['customer']-> uid }}</span>
-                        <span>{{ $data['customer']-> phone }}</span>
-                        <span>{{ $data['customer']-> address . ', ' . $data['customer']-> city }}</span>
+                        <span>{{ $data['customer']->uid }}</span>
+                        <span>{{ $data['customer']->phone }}</span>
+                        <span>{{ $data['customer']->address . ', ' . $data['customer']-> city }}</span>
                     </div>
                 </div>
                 <br>
-                <table class="table-auto border-collapse border border-slate-600 text-center w-full">
-                    <thead class="text-white text-center bg-black">
-                    <tr>
-                        <th>פירוט</th>
-                        <th>מחיר ליחידה</th>
-                        <th>כמות</th>
-                        <th>סה"כ</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($data['contract']->items as $item)
+                @if($data['contract']->type === 1 || $data['contract']->type === 2)
+                    <table class="table-auto border-collapse border border-slate-600 text-center w-full">
+                        <thead class="text-white text-center bg-black">
                         <tr>
-                            <td class="text-right pr-2 border border-slate-600">{{ $item['name'] }}</td>
-                            <td class="border border-slate-600">{{ $item['price'] }}</td>
-                            <td class="border border-slate-600">{{ $item['count'] }}</td>
-                            <td class="border border-slate-600">{{ $item['price'] * $item['count']}} ₪</td>
+                            <th>פירוט</th>
+                            <th>מחיר ליחידה</th>
+                            <th>כמות</th>
+                            <th>סה"כ</th>
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="text-left pl-1">סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="text-left pl-1 font-bold">סה"כ לתשלום <span
-                                class='pr-1 pl-1 bg-black/50 text-white text-2xl'>{{ $data['contract']->getTotalPriceAttribute() }} ₪ </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @foreach($data['contract']->items as $item)
+                            <tr>
+                                <td class="text-right pr-2 border border-slate-600">{{ $item['name'] }}</td>
+                                <td class="border border-slate-600">{{ $item['price'] }}</td>
+                                <td class="border border-slate-600">{{ $item['count'] }}</td>
+                                <td class="border border-slate-600">{{ $item['price'] * $item['count']}} ₪</td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-left pl-1">סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-left pl-1 font-bold">סה"כ לתשלום <span
+                                    class='pr-1 pl-1 bg-black/50 text-white text-2xl'>{{ $data['contract']->getTotalPriceAttribute() }} ₪ </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                <div class="mx-auto max-w-7xl pr-1">
-                    <div class="mx-auto max-w-2xl ">
-                        <h2 class="text-right font-semibold text-black-600">הערות נוספות</h2>
-                        {!! $data['contract']->contracts_content !!}
-                    </div>
-                </div>
-                <br>
-                <div class="columns-2 flex items-end justify-start">
-                    <div class="w-full text-right">
-                        <div>
-                            <strong>מאשר {{ $data['contract']->type === 1 ? 'הצעת המחיר' : 'חוזה' }}:</strong>
-                            {{ $data['user']-> name}}
-                        </div>
-                        <div style="display: flex; justify-content: right; align-items: end">
-                            <strong>חתימה : </strong>
-                            <img class="border-b border-b-2 border-black" style="height: 50px;"
-                                 src="{{ $data['user']-> signature}}" alt="">
+                @elseif($data['contract']->type === 3)
+
+                @endif
+
+                @if($data['contract']->type === 1 || $data['contract']->type === 2)
+                    <div class="mx-auto max-w-7xl pr-1">
+                        <div class="mx-auto max-w-2xl ">
+                            <h2 class="text-right font-semibold text-black-600">הערות נוספות</h2>
+                            {!! $data['contract']->contracts_content !!}
                         </div>
                     </div>
-                    <div class="w-full text-left">
-                        <div>
-                            <strong>חתימת לקוח:</strong>
-                            {{ $data['customer']-> fullName}}
+                    <br>
+                    @if($data['contract']->type === 2 && $data['user']->custom_text != null && $data['user']->custom_text !== '')
+                        <div class="mx-auto max-w-7xl pr-1">
+                            <div class="mx-auto max-w-2xl ">
+                                <h2 class="text-right font-semibold text-black-600">תנאים והגבלות</h2>
+                                {!! $data['user']->custom_text !!}
+                            </div>
                         </div>
-                        <div style="display: flex; justify-content: left; align-items: end">
-                            <strong>חתימה : </strong>
-                            @if($data['contract']-> signed_url !== null && $data['contract']-> signed_url !== '')
-                                <img class="border-b border-b-2 border-black"
-                                     style="height: 50px; background-color: rgba(0,254,255,0)"
-                                     src="{{ \Illuminate\Support\Facades\Storage::url('/'). 'signatures/' .$data['contract']-> signed_url}}"
+                    @endif
+                    <br>
+                    <div class="columns-2 flex items-end justify-start">
+                        <div class="w-full text-right">
+                            <div>
+                                <strong>מאשר {{ $data['contract']->type === 1 ? 'הצעת המחיר' : 'חוזה' }}:</strong>
+                                {{ $data['user']-> name}}
+                            </div>
+                            <div style="display: flex; justify-content: right; align-items: end">
+                                <strong>חתימה : </strong>
+                                <img class="border-b border-b-2 border-black" style="height: 50px;"
+                                     src="{{ $data['user']-> signature}}" alt="">
+                            </div>
+                        </div>
+                        <div class="w-full text-left">
+                            <div>
+                                <strong>חתימת לקוח:</strong>
+                                {{ $data['customer']-> fullName}}
+                            </div>
+                            <div style="display: flex; justify-content: left; align-items: end">
+                                <strong>חתימה : </strong>
+                                @if($data['contract']-> signed_url !== null && $data['contract']-> signed_url !== '' && $data['contract']-> signed_url ?? '' !== '')
+                                    <img class="border-b border-b-2 border-black"
+                                         style="height: 50px; background-color: rgba(0,254,255,0)"
+                                         src="{{ \Illuminate\Support\Facades\Storage::url('/'). 'signatures/' .$data['contract']-> signed_url}}"
+                                         alt="">
+                                @else
+                                    <div class="border-b border-b-2 border-black text-center" id="no-signed">
+                                        עדיין לא נחתם
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                @elseif($data['contract']->type === 3)
+                    <h2 class="m-auto text-center text-3xl">{{ $data['contract']->title }}</h2>
+                    <div class="m-auto border-2 border-black">
+                        @if($data['height'] > 0)
+                            {{-- for loop untile data['numberOfPages'] --}}
+                            @for($i = 1; $i < $data['numberOfPages']; $i++)
+                                <img class="m-auto w-full" id="contracts_content"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . $data['pathToImage'] . '/' . $i . '.jpg' }}"
                                      alt="">
-                            @else
-                                <div class="border-b border-b-2 border-black text-center" id="no-signed">
-                                    עדיין לא נחתם
-                                </div>
-                            @endif
+                            @endfor
+
+                        @else
+                            <img class="m-auto w-full" id="contracts_content"
+                                 src="{{ \Illuminate\Support\Facades\Storage::url('/') . $data['contract']->contracts_content }}"
+                                 alt="">
+                        @endif
+                    </div>
+
+                    <br>
+                    @if($data['contract']->type === 2 && $data['user']->custom_text != null && $data['user']->custom_text !== '')
+                        <div class="mx-auto max-w-7xl pr-1">
+                            <div class="mx-auto max-w-2xl ">
+                                <h2 class="text-right font-semibold text-black-600">תנאים והגבלות</h2>
+                                {!! $data['user']->custom_text !!}
+                            </div>
+                        </div>
+                    @endif
+                    <br>
+                    <div class="columns-2 flex items-end justify-start">
+                        <div class="w-full text-right">
+                            <div>
+                                <strong>מאשר המסמך:</strong>
+                                {{ $data['user']-> name}}
+                            </div>
+                            <div style="display: flex; justify-content: right; align-items: end">
+                                <strong>חתימה : </strong>
+                                <img class="border-b border-b-2 border-black" style="height: 50px;"
+                                     src="{{ $data['user']-> signature}}" alt="">
+                            </div>
+                        </div>
+                        <div class="w-full text-left">
+                            <div>
+                                <strong>חתימה:</strong>
+                                {{ $data['customer']-> fullName}}
+                            </div>
+                            <div style="display: flex; justify-content: left; align-items: end">
+                                <strong>חתימה : </strong>
+                                @if($data['contract']->signed_url !== null && $data['contract']->signed_url !== '')
+                                    <img class="border-b border-b-2 border-black"
+                                         style="height: 50px; background-color: rgba(0,254,255,0)"
+                                         src="{{ \Illuminate\Support\Facades\Storage::url('/'). 'signatures/' .$data['contract']-> signed_url}}"
+                                         alt="">
+                                @else
+                                    <div class="border-b border-b-2 border-black text-center" id="no-signed">
+                                        עדיין לא נחתם
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
 
             </div>
             <div class="flex flex-col items-center justify-center digital-holder">
@@ -344,25 +450,26 @@
 
 
         <style>
-            .digital-holder{
+            .digital-holder {
                 margin-top: -60px;
             }
 
-            #digital{
-                width: 150px;
+            #digital {
+                width: 200px;
             }
+
             @media (max-width: 750px) {
                 body {
 
                 }
 
 
-                .digital-holder{
+                .digital-holder {
                     margin-top: -7px;
                     margin-bottom: -12px;
                 }
 
-                #digital{
+                #digital {
                     width: 120px;
                 }
             }
@@ -449,7 +556,11 @@
                 background-color: white;
             }
         </style>
+
     </x-slot:body>
 
     <style></style>
+    <script>
+
+    </script>
 </x-layouts.master>

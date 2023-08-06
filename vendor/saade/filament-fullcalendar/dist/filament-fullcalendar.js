@@ -8645,7 +8645,8 @@
                 }
 
                 return o(M, e), M.prototype.render = function () {
-                    var e = ["fc-timegrid-event", "fc-v-event"];
+                    var e = ["fc-timegrid-event", "fc-v-event", "type-" + this.props.seg.eventRange.def.extendedProps.type];
+                    console.log(this.props.seg.eventRange.def.extendedProps)
                     return this.props.isShort && e.push("fc-timegrid-event-short"), Ye(Et, z({}, this.props, {
                         defaultTimeFormat: pc,
                         extraClassNames: e

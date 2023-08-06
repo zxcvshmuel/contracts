@@ -1,7 +1,6 @@
 <div>
     @if (!$formSubmitted)
-        <h2>{{ $formTitle }}</h2>
-        <form wire:loading.remove wire:submit.prevent="submit" class="form">
+        <form x-data="{show : false}" wire:loading.remove wire:submit.prevent="submit" class="form">
             <div class="mb-6 mt-1">
                 <label class="block" for="name">@error('name') <span class="text-red-600">{{ $message }}</span> @enderror
                 </label>
@@ -25,16 +24,17 @@
             </div>
 
             <div class="">
-                <button type="submit"
+                <button x-click="show = true"  type="submit"
                         class="button">
                     לשליחה
                 </button>
 
             </div>
         </form>
-        <button style="background-color: deepskyblue; height: 5vi; max-width: 15vi; " class="button" disabled wire:loading >
+        <button x-show="open" style="background-color: deepskyblue;"  class="button hidden" disabled>
             שולח פרטים למערכת
         </button>
+
     @else
         <h2>{{ $formTitle }}</h2>
     @endif

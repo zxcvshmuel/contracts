@@ -1,5 +1,5 @@
 <x-filament::page>
-    <div x-data="{popup : {{$popup}} }">
+    <div x-data="{ popup : false , open : false}">
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 תוכניות
@@ -34,7 +34,7 @@
                             </ul>
                         </div>
                         <button type="button" data-modal-target="popup-modal" data-modal-toggle="popup-modal"
-                                wire:click="packageClick({{ $package->id }})"
+                                wire:click="packageClick({{ $package->id }})"  @click="popup = true"
                                 class="package-btn bg-blue-700 hover:bg-blue-700 text-white font-bold my-6 py-2 px-4 border border-blue-700 rounded">
                             המשך
                         </button>
@@ -49,9 +49,9 @@
             </div>
 
         </x-filament::card>
-        <div x-show="popup">
-            <div id="popup-modal" tabindex="-1"
-                 class="fixed top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div wire:ignore.self>
+            <div id="popup-modal" tabindex="-1" x-show="popup"
+                 class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative m-auto w-full max-w-md max-h-full">
                     <div class="relative m-auto bg-white rounded-lg shadow dark:bg-gray-700">
                         <button x-on:click=" open = false" type="button"

@@ -1,2 +1,2 @@
 import './bootstrap';
-import 'flowbite/dist/flowbite.js'
+import 'flowbite/dist/flowbite.js';

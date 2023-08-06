@@ -13,11 +13,20 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 8, 2);
-            $table->enum('payment_status', ['pending', 'completed', 'failed']);
-            $table->enum('payment_method', ['paypal', 'stripe', 'paystack']);
-            $table->string('transaction_id');
+            $table->integer('user_id');
+            $table->integer('package_id')->nullable()->default(null);
+            $table->string('action')->nullable()->default(null);
+            $table->string('info')->nullable()->default(null);
+            $table->string('heshDesc')->nullable()->default(null);
+            $table->decimal('amount', 8, 2)->nullable()->default(null);
+            $table->string('payment_status')->nullable()->default(null);
+            $table->string('payment_method')->nullable()->default(null);
+            $table->string('transaction_id')->nullable()->default(null);
             $table->timestamp('payment_date')->nullable();
+            $table->longText('request')->nullable()->default(null);
+            $table->longText('response')->nullable()->default(null);
+            $table->string('transaction_code')->nullable()->default(null);
+            $table->string('transaction_status')->nullable()->default(null);
             $table->timestamps();
         });
     }
