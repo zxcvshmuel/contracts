@@ -34,5 +34,11 @@ class Package extends Model
             ->withTimestamps();
     }
 
+    // relation to payment
+    public function payments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 
 }

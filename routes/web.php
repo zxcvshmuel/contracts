@@ -6,6 +6,8 @@ use App\Http\Controllers\ReminderController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Spatie\PdfToImage\Pdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,14 @@ use Illuminate\Support\Facades\Route;
     $user = User::find(1);
     dd($user->categories);
 });*/
+
+Route::get('/privacy', function () {
+    return view('components.layouts.privacy');
+});
+
+Route::get('/terms', function () {
+    return view('components.layouts.term');
+});
 
 // allow admin user to login as user
 Route::get('login-as/{user_id}', function ($user_id) {
@@ -108,38 +118,6 @@ Route::get('change-color/{color}', function ($color) {
 
 Route::get('/', function () {
 
-    $user = \App\Models\User::find(1);
-    $userPackages = $user->packages()->get();
-
-        foreach ($userPackages as $package)
-        {
-            if ($package->pivot->expired_at < now())
-            {
-                $user->packages()->detach($package->id);
-            }
-        }
-
-    // artisan command to create storage link
-//     \Artisan::call('storage:link');
-//     \Artisan::call('cache:clear');
-//     \Artisan::call('route:cache');
-//     \Artisan::call('route:clear');
-//     \Artisan::call('config:cache');
-//     \Artisan::call('config:clear');
-//     \Artisan::call('optimize --force');
-
-  try
-  {
-//    shell_exec('composer require stephenjude/filament-debugger');
-//    shell_exec('npm run build');
-//    shell_exec('npm install -g npm@latest');
-  } catch (Exception $e)
-  {
-    dd($e->getMessage());
-  }
-
-
-
     return view('components.layouts.welcome');
 });
 
@@ -159,7 +137,52 @@ Route::get('/contract/{id}/pdf', function ($id) {
             ],
         'user' => $contract->event->customer->user?? User::find($contract->user_id) ,
     ];
+
+    if($data['contract']->type === 3 && is_array(json_decode($data['contract']->contracts_content, true))){
+        $data['contract']->contracts_content = json_decode($data['contract']->contracts_content, true);
+        $data['customer']->uid = $data['contract']->contracts_content['customer_uid'];
+        $data['customer']->phone = $data['contract']->contracts_content['customer_phone'];
+
+        $data['contract']->contracts_content = $data['contract']->contracts_content['contractImageURL'];
+
+        $height = 0;
+
+        $height = 0;
+
+        $pdfPath = Storage::path('/').$data['contract']->contracts_content;
+        // check if the file is pdf
+        if (pathinfo($pdfPath, PATHINFO_EXTENSION) === 'pdf')
+        {
+            $pdf = new Pdf($pdfPath);
+            $numberOfPages = $pdf->getNumberOfPages();
+            $pathToImage = time().'id'.$contract->id;
+            if (!mkdir(Storage::path('/pdf/').$pathToImage, 0777, true) && !is_dir($pathToImage))
+            {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $pathToImage));
+            }
+            $pdf->saveAllPagesAsImages(Storage::path('/pdf/').$pathToImage);
+            $data['contract']->contracts_content = 'pdf/' . $pathToImage.'/1.jpg';
+            $data['numberOfPages'] = $numberOfPages;
+            $data['pathToImage'] = 'pdf/' . $pathToImage;
+            $height = 1;
+        }
+
+
+        $data['height'] = $height*2.28;
+    }
+
     $pdf = \Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::loadView('contract.showToPdf', ['data' => $data]);
 
     return $pdf->download('contract.pdf');
 });
+
+Route::get('/paymentCallBack', function () {
+    $data = request()->all();
+    $payment = \App\Models\Payment::find($data['Order']);
+    $payment->response = json_encode($data);
+    $payment->transaction_id = $data['ACode'];
+    $payment->transaction_code = $data['CCode'];
+    $payment->payment_status = Payment::STATUS_COMPLETED;
+    $payment->save();
+    return redirect()->route('filament.pages.dashboard');
+})->name('paymentCallBack');

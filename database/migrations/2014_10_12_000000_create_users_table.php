@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('uid')->nullable()->default(null);
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('password');
             $table->string('currency')->default('usd');
+            $table->string('contract_color')->default('#2cb4f34d');
             $table->string('country')->default('us');
             $table->integer('user_type')->default(1);
             $table->string('color')->default('blue');
@@ -30,6 +32,7 @@ return new class extends Migration
             $table->string('comp_phone')->nullable();
             $table->string('comp_address')->nullable();
             $table->boolean('licensed_dealer')->default(false);
+            $table->longText('custom_text')->nullable();
             $table->dateTime('email_verified_at')->nullable();
             $table->rememberToken();
             $table->softDeletes();

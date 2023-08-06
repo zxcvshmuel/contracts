@@ -43,19 +43,25 @@ class usersChart extends ApexChartWidget {
         foreach ($users as $key => $value)
         {
 
-            $amounts[] = Carbon::parse($value->active_until)->diffInDays(Carbon::now());
+            if (Carbon::now() > $value->active_until)
+            {
+                $leftDays = 0;
+            }else{
+                $leftDays = Carbon::parse($value->active_until)->diffInDays(Carbon::now());
+            }
+            $amounts[] = $leftDays;
             $usersNames[] = $value->name;
             if (Carbon::parse($value->active_until)->diffInDays(Carbon::now()) < 10)
             {
-                $colors[] = '#ffa500';
+                $colors[] = '#0000ff';
             } else
             {
                 if (Carbon::parse($value->active_until)->diffInDays(Carbon::now()) < 5)
                 {
-                    $colors[] = '#ff0000';
+                    $colors[] = '#0000ff';
                 } else
                 {
-                    $colors[] = '#008000';
+                    $colors[] = '#0000ff';
                 }
             }
         }

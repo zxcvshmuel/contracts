@@ -5,22 +5,32 @@
 
     <x-slot:body>
         <img class="background-img desktop absolute h-screen right-0 w-full"
-             src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/desktop/background.png' }}"
+             src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/desktop/background010623.png' }}"
              alt="">
         <img class="background-img mobile absolute h-screen right-0 w-full"
-             src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/mobile/background.png' }}"
+             src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/mobile/backgroundbombile010623.png' }}"
              alt="">
         <div class="base-form w-full flex">
             <div class="text-center form-container">
-                <img class="m-auto logo"
-                     src="{{ \Illuminate\Support\Facades\Storage::url('') . '/layout/desktop/logo.png' }}"
-                     alt="">
 
                 @livewire('welcome')
             </div>
         </div>
 
         <style>
+
+            html {
+                max-width: 100vw;
+                max-height: 100vh;
+                overflow: hidden;
+            }
+
+            .base-form{
+                position: absolute;
+                bottom: 115px;
+                left: 35px;
+            }
+
             .background-img {
                 z-index: -1;
             }
@@ -34,13 +44,8 @@
             }
 
             .form-container {
-                height: 95vh;
-                width: 34vw;
-                margin-left: 2vw;
-                margin-top: 2.5vh;
-                background-size: 100% 100%;
-                background-image: url({{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/desktop/Rectangle2.png' }});
-                background-repeat: no-repeat;
+                height: auto;
+                width: 36vw;
             }
 
             .logo {
@@ -58,14 +63,15 @@
 
             .input {
                 direction: rtl;
-                height: 3vi;
-                width: 20vi;
+                height: 4vi;
+                width: 30vi;
                 border-radius: 20px;
                 box-shadow: 0px 11px 9px 0px #888888a8;
                 border: 1px solid #ccc;
                 padding: 0.5em;
-                font-size: 1rem;
+                font-size: 2rem;
                 background-color: #F3F4F6;
+                color: black;
             }
 
             .form-container form {
@@ -76,16 +82,46 @@
                 position: inherit;
             }
 
+            .base-form .button{
+                width: 185px;
+                max-width: 10vi;
+                height: 85px;
+                background-color: #8447FF;
+                color: #fff;
+                border: none;
+                border-radius: 17px;
+                box-shadow: 0px 11px 9px 0px #888888a8;
+                cursor: pointer;
+                font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                font-weight: bold;
+                font-size: 30px;
+            }
+
             @media (max-width: 650px) {
+
+                .base-form .button {
+                    font-size: inherit;
+                    height: 21px;
+                    width: 83px;
+                    max-width: 83px;
+                }
+
                 .form-container form {
                     min-height: 40%;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     position: absolute;
-                    bottom: 0px;
-                    left: 0;
+                    bottom: 0%;
+                    left: -60px;
                     right: 0;
+                }
+
+                .input{
+                    height: 24px;
+                    width: 249px;
+                    border-radius: 20px;
+                    font-size: inherit;
                 }
             }
 
@@ -159,15 +195,15 @@
                 }
 
                 .input {
-                    height: 2.5rem;
-                    width: 100%;
-                    border-radius: 10px;
+                    height: 24px;
+                    width: 249px;
+                    border-radius: 20px;
                 }
 
                 .button {
-                    width: 65%;
+                    width: 87px;
                     max-width: none;
-                    height: 2.2rem;
+                    height: 21px;
                     font-size: 0.9rem;
                     border-radius: 10px;
                 }

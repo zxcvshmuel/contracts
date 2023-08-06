@@ -30,6 +30,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
      * @var array<int, string>
      */
     protected $fillable = [
+        'uid',
         'name',
         'email',
         'phone',
@@ -49,6 +50,8 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
         'two_factor_secret',
         'country',
         'currency',
+        'custom_text',
+        'contract_color',
     ];
 
     /**
@@ -137,6 +140,11 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
     {
         return $this->belongsToMany(Package::class, 'user_package')->withPivot('started_at', 'expired_at')
             ->withTimestamps();
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
 }

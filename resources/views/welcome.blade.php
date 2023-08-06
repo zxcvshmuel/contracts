@@ -30,12 +30,15 @@
             -moz-tab-size: 4;
             tab-size: 4;
             font-family: Figtree, sans-serif;
-            font-feature-settings: normal
+            font-feature-settings: normal;
+            overflow: hidden;
+            max-width: 100vw;
+            max-height: 100vh;
         }
 
         body {
             margin: 0;
-            line-height: inherit
+            line-height: inherit;
         }
 
         hr {
@@ -288,7 +291,7 @@
             --tw-backdrop-invert: ;
             --tw-backdrop-opacity: ;
             --tw-backdrop-saturate: ;
-            --tw-backdrop-sepia:
+            --tw-backdrop-sepia: ;
         }
 
         ::backdrop {
@@ -335,7 +338,7 @@
             --tw-backdrop-invert: ;
             --tw-backdrop-opacity: ;
             --tw-backdrop-saturate: ;
-            --tw-backdrop-sepia:
+            --tw-backdrop-sepia: ;
         }
 
         .relative {

@@ -59,6 +59,7 @@ class UserResource extends Resource {
         return $form->schema([
             Forms\Components\Card::make()->schema([
                 Forms\Components\TextInput::make('name')->required()->maxLength(255)->label('שם'),
+                Forms\Components\TextInput::make('uid')->maxLength(10)->label('ת.ז.'),
                 Forms\Components\TextInput::make('email')->email()->required()->maxLength(255)->label('מייל'),
                 Forms\Components\TextInput::make('phone')->tel()->maxLength(255)->label('טלפון')->minLength(
                     10

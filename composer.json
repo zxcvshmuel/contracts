@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "ext-curl": "*",
+        "ext-imagick": "*",
         "akaunting/laravel-money": "^2.1",
         "alperenersoy/filament-export": "^0.2.9",
         "awcodes/filament-table-repeater": "^1.2",
@@ -20,6 +21,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "^1.0",
+        "livewire-ui/modal": "^1.0",
         "lucasgiovanny/filament-multiselect-two-sides": "^1.1",
         "mpdf/mpdf": "^8.1",
         "ramnzys/filament-email-log": "^0.2.2",
@@ -30,6 +32,7 @@
         "spatie/browsershot": "^3.57",
         "spatie/laravel-google-calendar": "^3.6",
         "spatie/laravel-package-tools": "^1.14",
+        "spatie/pdf-to-image": "^2.2",
         "squirephp/countries-en": "^3.4",
         "squirephp/currencies-en": "^3.4",
         "stephenjude/filament-debugger": "^1.2",
