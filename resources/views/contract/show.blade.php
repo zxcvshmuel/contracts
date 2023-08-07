@@ -129,6 +129,32 @@
                         </div>
                         <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטים וחתום דיגיטלית בתחתית
                             המסמך</p>
+                    @elseif($data['contract']->type === 4)
+                        <h2 class="text-2xl font-semibold leading-7 text-indigo-600">חוזה לחתימה</h2>
+                        <div class="flex flex-row justify-center">
+                            <a class="px-2"
+                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את החוזה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}"
+                                     alt="">
+                            </a>
+                            <a class="px-2"
+                               href="mailto:?subject=אני רוצה לשתף אתך את החוזה שלי &amp;body= כנס ללינק המצורף כדי לראות את החוזה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}"
+                                     alt="">
+                            </a>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span>{{ date('d/m/Y') }}</span>
+                            <strong><span>{{ 'לכבוד: ' . $data['customer']-> fullName }}</span></strong>
+                            <span>
+                                    <strong>מספר חוזה
+                                        - {{$data['contract']->id}}</strong>
+                        </span>
+                        </div>
+                        <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטים וחתום דיגיטלית בתחתית
+                            החוזה</p>
                     @endif
                     {{--                    <h2 class="text-base font-semibold leading-7 text-indigo-600">הצעת מחיר / חוזה לחתימה</h2>--}}
                     {{--<p style="direction: rtl"
@@ -179,7 +205,7 @@
                     </div>
                 </div>
                 <br>
-                @if($data['contract']->type === 1 || $data['contract']->type === 2)
+                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
                     <table class="table-auto border-collapse border border-slate-600 text-center w-full">
                         <thead class="text-white text-center bg-black">
                         <tr>
@@ -219,15 +245,20 @@
 
                 @endif
 
-                @if($data['contract']->type === 1 || $data['contract']->type === 2)
+                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
                     <div class="mx-auto max-w-7xl pr-1">
                         <div class="mx-auto max-w-2xl ">
                             <h2 class="text-right font-semibold text-black-600">הערות נוספות</h2>
-                            {!! $data['contract']->contracts_content !!}
+                            @if(! is_string($data['contract']->contracts_content))
+                                {!! $data['contract']->contracts_content !!}
+                            @else
+                                {!!  json_decode($data['contract']->contracts_content, true)['contracts_content'] !!}
+                            @endif
+
                         </div>
                     </div>
                     <br>
-                    @if($data['contract']->type === 2 && $data['user']->custom_text != null && $data['user']->custom_text !== '')
+                    @if(($data['contract']->type === 2 || $data['contract']->type === 4) && $data['user']->custom_text != null && $data['user']->custom_text !== '')
                         <div class="mx-auto max-w-7xl pr-1">
                             <div class="mx-auto max-w-2xl ">
                                 <h2 class="text-right font-semibold text-black-600">תנאים והגבלות</h2>

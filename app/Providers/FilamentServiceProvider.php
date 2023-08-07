@@ -8,6 +8,7 @@ use App\Filament\Resources\CustomerResource;
 use App\Filament\Resources\DocumentsResource;
 use App\Filament\Resources\EventsResource;
 use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\FastContractResource;
 use App\Filament\Resources\IncomeResource;
 use App\Filament\Resources\PackageResource;
 use App\Filament\Resources\PaymentResource;
@@ -101,6 +102,7 @@ class FilamentServiceProvider extends ServiceProvider {
                         ...CustomerResource::getNavigationItems(),
                         ...EventsResource::getNavigationItems(),
                         ...ContractsResource::getNavigationItems(),
+                        ...FastContractResource::getNavigationItems(),
                         ...PriceOffersResource::getNavigationItems(),
                         ...DocumentsResource::getNavigationItems(),
                     ])->groups([
@@ -163,6 +165,7 @@ class FilamentServiceProvider extends ServiceProvider {
                             ...CustomerResource::getNavigationItems(),
                             ...EventsResource::getNavigationItems(),
                             ...ContractsResource::getNavigationItems(),
+                            ...FastContractResource::getNavigationItems(),
                             ...PriceOffersResource::getNavigationItems(),
                             ...DocumentsResource::getNavigationItems(),
                         ])->groups([
@@ -217,6 +220,7 @@ class FilamentServiceProvider extends ServiceProvider {
                             ...CustomerResource::getNavigationItems(),
                             ...EventsResource::getNavigationItems(),
                             ...ContractsResource::getNavigationItems(),
+                            ...FastContractResource::getNavigationItems(),
                             ...PriceOffersResource::getNavigationItems(),
                             ...DocumentsResource::getNavigationItems(),
                             ...TicketResource::getNavigationItems(),
