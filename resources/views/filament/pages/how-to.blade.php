@@ -5,35 +5,35 @@
         <img src="{{ \Illuminate\Support\Facades\Storage::url('/') .'howTo/howToDesc.png'}}" alt="">
     </div>
     <div class="w-full mobile">
-        <img src="{{ \Illuminate\Support\Facades\Storage::url('/') .'howTo/howToMobile.png'}}" alt="">
+        <img src="{{ \Illuminate\Support\Facades\Storage::url('/') .'howTo/howToMobile.jpeg'}}" alt="">
     </div>
-    
+
     <style>
         .filament-main-content {
             padding: 0;
         }
-        
+
         .filament-main{
             gap: 0;
         }
-        
+
         img {
             min-width: 100%;
         }
-        
+
         .mobile{
             display: none;
         }
-        
+
         @media (max-width: 768px) {
             .desktop{
                 display: none;
             }
-            
+
             .mobile{
                 display: block;
             }
-            
+
         }
     </style>
 </x-filament::page>

@@ -135,6 +135,13 @@ a.type-remainder {
         letter-spacing: 4px;
     }
 
+    a.type-remainder.fc-timegrid-event {
+        width: unset !important;
+        height: unset !important;
+        border-radius: unset !important;
+        font-size: unset !important;
+    }
+
     /* Remainder - mobile view */
     a.type-google {
         background: none !important;
