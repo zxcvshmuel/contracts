@@ -5,7 +5,7 @@
         <img src="{{ \Illuminate\Support\Facades\Storage::url('/') .'howTo/howToDesc.png'}}" alt="">
     </div>
     <div class="w-full mobile">
-        <img src="{{ \Illuminate\Support\Facades\Storage::url('/') .'howTo/howToMobile.jpeg'}}" alt="">
+        <img src="{{ \Illuminate\Support\Facades\Storage::url('/') .'howTo/howToMobile.png'}}" alt="">
     </div>
 
     <style>

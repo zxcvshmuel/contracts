@@ -199,9 +199,14 @@
                             {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הלקוח' }}
                         </strong>
                         <strong><span>{{ $data['customer']-> fullName }}</span></strong>
-                        <span>{{ $data['customer']->uid }}</span>
-                        <span>{{ $data['customer']->phone }}</span>
-                        <span>{{ $data['customer']->address . ', ' . $data['customer']-> city }}</span>
+                            <span>{{ $data['customer']->uid }}</span>
+                            <span>{{ $data['customer']->phone }}</span>
+                        @if($data['contract']->type === 3 || $data['contract']->type === 4)
+                            <span>{{ $data['contract']->email }}</span>
+                        @else
+                            <span>{{ $data['customer']->address . ', ' . $data['customer']-> city }}</span>
+                        @endif
+
                     </div>
                 </div>
                 <br>
@@ -252,13 +257,14 @@
                             @if(! is_string($data['contract']->contracts_content))
                                 {!! $data['contract']->contracts_content !!}
                             @else
-                                {!!  json_decode($data['contract']->contracts_content, true)['contracts_content'] !!}
+                                {!!  $data['contract']->contracts_content ?? '' !!}
+                                {!!  $data['contract']->contracts_content['contracts_content'] ?? ''!!}
                             @endif
 
                         </div>
                     </div>
                     <br>
-                    @if(($data['contract']->type === 2 || $data['contract']->type === 4) && $data['user']->custom_text != null && $data['user']->custom_text !== '')
+                    @if($data['user']->custom_text != null && $data['user']->custom_text !== '')
                         <div class="mx-auto max-w-7xl pr-1">
                             <div class="mx-auto max-w-2xl ">
                                 <h2 class="text-right font-semibold text-black-600">תנאים והגבלות</h2>

@@ -17,6 +17,16 @@ class EditDocuments extends EditRecord
         ];
     }
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['contracts_content'] = json_decode($data['contracts_content'], true);
+        $data['customer_phone'] = $data['contracts_content']['customer_phone'];
+        $data['customer_uid'] = $data['contracts_content']['customer_uid'];
+
+        $data['contracts_content'] = $data['contracts_content']['contractImageURL'] ?? '';
+        return $data;
+    }
+
     protected function getRedirectUrl():string
     {
         return  DocumentsResource::getUrl('index');

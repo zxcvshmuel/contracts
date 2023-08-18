@@ -33,21 +33,26 @@ class ContractsResource extends Resource {
 
     protected static ?string $label = 'חוזה';
 
-    protected static ?string $pluralModelLabel = 'חוזים ןהצעות מחיר';
+    protected static ?string $pluralModelLabel = 'חוזים והצעות מחיר';
 
-    protected static ?string $breadcrumb = 'חוזים ןהצעות מחיר';
+    protected static ?string $breadcrumb = 'חוזים והצעות מחיר';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('type', 2)->where('user_id', auth()->user()->id);
+        return parent::getEloquentQuery()
+                ->where('user_id', auth()->user()->id)
+            ->where('events_id', '!=', null);
+
     }
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['signed_url'] = \Storage::url($data['signed_url']);
         $data['contracts_content'] = '';
+
         return $data;
     }
 
@@ -58,15 +63,17 @@ class ContractsResource extends Resource {
                 Forms\Components\Select::make('events_id')->disabled(fn($record) => !is_null($record))->options(
                     auth()->user()->events->pluck('title', 'id')
                 )->preload()->required()->label('שם אירוע'),
-                Forms\Components\TextInput::make('title')->disabled(fn($record) => !is_null($record))->required(
+                Forms\Components\TextInput::make('title')->disabled(fn(Closure $get) => $get('signed'))->required(
                 )->label('כותרת'),
-                Forms\Components\TextInput::make('description')->disabled(fn($record) => !is_null($record))->required(
+                Forms\Components\TextInput::make('description')->disabled(fn(Closure $get) => $get('signed'))->required(
                 )->label('תיאור'),
-                Forms\Components\Select::make('type')->disabled(fn($record) => !is_null($record))->label('סוג מסמך')->options([
-                  '1' => 'הצעת מחיר',
-                  '2' => 'חוזה',
+                Forms\Components\Select::make('type')->disabled(fn($record) => !is_null($record))->label(
+                    'סוג מסמך'
+                )->options([
+                    '1' => 'הצעת מחיר',
+                    '2' => 'חוזה',
                 ])->required(),
-                TableRepeater::make('items')->disabled(fn($record) => !is_null($record))->columns(4)->columnSpan(
+                TableRepeater::make('items')->disabled(fn(Closure $get) => $get('signed'))->columns(4)->columnSpan(
                     'full'
                 )->columnWidths([
                     'count' => '100px',
@@ -76,16 +83,16 @@ class ContractsResource extends Resource {
                     Forms\Components\TextInput::make('count')->minValue(0)->numeric()->label('כמות')->default(0),
                     Forms\Components\TextInput::make('price')->minValue(0)->label('מחיר')->default(0),
                 ])->createItemButtonLabel('הוסף פריט'),
-                Forms\Components\RichEditor::make('contracts_content')->disabled(fn($record) => !is_null($record)
+                Forms\Components\RichEditor::make('contracts_content')->disabled(fn(Closure $get) => $get('signed')
                 )->label('הערות נוספות')->disableAllToolbarButtons()->toolbarButtons([
-                        'bold',
-                        'bulletList',
-                        'h2',
-                        'h3',
-                        'orderedList',
-                        'redo',
-                        'undo',
-                    ]),
+                    'bold',
+                    'bulletList',
+                    'h2',
+                    'h3',
+                    'orderedList',
+                    'redo',
+                    'undo',
+                ]),
             ]),
         ]);
     }
@@ -95,18 +102,25 @@ class ContractsResource extends Resource {
         return $table->headerActions([
             FilamentExportHeaderAction::make('export')->label('יצוא'),
         ])->columns([
-            Tables\Columns\IconColumn::make('id')->falseIcon('heroicon-s-document')
-                ->trueIcon('heroicon-s-document')->boolean()->label('הצג מסמך')->url(
+            Tables\Columns\IconColumn::make('id')->falseIcon('heroicon-s-document')->trueIcon(
+                    'heroicon-s-document'
+                )->boolean()->label('הצג מסמך')->url(
                     fn($record) => '/contract/'.$record->id.'/view',
                     true
                 ),
-            Tables\Columns\IconColumn::make('signed_url')->falseIcon('heroicon-s-document')
-                ->trueIcon('heroicon-s-document')->boolean()->label('הדפסה')->url(
+            Tables\Columns\IconColumn::make('signed_url')->falseIcon('heroicon-s-document')->trueIcon(
+                    'heroicon-s-document'
+                )->boolean()->label('הדפסה')->url(
                     fn($record) => '/contract/'.$record->id.'/pdf',
                     true
                 ),
             Tables\Columns\TextColumn::make('event.customer.full_name')->label('שם לקוח')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('event.title')->label('אירוע')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('type')->label('סוג מסמך')
+                ->sortable()->searchable()->enum([
+                    '1' => 'הצעת מחיר',
+                    '2' => 'חוזה',
+                ]),
             Tables\Columns\TextColumn::make('title')->label('כותרת'),
             Tables\Columns\TextColumn::make('description')->label('תיאור')->limit(20),
             Tables\Columns\IconColumn::make('sent')->boolean()->label('נשלח'),
@@ -137,7 +151,7 @@ class ContractsResource extends Resource {
         return [
             'index' => Pages\ListContracts::route('/'),
             'create' => Pages\CreateContracts::route('/create'),
-            'edit' =>  Pages\EditContracts::route('/{record}/edit'),
+            'edit' => Pages\EditContracts::route('/{record}/edit'),
         ];
     }
 

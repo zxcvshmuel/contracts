@@ -125,29 +125,42 @@ Route::get('/contract/{id}/pdf', function ($id) {
     $contract = \App\Models\Contract::find($id);
     $data = [
         'system_data' => User::find(1),
-        'contract' => $contract,
-        'event' => $contract->events_id !== null ? $contract->event : null,
-        'customer' => $contract->events_id !== null ? $contract->event->customer
-            :  (object) [
+        'contract'    => $contract,
+        'event'       => $contract->events_id !== null ? $contract->event : null,
+        'customer'    => $contract->event->customer ?? (object)[
                 'fullName' => $contract->customer_name,
-                'uid' => '',
-                'phone' => '',
-                'address' => $contract->email,
-                'city' => '',
+                'uid'      => '',
+                'phone'    => '',
+                'address'  => $contract->email,
+                'city'     => '',
             ],
-        'user' => $contract->event->customer->user?? User::find($contract->user_id) ,
+        'user'        => $contract->event->customer->user ?? User::find($contract->user_id),
     ];
 
-    if($data['contract']->type === 3 && is_array(json_decode($data['contract']->contracts_content, true))){
+    if (($data['contract']->type === 3 || $data['contract']->type === 4 || $data['contract']->type === 1) && is_array(
+            json_decode($data['contract']->contracts_content, true)
+        ))
+    {
         $data['contract']->contracts_content = json_decode($data['contract']->contracts_content, true);
         $data['customer']->uid = $data['contract']->contracts_content['customer_uid'];
         $data['customer']->phone = $data['contract']->contracts_content['customer_phone'];
+        if ($data['contract']->type === 3)
+        {
+            $data['pathToImage'] = $data['contract']->contracts_content['contractImageURL'];
+            $data['contract']->contracts_content = $data['contract']->contracts_content['contractImageURL'];
 
-        $data['contract']->contracts_content = $data['contract']->contracts_content['contractImageURL'];
+        } else
+        {
+            $data['contract']->contracts_content = $data['contract']->contracts_content['contracts_content'];
+        }
+    }elseif ($data['contract']->type === 3)
+    {
+        $data['pathToImage'] = $data['contract']->contracts_content;
+    }
+
 
         $height = 0;
 
-        $height = 0;
 
         $pdfPath = Storage::path('/').$data['contract']->contracts_content;
         // check if the file is pdf
@@ -161,15 +174,15 @@ Route::get('/contract/{id}/pdf', function ($id) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $pathToImage));
             }
             $pdf->saveAllPagesAsImages(Storage::path('/pdf/').$pathToImage);
-            $data['contract']->contracts_content = 'pdf/' . $pathToImage.'/1.jpg';
+            $data['contract']->contracts_content = 'pdf/'.$pathToImage.'/1.jpg';
             $data['numberOfPages'] = $numberOfPages;
-            $data['pathToImage'] = 'pdf/' . $pathToImage;
+            $data['pathToImage'] = 'pdf/'.$pathToImage;
             $height = 1;
         }
 
 
-        $data['height'] = $height*2.28;
-    }
+        $data['height'] = $height * 2.28;
+
 
     $pdf = \Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::loadView('contract.showToPdf', ['data' => $data]);
 
@@ -184,5 +197,7 @@ Route::get('/paymentCallBack', function () {
     $payment->transaction_code = $data['CCode'];
     $payment->payment_status = Payment::STATUS_COMPLETED;
     $payment->save();
+
     return redirect()->route('filament.pages.dashboard');
 })->name('paymentCallBack');
+

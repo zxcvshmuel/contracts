@@ -36,7 +36,7 @@ class Contract extends Model {
     public function getTotalPriceAttribute(): int
     {
 
-        return Collection::make($this->items)->map(function ($item){
+        return Collection::make($this->items)->map(function ($item) {
             return $item['price'] * $item['count'];
         })->sum();
 

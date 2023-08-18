@@ -6,6 +6,7 @@ use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Resources\DocumentsResource\Pages;
 use App\Filament\Resources\DocumentsResource\RelationManagers;
 use App\Models\Contract;
+use Closure;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -14,15 +15,18 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class DocumentsResource extends Resource
-{
+class DocumentsResource extends Resource {
     protected static ?string $model = DocumentsResource::class;
 
     public static function getEloquentQuery(): Builder
     {
 
-        return Contract::query()->where('type', 3)
-            ->where('user_id' , auth()->user()->id);
+        return Contract::query()->where('type', 3)->where('user_id', auth()->user()->id);
+    }
+
+    public static function resolveRouteBindingQuery($query, $value, $field = null)
+    {
+        return $query->where('user_id', auth()->user()->id)->whereKey($value);
     }
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
@@ -34,24 +38,46 @@ class DocumentsResource extends Resource
     protected static ?string $pluralModelLabel = ' מסמך מהיר לחתימה';
 
     protected static ?string $breadcrumb = 'מסמך מהיר לחתימה';
+
+    protected static ?string $slug = 'documents';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\Card::make()->label('צור מסמך מהיר לחתימה')->schema([
-                Forms\Components\Select::make('events_id')->disabled(fn ($record) => !is_null($record))->options(
+                Forms\Components\Select::make('events_id')->disabled(fn($record) => !is_null($record))->options(
                     auth()->user()->events->pluck('title', 'id')
                 )->preload()->label('שם אירוע - לא חובה')->reactive()->hidden(),
-                Forms\Components\TextInput::make('customer_name')->label('שם'),
-                Forms\Components\TextInput::make('customer_uid')->label('ת.ז'),
-                Forms\Components\TextInput::make('customer_phone')->label('טלפון'),
-                Forms\Components\TextInput::make('email')->email()->label('מייל לשליחה של המסמך'),
-                Forms\Components\FileUpload::make('contracts_content')->label('מסמך לחתימה תמונה או PDF')
-                    ->acceptedFileTypes(['application/pdf', 'image/*']),
-                Forms\Components\TextInput::make('title')->disabled(fn ($record) => !is_null($record))->required()->label('כותרת'),
-                Forms\Components\TextInput::make('description')->disabled(fn ($record) => !is_null($record))->required()->label('תיאור'),
+                Forms\Components\TextInput::make('customer_name')->label('שם')->required()->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+                Forms\Components\TextInput::make('customer_uid')->label('ת.ז')->required()->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+                Forms\Components\TextInput::make('customer_phone')->label('טלפון')->required()->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+                Forms\Components\TextInput::make('email')->email()->label('מייל לשליחה של המסמך')->required()->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+                Forms\Components\TextInput::make('title')->disabled(fn(Closure $get) => $get('signed'))->required(
+                )->label('כותרת')->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+                Forms\Components\TextInput::make('description')->disabled(fn(Closure $get) => $get('signed'))->required(
+                )->label('תיאור')->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+                Forms\Components\FileUpload::make('contracts_content')->label(
+                    'מסמך לחתימה תמונה או PDF'
+                )->acceptedFileTypes(['application/pdf', 'image/*'])->disabled(
+                    fn(Closure $get) => $get('signed')
+                ),
+
             ]),
         ]);
     }
+
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['signed_url'] = \Storage::url($data['signed_url']);
@@ -61,18 +87,18 @@ class DocumentsResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->headerActions([
+        return $table->headerActions([
                 FilamentExportHeaderAction::make('export')->label('יצוא'),
-            ])
-            ->columns([
-                Tables\Columns\IconColumn::make('id')->falseIcon('heroicon-s-document')
-                    ->trueIcon('heroicon-s-document')->boolean()->label('הצג מסמך')->url(
+            ])->columns([
+                Tables\Columns\IconColumn::make('id')->falseIcon('heroicon-s-document')->trueIcon(
+                        'heroicon-s-document'
+                    )->boolean()->label('הצג מסמך')->url(
                         fn($record) => '/contract/'.$record->id.'/view',
                         true
                     ),
-                Tables\Columns\IconColumn::make('signed_url')->falseIcon('heroicon-s-document')
-                    ->trueIcon('heroicon-s-document')->boolean()->label('הדפסה')->url(
+                Tables\Columns\IconColumn::make('signed_url')->falseIcon('heroicon-s-document')->trueIcon(
+                        'heroicon-s-document'
+                    )->boolean()->label('הדפסה')->url(
                         fn($record) => '/contract/'.$record->id.'/pdf',
                         true
                     ),
@@ -86,7 +112,8 @@ class DocumentsResource extends Resource
             ])->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])->actions([
-                Tables\Actions\DeleteAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
             ])->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
                 Tables\Actions\ForceDeleteBulkAction::make(),
@@ -96,8 +123,7 @@ class DocumentsResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
+        return [//
         ];
     }
 
@@ -110,10 +136,12 @@ class DocumentsResource extends Resource
         ];
     }
 
-    protected function getTableRecordUrlUsing(): string|\Illuminate\Contracts\Routing\UrlGenerator|\Illuminate\Contracts\Foundation\Application
+    protected function getTableRecordUrlUsing(
+    ): string|\Illuminate\Contracts\Routing\UrlGenerator|\Illuminate\Contracts\Foundation\Application
     {
         return url(
             fn($record) => '/contract/'.$record->id.'/view',
-            true);
+            true
+        );
     }
 }

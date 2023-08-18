@@ -10,6 +10,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateDocuments extends CreateRecord
 {
+    protected static string $resource = DocumentsResource::class;
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = 3;
@@ -29,8 +30,6 @@ class CreateDocuments extends CreateRecord
 
         return $data;
     }
-
-    protected static string $resource = DocumentsResource::class;
 
 
     protected function getRedirectUrl():string

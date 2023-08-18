@@ -26,23 +26,37 @@ class ContractController extends Controller {
             'system_data' => User::find(1),
             'contract'    => $contract,
             'event'       => $contract->events_id !== null ? $contract->event : null,
-            'customer'    => $contract->events_id !== null ? $contract->event->customer : (object)[
-                'fullName' => $contract->customer_name,
-                'uid'      => '',
-                'phone'    => '',
-                'address'  => $contract->email,
-                'city'     => '',
-            ],
+            'customer'    => $contract->event->customer ?? (object)[
+                    'fullName' => $contract->customer_name,
+                    'uid'      => '',
+                    'phone'    => '',
+                    'address'  => $contract->email,
+                    'city'     => '',
+                ],
             'user'        => $contract->event->customer->user ?? User::find($contract->user_id),
         ];
 
-        if ($data['contract']->type === 3 && is_array(json_decode($data['contract']->contracts_content, true)))
+        if (($data['contract']->type === 3 || $data['contract']->type === 4 || $data['contract']->type === 1) && is_array(
+                json_decode($data['contract']->contracts_content, true)
+            ))
         {
             $data['contract']->contracts_content = json_decode($data['contract']->contracts_content, true);
             $data['customer']->uid = $data['contract']->contracts_content['customer_uid'];
             $data['customer']->phone = $data['contract']->contracts_content['customer_phone'];
+            if ($data['contract']->type === 3)
+            {
+                $data['pathToImage'] = $data['contract']->contracts_content['contractImageURL'];
+                $data['contract']->contracts_content = $data['contract']->contracts_content['contractImageURL'];
 
-            $data['contract']->contracts_content = $data['contract']->contracts_content['contractImageURL'];
+            } else
+            {
+                $data['contract']->contracts_content = $data['contract']->contracts_content['contracts_content'];
+            }
+
+
+        }elseif ($data['contract']->type === 3)
+        {
+            $data['pathToImage'] = $data['contract']->contracts_content;
         }
 
         $height = 0;
@@ -59,9 +73,9 @@ class ContractController extends Controller {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $pathToImage));
             }
             $pdf->saveAllPagesAsImages(Storage::path('/pdf/').$pathToImage);
-            $data['contract']->contracts_content = 'pdf/' . $pathToImage.'/1.jpg';
+            $data['contract']->contracts_content = 'pdf/'.$pathToImage.'/1.jpg';
             $data['numberOfPages'] = $numberOfPages;
-            $data['pathToImage'] = 'pdf/' . $pathToImage;
+            $data['pathToImage'] = 'pdf/'.$pathToImage;
             $height = 1;
         }
 
@@ -74,7 +88,6 @@ class ContractController extends Controller {
 
     public function update(Contract $contract, Request $request)
     {
-
 
         $request->validate(['data' => 'required']);
         $imageName = time().'id'.$contract->id.'.png';

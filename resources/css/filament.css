@@ -135,13 +135,6 @@ a.type-remainder {
         letter-spacing: 4px;
     }
 
-    a.type-remainder.fc-timegrid-event {
-        width: unset !important;
-        height: unset !important;
-        border-radius: unset !important;
-        font-size: unset !important;
-    }
-
     /* Remainder - mobile view */
     a.type-google {
         background: none !important;
@@ -158,10 +151,22 @@ a.type-remainder {
         font-size: 4px;
         color: rgba(0, 128, 0, 0.36);
         letter-spacing: 4px;
-    }
+    }a.type-remainder.fc-timegrid-event {
+         width: unset !important;
+         height: unset !important;
+         border-radius: unset !important;
+         font-size: unset !important;
+     }
 
     /* Calendar page fix */
     .filament-global-search {
         display: none;
+    }
+
+    a.type-remainder.fc-timegrid-event, a.type-google.fc-timegrid-event, a.type-event.fc-timegrid-event {
+        width: unset !important;
+        height: unset !important;
+        border-radius: unset !important;
+        font-size: unset !important;
     }
 }
