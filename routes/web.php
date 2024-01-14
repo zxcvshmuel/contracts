@@ -1,13 +1,14 @@
 <?php
 
 use App\helpers;
-use App\Http\Controllers\ContractController;
-use App\Http\Controllers\ReminderController;
 use App\Models\User;
+use App\Mail\WelcomeEmail;
+use Spatie\PdfToImage\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Spatie\PdfToImage\Pdf;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\ReminderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,13 +157,21 @@ Route::get('/contract/{id}/pdf', function ($id) {
     }elseif ($data['contract']->type === 3)
     {
         $data['pathToImage'] = $data['contract']->contracts_content;
+    }elseif ($data['contract']->type === 5 || $data['contract']->type === 6) {
+        $data['contract']->contracts_content = json_decode($data['contract']->contracts_content, true);
+        //$data['contract']->contracts_content['memoryOfThingsCarContent'] = $data['contract']->contracts_content['memory_of_things_car_content'];
+
     }
 
 
         $height = 0;
 
 
-        $pdfPath = Storage::path('/').$data['contract']->contracts_content;
+        if ($data['contract']->type !== 5 && $data['contract']->type !== 6) {
+            $pdfPath = Storage::path('/') . $data['contract']->contracts_content;
+        } else {
+            $pdfPath = Storage::path('/') . $data['contract']->contracts_content['contracts_content'];
+        }
         // check if the file is pdf
         if (pathinfo($pdfPath, PATHINFO_EXTENSION) === 'pdf')
         {
@@ -184,7 +193,11 @@ Route::get('/contract/{id}/pdf', function ($id) {
         $data['height'] = $height * 2.28;
 
 
+        if ($data['contract']->type !== 5 && $data['contract']->type !== 6) {
     $pdf = \Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::loadView('contract.showToPdf', ['data' => $data]);
+} else {
+    $pdf = \Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::loadView('contract.showMemoryOfCarToPdf', ['data' => $data]);
+}
 
     return $pdf->download('contract.pdf');
 });
@@ -200,4 +213,21 @@ Route::get('/paymentCallBack', function () {
 
     return redirect()->route('filament.pages.dashboard');
 })->name('paymentCallBack');
+
+Route::get('/logo', function(){
+    // return logo as image
+    $path = storage_path('app/public/layout/desktop/logo.png');
+    $file = File::get($path);
+    $type = File::mimeType($path);
+    // set the header for the image
+    header("Content-type: image/png");
+    echo $file;
+
+});
+
+Route::get('/email', function(){
+    $user = User::find(1);
+    Mail::to('mysafe.events@gmail.com')->send(new WelcomeEmail($user)); 
+});
+
 

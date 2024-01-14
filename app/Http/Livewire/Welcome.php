@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Exception;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
 
 class Welcome extends Component {
 
@@ -13,6 +15,7 @@ class Welcome extends Component {
     public $email;
     public $phone;
     public $formSubmitted = false;
+    public $formTitle;
 
     public function submit()
     {
@@ -37,6 +40,12 @@ class Welcome extends Component {
             ]);
             $this->formSubmitted = true;
             $this->formTitle = 'תודה רבה, נחזור אליכם בהקדם';
+
+            Mail::to('mysafe.events@gmail.com')->send(new WelcomeEmail($user));
+
+
+
+
         } catch (Exception $e)
         {
             $this->formSubmitted = false;

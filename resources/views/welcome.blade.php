@@ -780,9 +780,9 @@
     </style>
 </head>
 <body class="antialiased">
-{{--<div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+{{--<div class="relative min-h-screen bg-gray-100 bg-center sm:flex sm:justify-center sm:items-center bg-dots-darker dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
     @if (Route::has('login'))
-        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+        <div class="p-6 text-right sm:fixed sm:top-0 sm:right-0">
             @auth
                 <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
             @else
@@ -799,18 +799,18 @@
 {{--         style="background-image: url({{ \Illuminate\Support\Facades\Storage::url('/') . '/layout/desktop/background.png' }})">--}}
 
 
-<div id="content" class=" bg-contain bg-center bg-no-repeat flex flex-col"
+<div id="content" class="flex flex-col bg-center bg-no-repeat bg-contain "
      style="background-image: url({{ \Illuminate\Support\Facades\Storage::url('/') . '/layout/desktop/background.png' }});">
-    <div class="min-h-screen w-full">
+    <div class="w-full min-h-screen">
 
         <div class="container flex w-1/4">
             <x-filament-breezy::auth-card action="register">
-                <div class="w-full flex justify-center">
+                <div class="flex justify-center w-full">
                     <x-filament::brand />
                 </div>
 
                 <div>
-                    <h2 class="font-bold tracking-tight text-center text-2xl">
+                    <h2 class="text-2xl font-bold tracking-tight text-center">
                         {{ __('default.registration.heading') }}
                     </h2>
                     <p class="mt-2 text-sm text-center">
@@ -827,8 +827,8 @@
                     {{ __('default.registration.submit.label') }}
                 </x-filament::button>
             </x-filament-breezy::auth-card>
-            <div class="rectangle flex">
-                <img src="{{ \Illuminate\Support\Facades\Storage::url('/') . '/layout/desktop/logo.png' }}" alt="logo">
+            <div class="flex rectangle">
+                <img src="https://i.imgur.com/KDOiLJq.png" alt="logo">
                             <h1>השאירו פרטים ונחזור אליכם בהקדם</h1>
                 <form action="">
                         <input type="text" value="שם פרטי">

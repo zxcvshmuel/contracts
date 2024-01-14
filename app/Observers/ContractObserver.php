@@ -2,13 +2,12 @@
 
 namespace App\Observers;
 
-use App\Helpers;
-use App\Mail\ContractSent;
-use App\Models\Contract;
+use App\Models\User;
 use App\Models\Events;
-use http\Message;
+use App\Models\Contract;
+use App\Mail\ContractSent;
+use App\Mail\ContractSigned;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
 class ContractObserver
 {
@@ -18,20 +17,19 @@ class ContractObserver
     public function created(Contract $contract): void
     {
 
-    if ($contract->customer_name == null)
-    {
-      $event = Events::find($contract->events_id);
-      $contract->update([
-        'user_id'       => auth()->user()->id,
-        'customer_name' => $event->customer->full_name,
-        'email'         => $event->customer->email,
-      ]);
-    }
+        if ($contract->customer_name == null) {
+            $event = Events::find($contract->events_id);
+            $contract->update([
+                'user_id'       => auth()->user()->id,
+                'customer_name' => $event->customer->full_name,
+                'email'         => $event->customer->email,
+            ]);
+        }
 
         Mail::to($contract->email)->send(new ContractSent($contract, $contract->email));
 
-        $contract->sent = true;
-        $contract->sent_at = date('Y-m-d H:i:s');
+        $contract->sent       = true;
+        $contract->sent_at    = date('Y-m-d H:i:s');
         $contract->signed_url = route('contract.view', $contract->id);
         $contract->save();
 
@@ -43,20 +41,20 @@ class ContractObserver
     public function updated(Contract $contract): void
     {
         /*$user = $contract->event->user;
-        if ($contract->signed === true && $user()->two_factor_secret !== null)
-        {
-            $events = $contract->event;
-            $data = [
-                'title' => $events['title'],
-                'start' => $events['date'],
-                'end' => $events['end_at'],
-            ];
+    if ($contract->signed === true && $user()->two_factor_secret !== null)
+    {
+    $events = $contract->event;
+    $data = [
+    'title' => $events['title'],
+    'start' => $events['date'],
+    'end' => $events['end_at'],
+    ];
 
-            if ($user->two_factor_secrete !== null)
-            {
-                Helpers::createEvent($user, $data);
-            }
-        }*/
+    if ($user->two_factor_secrete !== null)
+    {
+    Helpers::createEvent($user, $data);
+    }
+    }*/
     }
 
     /**
@@ -81,5 +79,19 @@ class ContractObserver
     public function forceDeleted(Contract $contract): void
     {
         //
+    }
+
+    /**
+     * Handle the Contract "signed" custom event, to send mail to user and let him no.
+     */
+    public function signed(Contract $contract): void
+    {
+
+        $user = User::find($contract->user_id);
+
+        Mail::to($user->email)->send(new ContractSigned($contract, $user));
+
+
+
     }
 }

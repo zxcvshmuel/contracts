@@ -7,6 +7,7 @@ module.exports = {
         "./resources/**/*.js",
         './vendor/filament/**/*.blade.php',
         "./node_modules/flowbite/**/*.js",
+        "/vendor/awcodes/filament-quick-create/resources/**/*.blade.php",
     ],
     darkMode: 'class',
     theme: {

@@ -10,6 +10,7 @@
         "ext-imagick": "*",
         "akaunting/laravel-money": "^2.1",
         "alperenersoy/filament-export": "^0.2.9",
+        "awcodes/filament-quick-create": "^2.1",
         "awcodes/filament-table-repeater": "^1.2",
         "carlos-meneses/laravel-mpdf": "^2.1",
         "filament/filament": "^2.0",
@@ -40,6 +41,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
+        "barryvdh/laravel-ide-helper": "^2.13",
         "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
         "laravel-lang/common": "^3.0",

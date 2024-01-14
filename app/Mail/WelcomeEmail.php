@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\Contract;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -10,17 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContractSent extends Mailable
+class WelcomeEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected ?string $email = '';
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(public Contract $contract, $email)
+    public $user;
+    public $systemMail = 'mysafe.events@gmail.com';
+
+    public function __construct(User $user)
     {
-        $this->email = $email;
+        $this->user = $user;
     }
 
     /**
@@ -28,14 +26,11 @@ class ContractSent extends Mailable
      */
     public function envelope(): Envelope
     {
-
         return new Envelope(
             from: 'mysafe.events@gmail.com',
-            to: $this->email,
-            cc: User::find($this->contract->user_id)->comp_email,
-            subject: 'מסמך חדש מאת מערכת MY-SAFE',
+            to: [$this->systemMail],
+            subject: 'משתמש חדש נרשם למערכת',
         );
-
     }
 
     /**
@@ -44,11 +39,12 @@ class ContractSent extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.contract.sent',
+            markdown: 'mail.welcome',
             with: [
-                'url'  => route('contract.view', $this->contract->id),
+                'user' => $this->user,
+                'url'  => 'my-safe.co.il/admin/users/'. $this->user->id . '/edit',
                 'logo' => User::find(1)->logo_url,
-            ],
+            ]
         );
     }
 

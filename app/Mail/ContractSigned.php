@@ -10,17 +10,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContractSent extends Mailable
+class ContractSigned extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected ?string $email = '';
+    public $contract;
+    public $user;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(public Contract $contract, $email)
+    public function __construct(Contract $contract, User $user)
     {
-        $this->email = $email;
+        $this->contract = $contract;
+        $this->user     = $user;
     }
 
     /**
@@ -28,14 +31,11 @@ class ContractSent extends Mailable
      */
     public function envelope(): Envelope
     {
-
         return new Envelope(
-            from: 'mysafe.events@gmail.com',
-            to: $this->email,
-            cc: User::find($this->contract->user_id)->comp_email,
-            subject: 'מסמך חדש מאת מערכת MY-SAFE',
+            from: 'my-safe@gmail.com',
+            to: $this->user->comp_email,
+            subject: 'My-Safe - חוזה מספר: ' . $this->contract->id . ' נחתם'
         );
-
     }
 
     /**
@@ -44,10 +44,13 @@ class ContractSent extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.contract.sent',
+            markdown: 'mail.contract-signed',
             with: [
-                'url'  => route('contract.view', $this->contract->id),
+                'user'  => $this->user,
+                'contract' => $this->contract,
                 'logo' => User::find(1)->logo_url,
+                'url' => route('contract.view', $this->contract->id),
+                'color' => 'success',
             ],
         );
     }

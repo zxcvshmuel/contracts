@@ -2,7 +2,7 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-    <img src="https://my-safe.co.il/storage/layout/desktop/logo.png" class="logo" alt="Laravel Logo">
+    <img src="https://i.imgur.com/KDOiLJq.png" class="logo" alt="My-Safe">
 </x-mail::header>
 </x-slot:header>
 

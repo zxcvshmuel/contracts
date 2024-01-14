@@ -156,7 +156,7 @@
                     <div style="float: right;width: fit-content" class="">
                         <strong style="text-decoration: underline; text-align: center; font-weight: bold"
                                 class="underline">
-                            {{ $data['contract']->type === 3 ? 'פרטי השולח' : 'פרטי הספק' }}                        </strong>
+                            {{ $data['contract']->type === 3 ? 'פרטי השולח' : 'פרטי המוכר' }}                        </strong>
                         <br>
                         <strong>
                             {{ $data['user']->comp_name }}
@@ -191,94 +191,192 @@
                              src="{{ \Illuminate\Support\Facades\Storage::url('/') .  $data['user']->logo_url}}"
                              alt="">
                     </div>--}}
+                    @if ($data['contract']->type === 5)
                     <div style="float: left; text-align: left;" class="flex flex-col items-center">
                         <strong style="text-decoration: underline; text-align: center; font-weight: bold"
                                 class="underline">
-                            {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הלקוח' }}                        </strong>
+                            {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הקונה' }}                        </strong>
                         <br>
-                        <strong><span>{{ $data['customer']->fullName }}</span></strong>
-                        @if($data['contract']->type === 3 || $data['contract']->type === 4)
+                        <strong><span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_name'] }}</span></strong>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_uid'] }}</span>
                             <br>
-                            <span>{{ $data['customer']->uid ?? ''}}</span>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_address'] }}</span>
                             <br>
-                            <span>{{ $data['customer']->phone ?? '' }}</span>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_phone'] }}</span>
                             <br>
-                            <span>{{ $data['contract']->email }}</span>
-                        @else
-                            <br>
-                            <span>{{ $data['customer']->uid ?? ''}}</span>
-                            <br>
-                            <span>{{ $data['customer']->phone ?? '' }}</span>
-                            <br>
-                            <span>{{ $data['customer']->address . ' ' . $data['customer']-> city }}</span>
-                        @endif
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_email'] }}</span>
                     </div>
+
+                    @elseif ($data['contract']->type === 6)
+                        <div style="float: left; text-align: left;" class="flex flex-col items-center">
+                            <strong style="text-decoration: underline; text-align: center; font-weight: bold"
+                                    class="underline">
+                                {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הקונה' }}                        </strong>
+                            <br>
+                            <strong><span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_name'] }}</span></strong>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_uid'] }}</span>
+                            <br>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_address'] }}</span>
+                            <br>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_phone'] }}</span>
+                            <br>
+                            <span>{{ $data['contract']->contracts_content['memory_of_things_car_content']['customer_email'] }}</span>
+                        </div>
+                    @endif
+
                 </div>
                 <br>
-                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
-                    <table style="border: 1px solid #1a1a1a"
-                           class="table w-full text-center border border-collapse table-auto border-slate-600">
-                        <thead style="color: white; text-align: center; background-color: black"
-                               class="text-center text-white bg-black">
-                        <tr>
-                            <th style="color: white; text-align: center; background-color: black">פירוט</th>
-                            <th style="color: white; text-align: center; background-color: black">מחיר ליחידה</th>
-                            <th style="color: white; text-align: center; background-color: black">כמות</th>
-                            <th style="color: white; text-align: center; background-color: black">סה"כ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($data['contract']->items as $item)
-                            <tr>
-                                <td style="border: 1px solid black"
-                                    class="pr-2 text-right border border-slate-600">{{ $item['name'] }}</td>
-                                <td style="border: 1px solid black"
-                                    class="border border-slate-600">{{ $item['price'] }}</td>
-                                <td style="border: 1px solid black"
-                                    class="border border-slate-600">{{ $item['count'] }}</td>
-                                <td style="border: 1px solid black"
-                                    class="border border-slate-600">{{ $item['price'] * $item['count']}} ₪
-                                </td>
-                            </tr>
-                        @endforeach
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style="border: 1px solid black" class="pl-1 text-left">
-                                סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style="border: 1px solid black; font-weight: bold" class="pl-1 font-bold text-left">סה"כ
-                                לתשלום <span
-                                    class='pl-1 pr-1 text-2xl text-white bg-black/50'>{{ $data['contract']->getTotalPriceAttribute() }} ₪ </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                @elseif($data['contract']->type === 3)
 
-                @endif
+                @if ($data['contract']->type === 5)
+                <div class="pt-0 mx-auto md:max-w-7xl sm:px-0 lg:px-6 lg:px-8">
+                    <ul>
+                        <li>
+                            הואיל : והמוכר מצהיר בזאת כי הוא הבעלים והמחזיק החוקי ברכב מסוג {{$data['contract']->contracts_content['memory_of_things_car_content']['car_model'] ?? '' }}
+                             דגם {{ $data['contract']->contracts_content['memory_of_things_car_content']['car_model'] ?? ''  }}
+                             <br>
+                             שנת ייצור {{ $data['contract']->contracts_content['memory_of_things_car_content']['car_year'] ?? ''  }}
+                            מס' רישוי {{ $data['contract']->contracts_content['memory_of_things_car_content']['car_license_number'] ?? ''  }}
+                            קילומטר {{ $data['contract']->contracts_content['memory_of_things_car_content']['car_license_number'] ?? ''  }}
+                            יד {{ $data['contract']->contracts_content['memory_of_things_car_content']['oner_number'] ?? ''  }}
+                            <br>
+                            עבר תאונה משמעותית: {{ $data['contract']->contracts_content['memory_of_things_car_content']['was_in_accident'] ? 'כן' : 'לא'   }}
+                            <br>
+                            היה בחברת השכרה  : {{ $data['contract']->contracts_content['memory_of_things_car_content']['was_in_rental_company'] ? 'כן' : 'לא'   }}
+                        </li>
+                        <li>
+                            והואיל : והמוכר מצהיר בזאת כי אין כל מניעה חוקית למכור את הרכב לקונה;
+                        </li>
+                        <li>
+                            והואיל : והקונה לאחר שבדק את הרכב  וכן ניתנה לו האפשרות לקחת את הרכב למכון בדיקה
+                            מורשה, מצא אותו מתאים לצרכיו ובכפוף להצהרות המוכר מוותר בזאת על כל טענת מום
+                            נסתר ברכב,  ומעוניין לקנות אותו מהמוכר, והמוכר מעוניין למכור אותו לקונה, הכל
+                            בהתאם לתנאים המפורטים בהסכם זה;
+                        </li>
+                    </ul>
 
-                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
+                    <h2>
+                        לפיכך הוצהר בין הוסכם והותנה בין הצדדים כדלקמן :
+                    </h2>
+
+                    <ol>
+                        <li>
+                            המבוא להסכם זה מהווה חלק בלתי נפרד הימנו.
+                        </li>
+                        <li>הוסכם כי הקונה ירכוש את הרכב מהמוכר בהתאם למחיר המסוכם בסע' 3 להלן.</li>
+                        <li>התמורה בגין רכישת הרכב היא {{ $data['contract']->contracts_content['memory_of_things_car_content']['car_price'] ?? '' }} ₪ </li>
+                        <li>המוכר מתחייב להעביר את הבעלות על שם הקונה כשהרכב נקי מכל עיקול / שעבוד/ קנסות/ משכון/ כל מניעה אחרת.</li>
+                        <li>ככל ובעתיד יתברר כי על הרכב רובצים חובות בגין קנסות ו/או מכל סיבה שהיא שנוצרו בתקופה שהרכב היה בבעלות המוכר מתחייב המוכר לסלקם מיידית. החל מיום העברת הבעלות כל הדוחות / קנסות / אגרות/ תשלומים שוטפים יחולו על הקונה.</li>
+                        <li>ככל ובזמן שיחלוף בין חתימת הסכם זה ועד העברת הבעלות ישתנה מצבו של הרכב עקב תאונה ו/או תקלה ו/או מכל סיבה שהיא, יהא הקונה זכאי לבטל הסכם זה והתמורה ששולמה בסע' 3.א תוחזר לו.</li>
+                        <li>תשלום העברת הבעלות יחול על הקונה / מוכר .</li>
+                        <li>הקונה מצהיר כי ידוע לו שהביטוח שהיה על הרכב מבוטל החל מרגע העברת הבעלות והאחריות לרכישת ביטוח מרגע העברת הבעלות על שמו היא על הקונה .</li>
+                        <li>המוכר מצהיר כי לא נעשתה ברכב תאונה אשר גרמה לרכב לירידת ערך.
+                        </li>
+                    </ol>
+
+                </div>
+
+                @elseif ($data['contract']->type === 6)
+                <div class="pt-0 mx-auto md:max-w-7xl sm:px-0 lg:px-6 lg:px-8">
+                    <ul>
+                        <li>
+                            נערך ונחתם בתאריך {{ $data['contract']->created_at->format('d/m/Y') }}
+                        </li>
+                        <li>
+                            בנוגע לדירה בכתובת:
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_street'] ?? '' }}
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_number'] ?? '' }}
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_city'] ?? '' }}
+                            כניסה
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['enterens_num'] ?? '' }}
+                            קומה
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_floor'] ?? '' }}
+                            מספר דירה
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_num'] ?? '' }}
+                            מספר חדרים
+                            {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_rooms'] ?? '' }}
+                        </li>
+                        <br>
+                        <li>
+                            הואיל ובעל הנכס מצהיר כי הוא הבעלים הרשום והחוקי של מלא הזכויות והמחזיק הבלעדי בנכס
+                            האמור
+                        </li>
+                        <li>
+                            והואיל ובעל הנכס נמצא במשא ומתן מתקדם עם הלקוח/שוכר לקראת חתימה על חוזה
+                        </li>
+                        <li>
+                            והואיל והקונה/שוכר נמצא במשא ומתן מתקדם עם בעל הנכס לקראת חתימה על חוזה
+                        </li>
+                    </ul>
+                </div>
+                    <h2 class="mt-2 text-xl text-center underline">אי לכך ובהתאם לזאת הוסכם ע"י הצדדים כדלקמן:
+                    </h2>
+
+                    <ol>
+                        <li>
+                            <span class="underline">
+                                מבוא
+                            </span>
+                            <ol>
+                                <li>
+                                    המבוא לזכרון דברים זה החתום על ידי שתי הצדדים מהווה מקשה אחת שאינה ניתנת
+                                    להפרדה
+                                </li>
+                                <li>
+                                    מסמך זכרון דברים זה יהיה כפוף לחוזה הסופי שייחתם בין הצדדים
+                                </li>
+                                <li>
+                                    הצדדים מתחייבים לחתום על החוזה בגין נכס זה עד לתאריך
+                                    {{ $data['contract']->contracts_content['memory_of_things_car_content']['rented_appartment_to_be_signed'] ?? '' }}
+                                </li>
+                                <li>
+                                    בהסכמת הצדדים בכתב ניתןלהאריך את מועד החתימה על החוזה המדובר ב-15 ימים
+                                    נוספים.
+                                    ניתן להאריך את תוקף חוזה זה פעם אחת בלבד
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <span class="underline">
+                                הצהרת בעל הנכס
+                            </span>
+                            <ol>
+                                <li>
+                                    בעל הנכס מתחייב למסור את החזקה בדירה ובמתקניה ביום מסירת החזקה כשהיא נקיה
+                                    מכל חוב/שעבוד/עיקול/משכנתא וכשיא ומתקניה חופשים
+                                    ופנויים מכל אדם ו/או חפץ כשהם במצב תקין ושלם כפי שהם ביום חתימת ההסכם, למעט
+                                    בלאי סביר עקב שימוש סביר מבהלך החיים השגרתי.
+                                </li>
+                                <li>
+                                    בעל הנכס מתחייב בזאת כי לא נעשה או יעשה כל הסכם למכירת/השכרת הנכס לצד אחר
+                                    וכי אין כל מניעה חוזית למכירת/השכרת הנכס
+                                </li>
+                                <li>
+                                    בעל הנכס מצהיר כי ידוע לו כי הקונה/שוכר טרם בדק את מצבו המשפטי והתכנוני של
+                                    הנכס, וידוע לו שהסכם זה כפוף לבדיקות משפטיות ותכנוניות שיבצע הקונה/שוכר
+                                </li>
+                            </ol>
+                        </li>
+
+                    </ol>
+
+                    @endif
+
+
+
+                @if($data['contract']->type === 5 || $data['contract']->type === 6 || $data['contract']->type === 4)
                     <div class="pr-1 mx-auto max-w-7xl">
                         <div class="max-w-2xl mx-auto ">
                             <h2 class="font-semibold text-right text-black-600">הערות נוספות</h2>
-                            @if(! is_string($data['contract']->contracts_content))
-                                {!! $data['contract']->contracts_content !!}
+                            @if(! is_string($data['contract']->contracts_content['contracts_content']))
+                                {!! $data['contract']->contracts_content['contracts_content'] !!}
                             @else
-                                {!!  $data['contract']->contracts_content ?? '' !!}
-                                {!!  $data['contract']->contracts_content['contracts_content'] ?? ''!!}
+                                {!!  $data['contract']->contracts_content['contracts_content'] ?? '' !!}
+                                {!!  $data['contract']->contracts_content['contracts_content']['contracts_content'] ?? ''!!}
                             @endif
                         </div>
                     </div>
                     <br>
 
-                    <br>
                     <div class="flex items-end justify-start columns-2">
                         <div style="width: fit-content; float: right;" class="w-full text-right">
                             <div>
@@ -291,7 +389,7 @@
                                      src="{{ $data['user']-> signature}}" alt="">
                             </div>
                         </div>
-                        <div style="width: fit-content; float: left;" class="w-full text-left">
+                        <div style="width: fit-content; float: left!important;" class="w-full text-left">
                             <div>
                                 <strong>חתימת לקוח:</strong>
                                 {{ $data['customer']-> fullName}}
@@ -329,11 +427,19 @@
                         @endif
                     </div>
                     <br>
+                    @if($data['contract']->type === 2 && $data['user']->custom_text != null && $data['user']->custom_text !== '')
+                        <div class="pr-1 mx-auto max-w-7xl">
+                            <div class="max-w-2xl mx-auto ">
+                                <h2 class="font-semibold text-right text-black-600">תנאים והגבלות</h2>
+                                {!! $data['user']->custom_text !!}
+                            </div>
+                        </div>
+                    @endif
                     <br>
                     <div class="flex items-end justify-start columns-2">
                         <div class="w-full text-right">
                             <div>
-                                <strong>מאשר המסמך:</strong>
+                                <strong>מאשר {{ $data['contract']->type === 1 ? 'הצעת המחיר' : 'חוזה' }}:</strong>
                                 {{ $data['user']-> name}}
                             </div>
                             <div style="display: flex; justify-content: right; align-items: end">
@@ -344,12 +450,12 @@
                         </div>
                         <div class="w-full text-left">
                             <div>
-                                <strong>חתימה:</strong>
+                                <strong>חתימת לקוח:</strong>
                                 {{ $data['customer']-> fullName}}
                             </div>
                             <div style="display: flex; justify-content: left; align-items: end">
                                 <strong>חתימה : </strong>
-                                @if($data['contract']->signed_url !== null && $data['contract']->signed_url !== '')
+                                @if($data['contract']-> signed_url !== null && $data['contract']-> signed_url !== '' && $data['contract']-> signed_url ?? '' !== '')
                                     <img class="border-b border-b-2 border-black"
                                          style="height: 50px; background-color: rgba(0,254,255,0)"
                                          src="{{ \Illuminate\Support\Facades\Storage::url('/'). 'signatures/' .$data['contract']-> signed_url}}"

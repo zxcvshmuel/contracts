@@ -29,6 +29,19 @@ class EditFastContract extends EditRecord
         return $data;
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['contracts_content'] = json_encode([
+            'contracts_content' => $data['contracts_content'] ?? '',
+            'customer_uid' => $data['customer_uid'],
+            'customer_phone' => $data['customer_phone'],
+        ]);
+
+        self::$resource = ContractsResource::class;
+
+        return $data;
+    }
+
     protected function getRedirectUrl():string
     {
         return  FastContractResource::getUrl('index');
