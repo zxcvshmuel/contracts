@@ -2,8 +2,10 @@
 
 namespace App\Observers;
 
-use App\Models\Category;
+use App\Mail\WelcomeToPackage;
 use App\Models\User;
+use App\Models\Category;
+use App\Mail\wellcomUser;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
@@ -14,13 +16,23 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $token = Password::getRepository()->create($user);
-        $user->sendPasswordResetNotification($token);
+        // $token = Password::getRepository()->create($user);
+        // $user->sendPasswordResetNotification($token);
+
+        // create random password
+        $userPassword = '12345';
+        $user->password = bcrypt($userPassword);
+        $user->save();
 
         $user->packages()->attach(1, [
             'started_at' => now(),
             'expired_at' => now()->addDays(7),
         ]);
+
+
+        // send email to user
+        Mail::to($user->email)->send(new wellcomUser($user, $userPassword));
+
 
 
         // send email to admin
@@ -62,7 +74,12 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        //
+        $changes = $user->getChanges();
+        if (isset($changes[ 'active_until'])) {
+            // get package name
+            $package = $user->packages()->first();
+            Mail::to($user->email)->send(new WelcomeToPackage($user, $package));
+            };
     }
 
     /**
@@ -70,7 +87,7 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        //
+        $user->email = $user->email . '_deleted' . now()->timestamp;
     }
 
     /**

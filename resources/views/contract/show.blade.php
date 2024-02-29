@@ -15,21 +15,21 @@
     <x-slot:body>
 
         <nav class="" style="direction: rtl;">
-            {{--<div class="mx-auto lg:max-w-2xl sm:w-full pt-4 sm:pr-1">
-                <div class="relative flex h-16 items-center justify-between">
-                    <div class="flex flex- items-center justify-center sm:items-center">
-                        <div class="flex flex-shrink-0 items-start sm:items-center">
-                            <img class="block h-14 w-auto sm:align-middle"
+            {{--<div class="pt-4 mx-auto lg:max-w-2xl sm:w-full sm:pr-1">
+                <div class="relative flex items-center justify-between h-16">
+                    <div class="flex items-center justify-center flex- sm:items-center">
+                        <div class="flex items-start flex-shrink-0 sm:items-center">
+                            <img class="block w-auto h-14 sm:align-middle"
                                  src="{{ \Illuminate\Support\Facades\Storage::url('/') .  $data['system_data']->logo_url}}"
                                  alt="Your Company">
                         </div>
                         <div class=" sm:ml-6 sm:block">
                             <div class="flex space-x-4">
                                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                <a href="{{ url('/') }}" class=" text-black font-bold text-2xl rounded-md px-3 py-2"
+                                <a href="{{ url('/') }}" class="px-3 py-2 text-2xl font-bold text-black rounded-md "
                                    --}}{{--                                   aria-current="page">MY-SAFE - מערכת לשליחת הצעות מחיר וחתימה דיגיטאלית</a>--}}{{--
                                    aria-current="page"><p style="direction: rtl"
-                                                          class="mt-2 md:text-sm sm:text-sm font-bold tracking-tight text-gray-900 ">
+                                                          class="mt-2 font-bold tracking-tight text-gray-900 md:text-sm sm:text-sm ">
                                         מסמך זה
                                         נוצר על ידי
                                         מערכת MY-SAFE לשליחת הצעות מחיר וחתימה דיגיטאלית</p>
@@ -39,17 +39,17 @@
                     </div>
                 </div>
             </div>--}}
-            <div class="flex flex- items-center justify-center sm:items-center">
-                <div class="flex flex-shrink-0 items-start sm:items-center">
-                    <img class="block h-20 w-auto sm:align-middle"
+            <div class="flex items-center justify-center flex- sm:items-center">
+                <div class="flex items-start flex-shrink-0 sm:items-center">
+                    <img class="block w-auto h-20 sm:align-middle"
                          src="{{ \Illuminate\Support\Facades\Storage::url('/') .  $data['user']->logo_url}}"
                          alt="Your Company">
                 </div>
             </div>
         </nav>
         <div class="pt-0">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="mx-auto max-w-2xl text-center">
+            <div class="px-6 mx-auto max-w-7xl lg:px-8">
+                <div class="max-w-2xl mx-auto text-center">
                     @if($data['contract']->type === 1)
                         <h2 class="text-2xl font-semibold leading-7 text-indigo-600">הצעת מחיר בין ספק ללקוח</h2>
                         <div class="flex flex-row justify-center">
@@ -158,15 +158,15 @@
                     @endif
                     {{--                    <h2 class="text-base font-semibold leading-7 text-indigo-600">הצעת מחיר / חוזה לחתימה</h2>--}}
                     {{--<p style="direction: rtl"
-                       class="mt-2 md:text-2xl sm:text-1xl font-bold tracking-tight text-gray-900 "> מסמך זה
+                       class="mt-2 font-bold tracking-tight text-gray-900 md:text-2xl sm:text-1xl "> מסמך זה
                         נוצר על ידי
                         מערכת MY-SAFE לשליחת הצעות מחיר וחתימה דיגיטאלית</p>--}}
                 </div>
             </div>
         </div>
 
-        <div class="mx-auto md:max-w-7xl sm:px-0  lg:px-6 lg:px-8" style="direction: rtl;">
-            <div class="mx-auto max-w-2xl lg:text-right p-2"
+        <div class="mx-auto md:max-w-7xl sm:px-0 lg:px-6 lg:px-8" style="direction: rtl;">
+            <div class="max-w-2xl p-2 mx-auto lg:text-right"
                  style="background-color: {{ $data['user']->contract_color }}; border: 1px solid gray">
                 <div class="flex justify-between">
                     <div class="flex flex-col items-center">
@@ -211,8 +211,8 @@
                 </div>
                 <br>
                 @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
-                    <table class="table-auto border-collapse border border-slate-600 text-center w-full">
-                        <thead class="text-white text-center bg-black">
+                    <table class="w-full text-center border border-collapse table-auto border-slate-600">
+                        <thead class="text-center text-white bg-black">
                         <tr>
                             <th>פירוט</th>
                             <th>מחיר ליחידה</th>
@@ -223,7 +223,7 @@
                         <tbody>
                         @foreach($data['contract']->items as $item)
                             <tr>
-                                <td class="text-right pr-2 border border-slate-600">{{ $item['name'] }}</td>
+                                <td class="pr-2 text-right border border-slate-600">{{ $item['name'] }}</td>
                                 <td class="border border-slate-600">{{ $item['price'] }}</td>
                                 <td class="border border-slate-600">{{ $item['count'] }}</td>
                                 <td class="border border-slate-600">{{ $item['price'] * $item['count']}} ₪</td>
@@ -233,14 +233,14 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="text-left pl-1">סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪</td>
+                            <td class="pl-1 text-left">סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="text-left pl-1 font-bold">סה"כ לתשלום <span
-                                    class='pr-1 pl-1 bg-black/50 text-white text-2xl'>{{ $data['contract']->getTotalPriceAttribute() }} ₪ </span>
+                            <td class="pl-1 font-bold text-left">סה"כ לתשלום <span
+                                    class='pl-1 pr-1 text-2xl text-white bg-black/50'>{{ $data['contract']->getTotalPriceAttribute() }} ₪ </span>
                             </td>
                         </tr>
                         </tbody>
@@ -251,9 +251,9 @@
                 @endif
 
                 @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
-                    <div class="mx-auto max-w-7xl pr-1">
-                        <div class="mx-auto max-w-2xl ">
-                            <h2 class="text-right font-semibold text-black-600">הערות נוספות</h2>
+                    <div class="pr-1 mx-auto max-w-7xl">
+                        <div class="max-w-2xl mx-auto ">
+                            <h2 class="font-semibold text-right text-black-600">הערות נוספות</h2>
                             @if(! is_string($data['contract']->contracts_content))
                                 {!! $data['contract']->contracts_content !!}
                             @else
@@ -265,15 +265,15 @@
                     </div>
                     <br>
                     @if($data['user']->custom_text != null && $data['user']->custom_text !== '')
-                        <div class="mx-auto max-w-7xl pr-1">
-                            <div class="mx-auto max-w-2xl ">
-                                <h2 class="text-right font-semibold text-black-600">תנאים והגבלות</h2>
+                        <div class="pr-1 mx-auto max-w-7xl">
+                            <div class="max-w-2xl mx-auto ">
+                                <h2 class="font-semibold text-right text-black-600">תנאים והגבלות</h2>
                                 {!! $data['user']->custom_text !!}
                             </div>
                         </div>
                     @endif
                     <br>
-                    <div class="columns-2 flex items-end justify-start">
+                    <div class="flex items-end justify-start columns-2">
                         <div class="w-full text-right">
                             <div>
                                 <strong>מאשר {{ $data['contract']->type === 1 ? 'הצעת המחיר' : 'חוזה' }}:</strong>
@@ -298,7 +298,7 @@
                                          src="{{ \Illuminate\Support\Facades\Storage::url('/'). 'signatures/' .$data['contract']-> signed_url}}"
                                          alt="">
                                 @else
-                                    <div class="border-b border-b-2 border-black text-center" id="no-signed">
+                                    <div class="text-center border-b border-b-2 border-black" id="no-signed">
                                         עדיין לא נחתם
                                     </div>
                                 @endif
@@ -307,18 +307,18 @@
                     </div>
 
                 @elseif($data['contract']->type === 3)
-                    <h2 class="m-auto text-center text-3xl">{{ $data['contract']->title }}</h2>
+                    <h2 class="m-auto text-3xl text-center">{{ $data['contract']->title }}</h2>
                     <div class="m-auto border-2 border-black">
                         @if($data['height'] > 0)
                             {{-- for loop untile data['numberOfPages'] --}}
                             @for($i = 1; $i < $data['numberOfPages']; $i++)
-                                <img class="m-auto w-full" id="contracts_content"
+                                <img class="w-full m-auto" id="contracts_content"
                                      src="{{ \Illuminate\Support\Facades\Storage::url('/') . $data['pathToImage'] . '/' . $i . '.jpg' }}"
                                      alt="">
                             @endfor
 
                         @else
-                            <img class="m-auto w-full" id="contracts_content"
+                            <img class="w-full m-auto" id="contracts_content"
                                  src="{{ \Illuminate\Support\Facades\Storage::url('/') . $data['contract']->contracts_content }}"
                                  alt="">
                         @endif
@@ -326,15 +326,15 @@
 
                     <br>
                     @if($data['contract']->type === 2 && $data['user']->custom_text != null && $data['user']->custom_text !== '')
-                        <div class="mx-auto max-w-7xl pr-1">
-                            <div class="mx-auto max-w-2xl ">
-                                <h2 class="text-right font-semibold text-black-600">תנאים והגבלות</h2>
+                        <div class="pr-1 mx-auto max-w-7xl">
+                            <div class="max-w-2xl mx-auto ">
+                                <h2 class="font-semibold text-right text-black-600">תנאים והגבלות</h2>
                                 {!! $data['user']->custom_text !!}
                             </div>
                         </div>
                     @endif
                     <br>
-                    <div class="columns-2 flex items-end justify-start">
+                    <div class="flex items-end justify-start columns-2">
                         <div class="w-full text-right">
                             <div>
                                 <strong>מאשר המסמך:</strong>
@@ -359,7 +359,7 @@
                                          src="{{ \Illuminate\Support\Facades\Storage::url('/'). 'signatures/' .$data['contract']-> signed_url}}"
                                          alt="">
                                 @else
-                                    <div class="border-b border-b-2 border-black text-center" id="no-signed">
+                                    <div class="text-center border-b border-b-2 border-black" id="no-signed">
                                         עדיין לא נחתם
                                     </div>
                                 @endif
@@ -378,10 +378,10 @@
             {{--Signature Start--}}
 
             @if($data['contract']->signed === 0)
-                <div class="text-center text-2xl" id="after"></div>
+                <div class="text-2xl text-center" id="after"></div>
                 <div x-data="{ modelOpen: false }" id="before">
                     <button @click="modelOpen =!modelOpen"
-                            class="mt-2 mr-auto ml-auto mb-2 flex items-center justify-center px-3 py-2 space-x-2 text-2xl tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
+                            class="flex items-center justify-center px-3 py-2 mt-2 mb-2 ml-auto mr-auto space-x-2 text-2xl tracking-wide text-white capitalize transition-colors duration-200 transform bg-indigo-500 rounded-md dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:bg-indigo-700 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -430,7 +430,7 @@
 
                                 <form @submit.prevent="()=>{send_signature()}" class="mt-5">
                                     <div>
-                                        <canvas class="mr-auto ml-auto bg-white border-2" id="signature"
+                                        <canvas class="ml-auto mr-auto bg-white border-2" id="signature"
                                                 name="signature"></canvas>
                                     </div>
 
@@ -451,34 +451,45 @@
                 </div>
             @endif
         </div>
-        <div class="flex flex-row-reverse items-center justify-center sm:items-center pb-4">
-            <div class="flex flex-shrink-0 items-start sm:items-center">
-                <img class="block h-14 w-auto sm:align-middle"
+        <div class="flex flex-row-reverse items-center justify-center pb-4 sm:items-center">
+            <div class="flex items-start flex-shrink-0 sm:items-center">
+                <img class="block w-auto h-14 sm:align-middle"
                      src="{{ \Illuminate\Support\Facades\Storage::url('/') .  $data['system_data']->logo_url}}"
                      alt="Your Company">
             </div>
             <div class=" sm:ml-6 sm:block">
                 <div class="flex space-x-4">
                     <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                    <a href="{{ url('/') }}" class=" text-black font-bold text-2xl rounded-md px-3 py-2"
+                    <a href="{{ url('/') }}" class="px-3 py-2 text-2xl font-bold text-black rounded-md "
                        {{--                                   aria-current="page">MY-SAFE - מערכת לשליחת הצעות מחיר וחתימה דיגיטאלית</a>--}}
                        aria-current="page"><p style="direction: rtl"
-                                              class="mt-2 md:text-sm sm:text-sm font-bold tracking-tight text-gray-900 ">
+                                              class="mt-2 font-bold tracking-tight text-gray-900 md:text-sm sm:text-sm ">
                             מסמך זה
                             נוצר על ידי
                             מערכת MY-SAFE לשליחת הצעות מחיר וחתימה דיגיטאלית</p>
                     </a>
                 </div>
+
+                <div class="flex space-x-4" style="justify-content: end;">
+                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                    <a href="{{ url('/') }}" class="px-3 py-2 text-2xl font-bold text-black rounded-md "
+                       {{--                                   aria-current="page">MY-SAFE - מערכת לשליחת הצעות מחיר וחתימה דיגיטאלית</a>--}}
+                       aria-current="page"><p style="text-align: center; direction: rtl; color: blak; background-color: {{ $data['user']->contract_color }}; padding: 20px; border: 1px solid black; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px;"
+                                              class="mt-2 font-bold tracking-tight text-gray-900 md:text-sm sm:text-sm ">
+                                              להצטרפות למערכת וקבלת 7 ימים ללא תשלום
+                            </p>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="mx-auto max-w-2xl text-right rtl bg-gray-400/100 p-1">
-            <p class="mt-2 text-white text-center tracking-tight" style="direction: rtl;">
+        <div class="max-w-2xl p-1 mx-auto text-right rtl bg-gray-400/100">
+            <p class="mt-2 tracking-tight text-center text-white" style="direction: rtl;">
                 בכל מקרה של שאלה או בעיה אפשר לפנות למייל
                 <a
                     style="color: #0d83dd;"
                     href={{'mailto:' . 'mysafe.events@gmail.com'}}>{{ ' - ' . 'mysafe.events@gmail.com' }}</a>
             </p>
-            <div class="flex justify-center space-x-4 pt-2 text-right">
+            <div class="flex justify-center pt-2 space-x-4 text-right">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                 <a style="direction: rtl" href="{{ url('/') }}" class="tracking-tight"
                    aria-current="page">כל הזכויות שמורות ל- MY-SAFE - מערכת חכמה לשליחת חוזים והצעות מחיר לכל העסקים</a>

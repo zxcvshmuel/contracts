@@ -228,7 +228,6 @@ class FilamentServiceProvider extends ServiceProvider
                         ...FastMemoryOfThingsCarResource::getNavigationItems(),
                         ...FastMemoryOfThingsHomeResource::getNavigationItems(),
                         ...TicketResource::getNavigationItems(),
-                        ...PaymentResource::getNavigationItems(),
                         NavigationItem::make('TermsAndCondition')->label('תנאים והגבלות')->icon(
                             'heroicon-o-beaker'
                         )->activeIcon(

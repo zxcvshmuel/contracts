@@ -144,6 +144,29 @@ class MyProfile extends Page {
     public function updateProfile()
     {
         $this->user->update($this->updateProfileForm->getState());
+        $data = $this->updateProfileForm->getState();
+        if (empty($this->user->comp_id)) {
+            $this->user->comp_id = $data['uid'];
+        }
+
+        if (empty($this->user->comp_name)) {
+            $this->user->comp_name = $data['name'];
+        }
+
+        if (empty($this->user->comp_email)) {
+            $this->user->comp_email = $data['email'];
+        }
+
+        if (empty($this->user->comp_phone)) {
+            $this->user->comp_phone = $data['phone'];
+        }
+
+        if (empty($this->user->comp_address)) {
+            $this->user->comp_address = $data['address'];
+        }
+
+        $this->user->save();
+
         $this->notify("success", 'עודכן בהצלחה');
     }
 

@@ -521,6 +521,19 @@
                             מערכת MY-SAFE לשליחת הצעות מחיר וחתימה דיגיטאלית</p>
                     </a>
                 </div>
+
+                <div class="flex space-x-4" style="justify-content: center;">
+                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                    <a href="{{ url('/') }}" class="px-3 py-2 text-2xl font-bold text-black rounded-md "
+                       {{--                                   aria-current="page">MY-SAFE - מערכת לשליחת הצעות מחיר וחתימה דיגיטאלית</a>--}}
+                       aria-current="page"><p style="text-align: center; direction: rtl; color: blak; background-color: {{ $data['user']->contract_color }}; padding: 20px; border: 1px solid black; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px;
+                                              class="mt-2 font-bold tracking-tight text-gray-900 md:text-sm sm:text-sm ">
+                                              להצטרפות למערכת וקבלת 7 ימים ללא תשלום
+                            </p>
+                    </a>
+                </div>
+
+
             </div>
         </div>--}}
         <div class="max-w-2xl p-1 mx-auto text-right rtl bg-gray-400/100">
