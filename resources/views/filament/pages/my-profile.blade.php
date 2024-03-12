@@ -10,7 +10,7 @@
             {{ __('default.profile.personal_info.subheading') }}
         </x-slot>
 
-        <form wire:submit.prevent="updateProfile" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+        <form wire:submit.prevent="updateProfile" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
             <x-filament::card>
 
                 {{ $this->updateProfileForm }}
@@ -25,7 +25,40 @@
             </x-filament::card>
         </form>
 
+
+
     </x-filament-breezy::grid-section>
+
+
+    <x-filament-breezy::grid-section class="mt-8">
+
+        <x-slot name="title">
+         טקסט קבוע
+        </x-slot>
+
+        <x-slot name="description">
+            טקסט קבוע שמופיע בתחתית החוזה כמו תנאים וכדומה
+        </x-slot>
+
+        <form wire:submit.prevent="updateCustomTextProfile" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
+            <x-filament::card>
+
+                {{ $this->updateProfileCustomTextForm }}
+
+                <x-slot name="footer">
+                    <div class="text-right">
+                        <x-filament::button type="submit">
+                            {{ __('default.profile.personal_info.submit.label') }}
+                        </x-filament::button>
+                    </div>
+                </x-slot>
+            </x-filament::card>
+        </form>
+
+
+
+    </x-filament-breezy::grid-section>
+
 
     <x-filament-breezy::grid-section class="mt-8">
 
@@ -37,7 +70,7 @@
             נהל את פרטי החברה שלך
         </x-slot>
 
-        <form wire:submit.prevent="updateCompanyProfile" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+        <form wire:submit.prevent="updateCompanyProfile" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
             <x-filament::card>
 
                 {{ $this->updateCompanyProfileForm }}
@@ -66,7 +99,7 @@
             {{ __('default.profile.password.subheading') }}
         </x-slot>
 
-        <form wire:submit.prevent="updatePassword" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+        <form wire:submit.prevent="updatePassword" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
             <x-filament::card>
 
                 {{ $this->updatePasswordForm }}
@@ -97,7 +130,7 @@
             </x-slot>
 
 
-            <x-filament::card class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+            <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                 @if($this->user->has_enabled_two_factor)
 
                     @if ($this->user->has_confirmed_two_factor)
@@ -118,7 +151,7 @@
                         <p>{{ __('filament-breezy::default.profile.2fa.enabled.store_codes') }}</p>
                         <div class="space-y-2">
                             @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
-                                <span class="inline-flex items-center p-2 rounded-full text-xs font-medium bg-gray-100 text-gray-800">{{ $code }}</span>
+                                <span class="inline-flex items-center p-2 text-xs font-medium text-gray-800 bg-gray-100 rounded-full">{{ $code }}</span>
                             @endforeach
                         </div>
                         {{$this->getCachedAction('regenerate2fa')}}
@@ -180,7 +213,7 @@
 
             <div class="space-y-3">
 
-                <form wire:submit.prevent="createApiToken" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+                <form wire:submit.prevent="createApiToken" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
 
                     <x-filament::card>
                         @if($plain_text_token)

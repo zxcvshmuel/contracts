@@ -62,6 +62,10 @@ class MyProfile extends Page {
             )->statePath('userData'),
             // End -- New Section for MyProfile Account Page
 
+            "updateProfileCustomTextForm" => $this->makeForm()->model(User::class)->schema(
+                $this->getUpdateProfileCustomTextSchema()
+            )->statePath('userData'),
+
             "updatePasswordForm"   => $this->makeForm()->schema(
                 $this->getUpdatePasswordFormSchema()
             ),
@@ -128,7 +132,6 @@ class MyProfile extends Page {
             Forms\Components\TextInput::make('uid')->maxLength(10)->required()->label('תעודת זהות'),
             Forms\Components\TextInput::make('phone')->tel()->maxLength(255)->label('טלפון'),
             Forms\Components\DateTimePicker::make('active_until')->displayFormat('d/m/Y')->label('פעיל עד')->disabled(),
-            Forms\Components\RichEditor::make('custom_text')->label('טקסט קבוע בחוזה (מופיע תחת תנאים והגבלות)'),
             Select::make('contract_color')->label('צבע רקע לחוזה')
             ->options([
                 '#2cb4f34d' => 'כחול ברירת מחדל',
@@ -138,6 +141,13 @@ class MyProfile extends Page {
                 '#ff3b8930' => 'ורוד',
 
             ]),
+        ];
+    }
+
+    protected function getUpdateProfileCustomTextSchema(): array
+    {
+        return [
+            Forms\Components\RichEditor::make('custom_text')->label('טקסט קבוע בחוזה (מופיע תחת תנאים והגבלות)'),
         ];
     }
 
@@ -166,6 +176,17 @@ class MyProfile extends Page {
         }
 
         $this->user->save();
+
+        $this->notify("success", 'עודכן בהצלחה');
+    }
+
+
+    public function updateCustomTextProfile()
+    {
+        $data = $this->updateProfileCustomTextForm->getState();
+        $this->user->custom_text = $data['custom_text'];
+        $this->user->save();
+        $this->notify("success", 'עודכן בהצלחה');
 
         $this->notify("success", 'עודכן בהצלחה');
     }

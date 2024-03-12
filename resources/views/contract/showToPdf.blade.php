@@ -249,15 +249,31 @@
                                 סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪
                             </td>
                         </tr>
+                        @if ($data['user']->licensed_dealer)
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td style="border: 1px solid black; font-weight: bold" class="pl-1 font-bold text-left">סה"כ
-                                לתשלום <span
+                            <td class="pl-1 text-left">מע"מ {{ $data['contract']->getTotalPriceAttribute() * 0.17 }} ₪</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="pl-1 font-bold text-left">סה"כ לתשלום <span
+                                    class='pl-1 pr-1 text-2xl text-white bg-black/50'>{{ $data['contract']->getTotalPriceAttribute() + $data['contract']->getTotalPriceAttribute() * 0.17 }} ₪ </span>
+                            </td>
+                        </tr>
+                        @else
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="pl-1 font-bold text-left">סה"כ לתשלום <span
                                     class='pl-1 pr-1 text-2xl text-white bg-black/50'>{{ $data['contract']->getTotalPriceAttribute() }} ₪ </span>
                             </td>
                         </tr>
+                        @endif
                         </tbody>
                     </table>
                 @elseif($data['contract']->type === 3)

@@ -80,7 +80,7 @@ class ContractsResource extends Resource {
                     'price' => '250px',
                 ])->label('פריטים')->schema([
                     Forms\Components\TextInput::make('name')->required()->label('שם פריט')->required(),
-                    Forms\Components\TextInput::make('count')->minValue(0)->numeric()->label('כמות')->default(0),
+                    Forms\Components\TextInput::make('count')->minValue(1)->numeric()->label('כמות')->default(1),
                     Forms\Components\TextInput::make('price')->minValue(0)->label('מחיר')->default(0),
                 ])->createItemButtonLabel('הוסף פריט'),
                 Forms\Components\RichEditor::make('contracts_content')->disabled(fn(Closure $get) => $get('signed')

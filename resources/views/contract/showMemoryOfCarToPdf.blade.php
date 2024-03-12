@@ -529,7 +529,7 @@
                        aria-current="page"><p style="text-align: center; direction: rtl; color: blak; background-color: {{ $data['user']->contract_color }}; padding: 20px; border: 1px solid black; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px;
                                               class="mt-2 font-bold tracking-tight text-gray-900 md:text-sm sm:text-sm ">
                                               להצטרפות למערכת וקבלת 7 ימים ללא תשלום
-                            </p>
+                            </p> 
                     </a>
                 </div>
 
