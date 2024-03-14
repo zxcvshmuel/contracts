@@ -152,6 +152,12 @@
         <div class="mx-auto md:max-w-7xl sm:px-0 lg:px-6 lg:px-8" style="direction: rtl;">
             <div class="max-w-2xl p-2 mx-auto lg:text-right"
                  style="background-color: {{ $data['user']->contract_color }}; border: 1px solid gray">
+                 <div class="flex justify-center">
+                    <h2 class="text-3xl font-semibold leading-7 text-black-600">{{ $data['contract']->title }}</h2>
+                </div>
+                <div class="flex justify-center">
+                    <h2 class="text-lg leading-8 text-gray-600 fomt-2">{{ $data['contract']->description }}</h2>
+                </div>
                 <div class="">
                     <div style="float: right;width: fit-content" class="">
                         <strong style="text-decoration: underline; text-align: center; font-weight: bold"
@@ -529,7 +535,7 @@
                        aria-current="page"><p style="text-align: center; direction: rtl; color: blak; background-color: {{ $data['user']->contract_color }}; padding: 20px; border: 1px solid black; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px;
                                               class="mt-2 font-bold tracking-tight text-gray-900 md:text-sm sm:text-sm ">
                                               להצטרפות למערכת וקבלת 7 ימים ללא תשלום
-                            </p> 
+                            </p>
                     </a>
                 </div>
 

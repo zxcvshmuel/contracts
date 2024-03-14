@@ -75,7 +75,10 @@ class FastContractResource extends Resource {
                 ])->label('פריטים')->schema([
                     Forms\Components\TextInput::make('name')->required()->label('שם פריט')->required(),
                     Forms\Components\TextInput::make('count')->minValue(1)->numeric()->label('כמות')->default(1),
-                    Forms\Components\TextInput::make('price')->minValue(0)->label('מחיר')->default(0),
+                    Forms\Components\TextInput::make('price')->minValue(0)->numeric()->label('מחיר')->default(0)->reactive()
+                    ->afterStateUpdated(function (Closure $set, $state) {
+                        $set('tax', number_format($state * 0.17, 2, '.'));}),
+                    Forms\Components\TextInput::make('tax')->default(0)->label('מע"מ')->disabled()->hidden(!auth()->user()->licensed_dealer),
                 ])->createItemButtonLabel('הוסף פריט'),
                 Forms\Components\RichEditor::make('contracts_content')->disabled(fn(Closure $get) => $get('signed')
                 )->label('הערות נוספות')->disableAllToolbarButtons()->toolbarButtons([

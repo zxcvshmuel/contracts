@@ -168,8 +168,15 @@
         <div class="mx-auto md:max-w-7xl sm:px-0 lg:px-6 lg:px-8" style="direction: rtl;">
             <div class="max-w-2xl p-2 mx-auto lg:text-right"
                  style="background-color: {{ $data['user']->contract_color }}; border: 1px solid gray">
-                <div class="flex justify-between">
-                    <div class="flex flex-col items-center">
+                <div class="flex justify-center">
+                    <h2 class="text-3xl font-semibold leading-7 text-black-600">{{ $data['contract']->title }}</h2>
+                </div>
+                <div class="flex justify-center">
+                    <h2 class="text-lg leading-8 text-gray-600 fomt-2">{{ $data['contract']->description }}</h2>
+                </div>
+
+                <div class="flex justify-between main-details">
+                    <div class="flex flex-col items-center w-35 first">
                         <strong class="underline">
                             {{ $data['contract']->type === 3 ? 'פרטי השולח' : 'פרטי הספק' }}
                         </strong>
@@ -194,7 +201,7 @@
                         </span>
                     </div>
 
-                    <div class="flex flex-col items-center">
+                    <div class="flex flex-col items-center w-35 end">
                         <strong class="underline">
                             {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הלקוח' }}
                         </strong>
@@ -235,7 +242,7 @@
                             <td></td>
                             <td class="pl-1 text-left">סה"כ {{ $data['contract']->getTotalPriceAttribute() }} ₪</td>
                         </tr>
-                        @if ($data['user']->licensed_dealer)
+                        @if ($data['user']->licensed_dealer && $data['contract']->created_at > '2024-03-11')
                         <tr>
                             <td></td>
                             <td></td>
@@ -260,6 +267,7 @@
                             </td>
                         </tr>
                         @endif
+
                         </tbody>
                     </table>
 
@@ -619,6 +627,20 @@
         <style>
             body {
                 background-color: white;
+            }
+            @media (max-width: 500px) {
+                .main-details {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .main-details .first {
+                    margin-bottom: 20px;
+                }
+
+                .main-details .end {
+                    margin-top: 20px;
+                }
             }
         </style>
 
