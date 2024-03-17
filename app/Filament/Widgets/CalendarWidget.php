@@ -18,6 +18,8 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class CalendarWidget extends FullCalendarWidget {
 
+    protected static ?int $sort = 10;
+
 
     /*public function getViewData(): array
     {

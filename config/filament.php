@@ -144,9 +144,9 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            //Widgets\AccountWidget::class,
             //Widgets\FilamentInfoWidget::class,
             CalendarWidget::class,
+            Widgets\AccountWidget::class,
             \App\Filament\Resources\IncomeResource\Widgets\expensesChartDashboard::class,
             \App\Filament\Resources\IncomeResource\Widgets\incomeChartDashboard::class,
 

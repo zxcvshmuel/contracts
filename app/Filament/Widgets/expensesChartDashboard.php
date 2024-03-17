@@ -7,6 +7,8 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class expensesChartDashboard extends ApexChartWidget
 {
+
+    protected static ?int $sort = 30;
     /**
      * Chart Id
      *

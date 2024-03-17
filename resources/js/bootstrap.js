@@ -18,6 +18,7 @@ Alpine.start();
 
 import SignaturePad from "signature_pad";
 window.SignaturePad = SignaturePad;
+window.SignaturePad.penColor = "black";
 
 
 // window.SignaturePad.isDisabled(false);

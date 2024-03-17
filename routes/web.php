@@ -38,7 +38,7 @@ Route::get('/terms', function () {
 // allow admin user to login as user
 Route::get('login-as/{user_id}', function ($user_id) {
     // just user that id is 1 can login as other user
-    if (Auth::user()->id !== 1)
+    if (Auth::user()->type != 0 )
     {
         return redirect()->route('filament.pages.dashboard');
     }
@@ -47,7 +47,7 @@ Route::get('login-as/{user_id}', function ($user_id) {
     Auth::guard('web')->login($user);
 
     return redirect()->route('filament.pages.dashboard');
-})->middleware('auth');
+})->middleware('auth')->name('login-as');
 
 Route::get('contract/{contract}/view/', [ContractController::class, 'show'])->name('contract.view');
 Route::Post('contract/{contract}/update/', [ContractController::class, 'update'])->name('contract.update');
@@ -227,7 +227,7 @@ Route::get('/logo', function(){
 
 Route::get('/email', function(){
     $user = User::find(1);
-    Mail::to('mysafe.events@gmail.com')->send(new WelcomeEmail($user)); 
+    Mail::to('mysafe.events@gmail.com')->send(new WelcomeEmail($user));
 });
 
 

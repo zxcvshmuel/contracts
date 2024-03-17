@@ -176,7 +176,7 @@
                 </div>
 
                 <div class="flex justify-between main-details">
-                    <div class="flex flex-col items-center w-35 first">
+                    <div class="flex flex-col items-start w-35 first">
                         <strong class="underline">
                             {{ $data['contract']->type === 3 ? 'פרטי השולח' : 'פרטי הספק' }}
                         </strong>
@@ -201,7 +201,7 @@
                         </span>
                     </div>
 
-                    <div class="flex flex-col items-center w-35 end">
+                    <div class="flex flex-col items-start w-35 end">
                         <strong class="underline">
                             {{ $data['contract']->type === 3 ? 'פרטי המקבל' : 'פרטי הלקוח' }}
                         </strong>
@@ -476,6 +476,22 @@
                 </div>
             @endif
         </div>
+        <div id="after-signe" class="flex items-center justify-center min-h-screen" style="z-index: 1000; position: fixed; top: 0; bottom: 0; left: 0; right: 0; background-color: #d0d0d0ba; display: none;">
+            <div class="px-16 rounded-lg bg-gray-50 py-14">
+                <div class="flex justify-center">
+                    <div class="p-6 bg-green-200 rounded-full">
+                        <div class="flex items-center justify-center w-16 h-16 p-4 bg-green-500 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="my-4 text-3xl font-semibold text-center text-gray-700">החוזה נחתם בהצלחה</h3>
+                <p class="w-[230px] text-center font-normal text-gray-600" dir="rtl">החוזה נחתם ונשלח לבעל העסק. <br> בכל זמן תוכל לחזור ולראות את החוזה החתום</p>
+
+            </div>
+        </div>
         <div class="flex flex-row-reverse items-center justify-center pb-4 sm:items-center">
             <div class="flex items-start flex-shrink-0 sm:items-center">
                 <img class="block w-auto h-14 sm:align-middle"
@@ -520,6 +536,7 @@
                    aria-current="page">כל הזכויות שמורות ל- MY-SAFE - מערכת חכמה לשליחת חוזים והצעות מחיר לכל העסקים</a>
             </div>
         </div>
+
 
 
         <style>
@@ -584,10 +601,13 @@
                 axios.post('{{ route('contract.update', ['contract' => $data['contract']->id]) }}', {
                     data: image
                 }).then(function (response) {
-                    document.getElementById('before').textContent = 'החתימה נשלחה בהצלחה';
-                    document.getElementById('before').style.textAlign = 'center';
-                    document.getElementById('before').style.fontSize = '1.5rem';
-                    document.location.reload();
+                    //document.getElementById('before').textContent = 'החתימה נשלחה בהצלחה';
+                    //document.getElementById('before').style.textAlign = 'center';
+                    //document.getElementById('before').style.fontSize = '1.5rem';
+                    //document.location.reload();
+                    document.getElementById('after-signe').style.display = 'flex';
+
+
                 })
                     .catch(function (response) {
                         console.log(response);
@@ -635,12 +655,15 @@
                 }
 
                 .main-details .first {
-                    margin-bottom: 20px;
+                    margin-top: 20px;
                 }
 
                 .main-details .end {
                     margin-top: 20px;
                 }
+
+                .main-details *{
+                    font-size: 0.8rem;
             }
         </style>
 

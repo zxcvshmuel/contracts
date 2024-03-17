@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Support\HtmlString;
@@ -204,7 +205,7 @@ class FilamentServiceProvider extends ServiceProvider
                             'heroicon-s-beaker'
                         )->url(route('filament.pages.PrivacyPolicy')),
                     ]);
-                } else {
+                } else if (auth()->user()->user_type == 1 && auth()->user()->active_until > now()) {
                     return $builder->items([
                         NavigationItem::make('howTo')->label('מתחילים (הסבר המערכת)')->icon(
                             'heroicon-o-beaker'
@@ -245,8 +246,28 @@ class FilamentServiceProvider extends ServiceProvider
                             ...CategoryResource::getNavigationItems(),
                         ]),
                     ]);
+                } else{
+                    return $builder->items([
+                        NavigationItem::make('howTo')->label('מתחילים (הסבר המערכת)')->icon(
+                            'heroicon-o-beaker'
+                        )->activeIcon(
+                            'heroicon-s-beaker'
+                        )->url(route('filament.pages.how-to')),
+                        NavigationItem::make('Dashboard')->label('בית')->icon('heroicon-o-home')->activeIcon(
+                            'heroicon-s-home'
+                        )->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.dashboard'))->url(
+                            route('filament.pages.dashboard')
+                        ),
+                        NavigationItem::make('account')->label('הפרופיל שלי')->icon('heroicon-o-user')->activeIcon(
+                            'heroicon-s-user'
+                        )->url(route('filament.pages.my-profile')),
+                        ...TicketResource::getNavigationItems(),
+
+                    ]);
                 }
             });
+
+            if (auth()->user() && ((auth()->user()->id == 1 || auth()->user()->user_type == 0) || auth()->user()->active_until > Carbon::today())){
 
             Filament::registerUserMenuItems([
                 UserMenuItem::make()->label('בית')->url(route('filament.pages.dashboard'))->icon('heroicon-o-home'),
@@ -262,15 +283,15 @@ class FilamentServiceProvider extends ServiceProvider
                 userMenuItem::make()->label('קטגוריות')->url(CategoryResource::getUrl())->icon('heroicon-o-calendar'),
             ]);
 
-
-
-
             QuickCreate::includes([
                 FastContractResource::class,
                 PriceOffersResource::class,
                 FastMemoryOfThingsCarResource::class,
                 FastMemoryOfThingsHomeResource::class,
             ]);
+        };
+
+
 
         });
     }

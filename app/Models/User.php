@@ -110,7 +110,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
         {
             return true;
         }else{
-            return false;
+            return true;
         }
 
     }
@@ -145,6 +145,11 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
     }
 
 }

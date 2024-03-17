@@ -2,28 +2,29 @@
 
 namespace App\Filament\Resources;
 
-use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\Pages\CreateUser;
-use App\Filament\Resources\UserResource\Pages\EditUser;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\Package;
-use App\Models\User;
 use Closure;
 use Filament\Forms;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\TextInput;
+use App\Models\User;
+use Filament\Tables;
+use App\Models\Package;
 use Filament\Pages\Page;
 use Filament\Resources\Form;
-use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Livewire\TemporaryUploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Livewire\TemporaryUploadedFile;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\Action;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\Pages\EditUser;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\RelationManagers;
 use Savannabits\SignaturePad\Forms\Components\Fields\SignaturePad;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 
 class UserResource extends Resource {
     protected static ?string $model = User::class;
@@ -121,6 +122,7 @@ class UserResource extends Resource {
         ])->actions([
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
+            Action::make('id')->label('התחברות כמשתמש')->url(fn(User $record) => route('login-as', $record->id)),
         ])->bulkActions([
             Tables\Actions\DeleteBulkAction::make(),
             Tables\Actions\ForceDeleteBulkAction::make(),

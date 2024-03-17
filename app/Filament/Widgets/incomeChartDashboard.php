@@ -7,6 +7,8 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class incomeChartDashboard extends ApexChartWidget
 {
+
+    protected static ?int $sort = 40;
     /**
      * Chart Id
      *

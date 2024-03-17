@@ -6,7 +6,7 @@
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     dir="{{ __('filament::layout.direction') ?? 'ltr' }}"
-    class="filament js-focus-visible min-h-screen bg-gray-100 antialiased"
+    class="min-h-screen antialiased bg-gray-100 filament js-focus-visible"
 >
     <head>
         {{ \Filament\Facades\Filament::renderHook('head.start') }}
@@ -34,6 +34,7 @@
             :root {
                 --sidebar-width: {{ config('filament.layout.sidebar.width') ?? '16rem' }};
                 --collapsed-sidebar-width: {{ config('filament.layout.sidebar.collapsed_width') ?? '5.4rem' }};
+                --quick-create-color: {{ auth()->user()->color ?? '#3788d8' }};
             }
         </style>
 

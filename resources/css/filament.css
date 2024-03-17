@@ -83,6 +83,12 @@ a.type-remainder {
     background: rgba(0, 0, 255, 0.36) !important;
 }
 
+/* quick create button background color */
+
+div.filament-dropdown-trigger button[aria-label="תפריט משתמש"] {
+    color: var(--quick-create-color)!important;
+}
+
 @media (max-width: 650px) {
     /* Reorder top header to fix mobile view */
     .filament-fullcalendar--calendar .fc-header-toolbar {
