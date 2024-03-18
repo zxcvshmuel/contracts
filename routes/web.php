@@ -138,7 +138,7 @@ Route::get('/contract/{id}/pdf', function ($id) {
         'user'        => $contract->event->customer->user ?? User::find($contract->user_id),
     ];
 
-    if (($data['contract']->type === 3 || $data['contract']->type === 4 || $data['contract']->type === 1) && is_array(
+    if (($data['contract']->type === 3 || $data['contract']->type === 4 || $data['contract']->type === 1 || $data['contract']->type === 7) && is_array(
             json_decode($data['contract']->contracts_content, true)
         ))
     {

@@ -155,6 +155,32 @@
                         </div>
                         <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטים וחתום דיגיטלית בתחתית
                             החוזה</p>
+                    @elseif ($data['contract']->type === 7)
+                    <h2 class="text-2xl font-semibold leading-7 text-indigo-600">הזמנת עבודה  לחתימה</h2>
+                        <div class="flex flex-row justify-center">
+                            <a class="px-2"
+                               href="https://wa.me/?text=כנס ללינק המצורף כדי לראות את הצעת העבודה שלי - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/whatsapp.png' }}"
+                                     alt="">
+                            </a>
+                            <a class="px-2"
+                               href="mailto:?subject=אני רוצה לשתף אתך את הצעת העבודה שלי &amp;body= כנס ללינק המצורף כדי לראות את הצעת העבודה - {{ urldecode('https://my-safe.co.il/contract/' . $data['contract']->id .  '/view') }}">
+                                <img style="height: 50px;"
+                                     src="{{ \Illuminate\Support\Facades\Storage::url('/') . 'layout/gmail.png' }}"
+                                     alt="">
+                            </a>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span>{{ date('d/m/Y') }}</span>
+                            <strong><span dir="rtl" >{{ 'לכבוד: ' . $data['customer']-> fullName }}</span></strong>
+                            <span>
+                                    <strong>הזמנת עבודה  מספר
+                                        - {{$data['contract']->id}}</strong>
+                        </span>
+                        </div>
+                        <p class="mt-2 text-lg leading-8 text-gray-600">עיין בפרטים וחתום דיגיטלית בתחתית
+                            המסמך</p>
                     @endif
                     {{--                    <h2 class="text-base font-semibold leading-7 text-indigo-600">הצעת מחיר / חוזה לחתימה</h2>--}}
                     {{--<p style="direction: rtl"
@@ -208,7 +234,7 @@
                         <strong><span>{{ $data['customer']-> fullName }}</span></strong>
                             <span>{{ $data['customer']->uid }}</span>
                             <span>{{ $data['customer']->phone }}</span>
-                        @if($data['contract']->type === 3 || $data['contract']->type === 4)
+                        @if($data['contract']->type === 3 || $data['contract']->type === 4 || $data['contract']->type === 7)
                             <span>{{ $data['contract']->email }}</span>
                         @else
                             <span>{{ $data['customer']->address . ', ' . $data['customer']-> city }}</span>
@@ -217,7 +243,7 @@
                     </div>
                 </div>
                 <br>
-                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
+                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4  || $data['contract']->type === 7)
                     <table class="w-full text-center border border-collapse table-auto border-slate-600">
                         <thead class="text-center text-white bg-black">
                         <tr>
@@ -275,7 +301,7 @@
 
                 @endif
 
-                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4)
+                @if($data['contract']->type === 1 || $data['contract']->type === 2 || $data['contract']->type === 4 || $data['contract']->type === 7)
                     <div class="pr-1 mx-auto max-w-7xl">
                         <div class="max-w-2xl mx-auto ">
                             <h2 class="font-semibold text-right text-black-600">הערות נוספות</h2>

@@ -12,6 +12,12 @@ use Illuminate\Support\Collection;
 class Contract extends Model {
     use HasFactory, HasForm, SoftDeletes;
 
+    const TYPE = [
+        'CONTRACT' => 1,
+        'WORK_ORDER' => 7,
+
+    ];
+
     protected $fillable = [
         'user_id',
         'events_id',
@@ -32,6 +38,7 @@ class Contract extends Model {
     protected $casts = [
         'items' => 'array',
     ];
+
 
     public function getTotalPriceAttribute(): int
     {

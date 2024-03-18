@@ -27,6 +27,7 @@ use JeffGreco13\FilamentBreezy\Pages\MyProfile;
 use App\Filament\Resources\FastContractResource;
 use App\Filament\Resources\FastMemoryOfThingsCarResource;
 use App\Filament\Resources\FastMemoryOfThingsHomeResource;
+use App\Filament\Resources\FastWorkOrderResource;
 use Ramnzys\FilamentEmailLog\Filament\Resources\EmailResource;
 use Sgcomptech\FilamentTicketing\Filament\Resources\TicketResource;
 
@@ -104,6 +105,7 @@ class FilamentServiceProvider extends ServiceProvider
                         ...EventsResource::getNavigationItems(),
                         ...ContractsResource::getNavigationItems(),
                         ...FastContractResource::getNavigationItems(),
+                        ...FastWorkOrderResource::getNavigationItems(),
                         ...PriceOffersResource::getNavigationItems(),
                         ...DocumentsResource::getNavigationItems(),
                         ...FastMemoryOfThingsCarResource::getNavigationItems(),
