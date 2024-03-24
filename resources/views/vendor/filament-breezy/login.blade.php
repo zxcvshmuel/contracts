@@ -1,11 +1,11 @@
 <x-filament-breezy::auth-card action="authenticate">
 
-    <div class="w-full flex justify-center">
+    <div class="flex justify-center w-full">
         <x-filament::brand />
     </div>
 
     <div>
-        <h2 class="font-bold tracking-tight text-center text-2xl">
+        <h2 class="text-2xl font-bold tracking-tight text-center">
             {{ __('filament::login.heading') }}
         </h2>
         @if(config("filament-breezy.enable_registration"))
@@ -19,6 +19,7 @@
     </div>
 
     {{ $this->form }}
+    <x-filament-socialite::buttons />
 
     <x-filament::button type="submit" class="w-full">
         {{ __('filament::login.buttons.submit.label') }}

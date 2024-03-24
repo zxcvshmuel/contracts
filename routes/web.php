@@ -35,6 +35,12 @@ Route::get('/terms', function () {
     return view('components.layouts.term');
 });
 
+Route::get('/oauth/{provider}/callback', [
+    \DutchCodingCompany\FilamentSocialite\Http\Controllers\SocialiteLoginController::class,
+    'processCallback',
+])
+    ->name('oauth.callback');
+
 // allow admin user to login as user
 Route::get('login-as/{user_id}', function ($user_id) {
     // just user that id is 1 can login as other user

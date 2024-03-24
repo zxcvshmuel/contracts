@@ -17,6 +17,8 @@ class ContractSigned extends Mailable
     public $contract;
     public $user;
 
+    public $title;
+
     /**
      * Create a new message instance.
      */
@@ -24,6 +26,34 @@ class ContractSigned extends Mailable
     {
         $this->contract = $contract;
         $this->user     = $user;
+
+        switch ($contract->type) {
+            case '1':
+                $this->title = 'הצעת מחיר';
+                break;
+            case '2':
+                $this->title = 'חוזה';
+                break;
+            case '3':
+                $this->title = 'מסמך לחתימה';
+                break;
+            case '4':
+                $this->title = 'חוזה מהיר';
+                break;
+            case '5':
+                $this->title = 'זכרון דברים לרכב';
+                break;
+            case '6':
+                $this->title = 'זכרון דברים להשכרת דירה';
+                break;
+            case '7':
+                $this->title = 'הזמנת עבודה';
+                break;
+            default:
+                $this->title = 'מסמך';
+                break;
+        }
+
     }
 
     /**
@@ -34,7 +64,7 @@ class ContractSigned extends Mailable
         return new Envelope(
             from: 'my-safe@gmail.com',
             to: $this->user->comp_email,
-            subject: 'My-Safe - חוזה מספר: ' . $this->contract->id . ' נחתם'
+            subject: 'My-Safe - ' . $this->title . ': ' . $this->contract->id . ' נחתם'
         );
     }
 
@@ -51,6 +81,7 @@ class ContractSigned extends Mailable
                 'logo' => User::find(1)->logo_url,
                 'url' => route('contract.view', $this->contract->id),
                 'color' => 'success',
+                'title' => $this->title,
             ],
         );
     }

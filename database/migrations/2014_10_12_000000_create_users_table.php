@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
-            $table->string('password');
+            $table->string('password')->default('12345');
             $table->string('currency')->default('usd');
             $table->string('contract_color')->default('#2cb4f34d');
             $table->string('country')->default('us');

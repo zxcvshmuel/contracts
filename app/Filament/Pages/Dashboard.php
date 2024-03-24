@@ -2,11 +2,12 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\expensesChartDashboard;
+use Illuminate\Support\Facades\Auth;
+use Filament\Pages\Dashboard as BasePage;
 use App\Filament\Widgets\incomeChartDashboard;
-use Filament\Pages\Dashboard as BaseDashboard;
+use App\Filament\Widgets\expensesChartDashboard;
 
-class Dashboard extends BaseDashboard
+class Dashboard extends BasePage
 {
     protected ?string $maxContentWidth = 'full';
 
@@ -20,5 +21,9 @@ class Dashboard extends BaseDashboard
     protected function getFooterWidgets(): array
     {
         return [];
+    }
+
+    public function getTitle(): string{
+        return 'ברוך הבא  ' . Auth::user()->name;
     }
 }

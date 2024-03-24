@@ -1,6 +1,6 @@
 <x-mail::message>
     <div style="background-color: #2cb4f34d; margin: auto; padding: 10px;">
-        <h1 style="margin: auto!important; text-align: center!important;">{{ $contract->customer_name }} חתם על החוזה</h1>
+        <h1 style="margin: auto!important; text-align: center!important;">{{ $contract->customer_name }} חתם על {{ $title }}</h1>
     <p style="text-align: right !important">
         מספר חוזה: {{ $contract->id }}
         <br>

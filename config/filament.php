@@ -110,7 +110,7 @@ return [
             \App\Filament\Pages\MyProfile::class,
             \App\Filament\Pages\howTo::class,
             \App\Filament\Pages\PackagesPage::class,
-            //\App\Filament\Pages\Dashboard::class,
+            \App\Filament\Pages\Dashboard::class,
         ],
     ],
 
@@ -250,7 +250,7 @@ return [
         'max_content_width' => null,
         'notifications' => [
             'vertical_alignment' => 'top',
-            'alignment' => 'left',
+            'alignment' => 'center',
         ],
         'sidebar' => [
             'is_collapsible_on_desktop' => false,

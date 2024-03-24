@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\Carbon;
+use DutchCodingCompany\FilamentSocialite\Models\SocialiteUser;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -150,6 +151,25 @@ class User extends Authenticatable implements FilamentUser, HasMedia, hasTickets
     public function contracts(): HasMany
     {
         return $this->hasMany(Contract::class);
+    }
+
+    //handleRegisteredSocialUserEvent
+    public function handleRegisteredSocialUserEvent($socialiteUser)
+    {
+
+        $user = self::find($socialiteUser->socialiteUser->user_id);
+        if ($user)
+        {
+            $user->packages()->attach(1, [
+                'started_at' => now(),
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            $user->update([
+                'logo_url' => $socialiteUser->socialiteUser->avatar,
+                'active_until' => now()->addDays(7),
+            ]);
+        }
     }
 
 }

@@ -18,7 +18,7 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class CalendarWidget extends FullCalendarWidget {
 
-    protected static ?int $sort = 10;
+    protected static ?int $sort = 25;
 
 
     /*public function getViewData(): array
