@@ -22,6 +22,10 @@ return [
            'label' => 'Google',
            'icon' => 'fab-google',
        ],
+         'facebook' => [
+              'label' => 'Facebook',
+              'icon' => 'fab-facebook',
+         ],
     ],
 
     'user_model' => \App\Models\User::class,

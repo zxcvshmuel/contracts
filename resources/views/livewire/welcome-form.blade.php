@@ -22,7 +22,7 @@
                        class="input">
 
             </div>
-
+            <x-filament-socialite::buttons />
             <div class="">
                 <button type="submit"
                         class="button">

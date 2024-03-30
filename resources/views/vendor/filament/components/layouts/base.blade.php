@@ -14,8 +14,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta property="og:image" content="https://my-safe.co.il/storage/layout/ogimage.png">
 
-        @foreach (\Filament\Facades\Filament::getMeta() as $tag)
+    @foreach (\Filament\Facades\Filament::getMeta() as $tag)
             {{ $tag }}
         @endforeach
 

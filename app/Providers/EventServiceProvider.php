@@ -18,6 +18,7 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             // ... other providers
             \SocialiteProviders\Google\GoogleExtendSocialite::class.'@handle',
+            \SocialiteProviders\Facebook\FacebookExtendSocialite::class.'@handle',
         ],
         \DutchCodingCompany\FilamentSocialite\Events\Registered::class => [
             \App\Models\User::class.'@handleRegisteredSocialUserEvent'
